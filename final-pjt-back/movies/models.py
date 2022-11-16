@@ -32,3 +32,16 @@ class Movie_PlatForm(models.Model):
     movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
     
 
+
+
+# 댓글 모델
+class Comment(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+
+
+# 
