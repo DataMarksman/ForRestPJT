@@ -11,6 +11,12 @@ export default new Vuex.Store({
   mutations: {
   },
   actions: {
+    signUp() {
+      console.log('signUp완료')
+    },
+    logIn() {
+      console.log('login 완료!')
+    }
   },
   modules: {
   }
