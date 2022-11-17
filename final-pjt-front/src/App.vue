@@ -1,11 +1,25 @@
 <template>
   <div id="app">
-    <nav>
-      
-    </nav>
-    <router-view/>
+    <NavBar
+    v-if="$route.name !== 'LoginView' && $route.name !== 'SignupView'"
+    />
+ 
+    <router-view
+    />
   </div>
 </template>
+<script>
+import NavBar from '@/components/NavBar.vue'
+
+export default {
+  name: 'App',
+  components: {
+    NavBar,
+  }
+}
+
+
+</script>
 
 <style>
 
