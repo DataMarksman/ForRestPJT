@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.contrib.postgres.fields import ArrayField  
+from django.conf import settings
 # Create your models here.
 
 # 세부 내역은 일단 보류하고, 밑에 All_in_one으로 일단 진행해볼 예정
@@ -34,19 +35,29 @@ from django.db import models
 # All_in_one Movie 모델
 
 class Movie(models.Model):
+    movie_id = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
-    description = models.TextField()
+    overview = models.TextField()
     # 포스터 사진은 뒤의 URL 추가 주소만 받고 앞의 URL 기본값을 넣고 돌리자.
-    poster_url = models.TextField()
+    poster_path = models.TextField()
     director = models.CharField(max_length=30)
     director_poster = models.TextField(null=True)
-    actors = models.ManyToManyField(Actor,related_name='movies')
-    rating = models.FloatField(max_length=10,null=True)
+    # actors = models.ManyToManyField(Actor,related_name='movies')
+    # rating = models.FloatField(max_length=10,null=True)
     release_date = models.DateTimeField(null = True)
-    genre = models.ManyToManyField(Genre, related_name='movies')
-    movie_id = models.IntegerField()
+    popularity = models.IntegerField()
+    # genre = models.ManyToManyField(Genre, related_name='movies')
+    genre = ArrayField(models.CharField(max_length=10), blank=True)  
 
-# 
+
+# 현재 개봉 중인 영화
+class BoxMovie(models.Model):
+    box_id = models.CharField(max_length=100)
+    box_rank = models.IntegerField()
+    box_title = models.CharField(max_length=100)
+    box_en_title = models.CharField(max_length=100)
+    # 이 부분은 나중에 TMDB랑 연동 예정
+    box_poster_path = models.TextField(blank=True)
 
 
 # 댓글 모델
@@ -57,7 +68,7 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Rating(models.Model):
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-
+# class Rating(models.Model):
+#     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+#     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
