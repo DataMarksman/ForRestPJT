@@ -31,6 +31,6 @@ def get_movie_datas():
                 total_data.append(data)
 
     with open("movie_data.json", "w", encoding="utf-8") as w:
-        json.dump(total_data, w, indent="\\t", ensure_ascii=False)
+        json.dump(total_data, w, indent="", ensure_ascii=False)
 
 get_movie_datas()
