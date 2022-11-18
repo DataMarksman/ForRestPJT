@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <p>LikeMovieItem</p>
   </div>
 </template>
 
