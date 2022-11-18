@@ -1,8 +1,8 @@
 import requests
 import json
 import os
-from .serializers import *
-from .models import *
+# from .serializers import *
+# from .models import *
 
 # TMDB_API_KEY = "f555794485796214438961ced766522e"
 
@@ -50,20 +50,24 @@ def get_movie_datas():
 
         for movie in movies['results']:
             if movie.get('release_date', ''):
-                data = {
-                    "pk": movie['id'],
+                fields = {
                     'tmdb_id': movie['id'],
                     'title': movie['title'],
-                    'released_date': movie['release_date'],
+                    'release_date': movie['release_date'],
                     'overview': movie['overview'],
                     'popularity': movie['popularity'],
                     'poster_path': BASIC_URL+movie['poster_path'],
                 }
+                data = {
+                    "pk": movie['id'],
+                    "model": "movies.movie",
+                    "fields": fields
+                }
 
                 total_data.append(data)
-                serializer = MovieSerializer(data=data)
-                if serializer.is_valid(raise_exception=True):
-                    serializer.save()
+                # serializer = MovieSerializer(data=data)
+                # if serializer.is_valid(raise_exception=True):
+                #     serializer.save()
 
     with open("movie_data.json", "w", encoding="utf-8") as w:
         json.dump(total_data, w, indent="", ensure_ascii=False)

@@ -46,3 +46,5 @@ class CommentListSerializer(serializers.ModelSerializer):
         model = Movie
         fields = '__all__'
         read_only_fields = ('user', )
+
+

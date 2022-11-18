@@ -25,11 +25,13 @@ class Movie(models.Model):
     tmdb_id = models.CharField(max_length=20)
     # kmdb_id = models.CharField(max_length=20)
     title = models.CharField(max_length=50)
-    overview = models.TextField(blank=True)
     release_date = models.CharField(max_length=50)
+    overview = models.TextField(blank=True)
     popularity = models.FloatField(null=True)
     # 포스터 디폴트 값은 임시로 그 여자 작사 그 남자 작곡 
     poster_path = models.TextField(default="https://image.tmdb.org/t/p/w500/d9C2H1qoFt9AL4DwRlqEEZK4hVa.jpg")
+    
+
 
 # 댓글 모델
 class Comment(models.Model):
