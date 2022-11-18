@@ -50,13 +50,7 @@ def get_movie_datas():
 
         for movie in movies['results']:
             if movie.get('release_date', ''):
-<<<<<<< HEAD
-                data = {
-                    "pk": movie['id'],
-                    "model":"movies.movie",
-=======
                 fields = {
->>>>>>> 517a3d26b59d41903b64c88cfac411afdb1450f2
                     'tmdb_id': movie['id'],
                     'title': movie['title'],
                     'release_date': movie['release_date'],
