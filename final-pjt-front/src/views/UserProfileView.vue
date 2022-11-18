@@ -4,12 +4,8 @@
       <UserInfo/>
       <p>hi</p>
     </div>
-    <div>
-      <UserComment/>
-      <FollowUser/>
-      <FollowingUser/>
-      <LikeMovie/>
-      <UserScoreRate/>
+    <div class="user-activity">
+      <UserActivity/>
     </div>
     
   </div>
@@ -18,20 +14,12 @@
 
 <script>
 import UserInfo from '@/components/UserProfileComponents/UserInfo'
-import UserComment from '@/components/UserProfileComponents/UserComment.vue'
-import FollowUser from '@/components/UserProfileComponents/FollowUser.vue'
-import FollowingUser from '@/components/UserProfileComponents/FollowingUser.vue'
-import LikeMovie from '@/components/UserProfileComponents/LikeMovie.vue'
-import UserScoreRate from '@/components/UserProfileComponents/UserScoreRate.vue'
+import UserActivity from '@/components/UserProfileComponents/UserActivity.vue'
 export default {
   name: 'UserProfileView',
   components: {
     UserInfo,
-    UserComment,
-    FollowUser,
-    FollowingUser,
-    LikeMovie,
-    UserScoreRate
+    UserActivity,
   }
 }
 </script>
@@ -44,5 +32,9 @@ export default {
   background-color: whitesmoke;
   display: flex;
   text-align: center;
+}
+.user-activity{
+  text-align: left;
+  margin-left: 10px;
 }
 </style>
