@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <p>UserScoreRateItem</p>
   </div>
 </template>
 

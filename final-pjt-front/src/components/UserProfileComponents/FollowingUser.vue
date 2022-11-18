@@ -1,15 +1,15 @@
 <template>
   <div>
-    <FollowingItem/>
+    <FollowingUserItem/>
   </div>
 </template>
 
 <script>
-import FollowingItem from '@/components/UserProfileComponents/FollowingItem.vue'
+import FollowingUserItem from '@/components/UserProfileComponents/FollowingUserItem.vue'
 export default {
   name:'FollowingUser',
   components: {
-    FollowingItem,
+    FollowingUserItem,
   },
 }
 </script>
