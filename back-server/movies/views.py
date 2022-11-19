@@ -21,6 +21,7 @@ from .models import *
 
 # 내가 설정한 유저 모델 가져오기 (user_like 이하 댓글과 영화 구현하기 위함임)
 from django.contrib.auth import get_user_model
+from accounts.serializers import UserSerializer
 User = get_user_model()
 
 # 기타 함수 제작용 라이브러리
@@ -28,42 +29,6 @@ import random
 import selenium
 
 
-# @api_view(['GET', 'POST'])
-# 
-# def article_list(request):
-#     if request.method == 'GET':
-#         # articles = Article.objects.all()
-#         articles = get_list_or_404(Article)
-#         serializer = ArticleListSerializer(articles, many=True)
-#         return Response(serializer.data)
-
-#     elif request.method == 'POST':
-#         serializer = ArticleSerializer(data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             # serializer.save()
-#             serializer.save(user=request.user)
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-# @api_view(['GET', 'DELETE', 'PUT'])
-# def article_detail(request, article_pk):
-#     # article = Article.objects.get(pk=article_pk)
-#     article = get_object_or_404(Article, pk=article_pk)
-
-#     if request.method == 'GET':
-#         serializer = ArticleSerializer(article)
-#         print(serializer.data)
-#         return Response(serializer.data)
-    
-#     elif request.method == 'DELETE':
-#         article.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
-
-#     elif request.method == 'PUT':
-#         serializer = ArticleSerializer(article, data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             serializer.save()
-#             return Response(serializer.data)
 
 
 # @api_view(['GET'])
@@ -173,7 +138,7 @@ def comment_create(request, movie_pk):
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(movie=movie)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_201_CREATED)
 
 # 댓글 리스트 조회용 함수
 @api_view(['GET'])
@@ -186,15 +151,17 @@ def comment_list(request):
 
 # 댓글 좋아요 만들기/지우기 함수 (comment_like는 유저 데이터에 묶여 있음)
 @api_view(['POST'])
-def review_like(request, comment_pk):
+def comment_like(request, comment_pk):
     user = request.user
     comment = get_object_or_404(Comment, pk=comment_pk)
 
-    if user.like_reviews.filter(pk=comment_pk).exists():
-        user.like_reviews.remove(comment)
+    if user.like_comment.filter(pk=comment_pk).exists():
+        user.like_comment.remove(comment)
+        serializer = UserSerializer(user)
         return Response(serializer.data)
     else:
-        user.like_reviews.add(review)
+        user.like_comment.add(comment)
+        serializer = UserSerializer(user)
         return Response(serializer.data)
 
 

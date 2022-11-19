@@ -6,20 +6,8 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 
 User = get_user_model()
 
-class ProfileSerializer(serializers.ModelSerializer):
-    class CommentSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
 
-        class Meta:
-            model = Comment
-            fields = '__all__'
-
-    class MovieFollowSerializer(serializers.ModelSerializer):
-        
-        class Meta:
-            model = Movie
-            fields = '__all__'
-        
-    comments = CommentSerializer(many=True, read_only=True)
     class Meta:
         model = get_user_model()
-        fields = ('pk', 'username', 'comment_like', 'movie', 'genre_likes', 'followings', 'followers', 'profile_img')
+        fields = '__all__'
