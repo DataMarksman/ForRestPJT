@@ -27,7 +27,7 @@ class Movie(models.Model):
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_movies", symmetrical=True)
 
 
-# 이 부분 혹시 리뷰 -> 댓글 형식으로 추가하고 싶윽시면 말씀 주세욥. 그 부분 소스로 따로 짜놨습니다.
+# 이 부분 혹시 리뷰 -> 댓글 형식으로 추가하고 싶으시면 말씀 주세욥. 그 부분 소스로 따로 짜놨습니다.
 # 댓글 모델 (유저, 영화를 외래키로 쓰고 / 제목, 내용을 받아서 )
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

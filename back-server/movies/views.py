@@ -27,8 +27,9 @@ User = get_user_model()
 import random
 import selenium
 
+
 # @api_view(['GET', 'POST'])
-# @permission_classes([IsAuthenticated])
+# 
 # def article_list(request):
 #     if request.method == 'GET':
 #         # articles = Article.objects.all()
@@ -106,6 +107,7 @@ import selenium
 #         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+
 # 영화 리스트 반환용 함수 (Post는 제작 과정에서 필요할 것 같아서 넣었슴다.)
 @api_view(['GET', 'POST'])
 def movie_list(request):
@@ -119,6 +121,7 @@ def movie_list(request):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 # 제작 과정 끝나고 남길 GET 방식만 있는 함수
 # @api_view(['GET'])
@@ -161,9 +164,10 @@ def comment_detail(request, comment_pk):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
-        
+
 # 댓글 제작용 함수
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def comment_create(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     serializer = CommentSerializer(data=request.data)
@@ -188,11 +192,9 @@ def review_like(request, comment_pk):
 
     if user.like_reviews.filter(pk=comment_pk).exists():
         user.like_reviews.remove(comment)
-        serializer = UserSerializer(user)
         return Response(serializer.data)
     else:
         user.like_reviews.add(review)
-        serializer = UserSerializer(user)
         return Response(serializer.data)
 
 

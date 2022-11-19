@@ -19,12 +19,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             model = Movie
             fields = '__all__'
         
-    like_articles = CommentSerializer(many=True, read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
     class Meta:
         model = get_user_model()
         fields = ('pk', 'username', 'comment_like', 'movie', 'genre_likes', 'followings', 'followers', 'profile_img')
-
-class CustomSignupSerializer(RegisterSerializer):
-    profile_img = serializers.CharField(min_length=0)
-    genre_likes = serializers.JSONField(default=dict)
