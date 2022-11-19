@@ -1,77 +1,51 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import axios from 'axios'
 Vue.use(Vuex)
+
+const API_URL = 'http://127.0.0.1:8000'
 
 export default new Vuex.Store({
   state: {
-    userInfo: {
-      showComment: true,
-      showFollow: false,
-      showFollowing: false,
-      showLikeMovie: false,
-      showScoreRate: false,
-    },
+    token: null,
+    currentBroadMovies: []
+    
   },
   getters: {
   },
   mutations: {
-    TO_LIKE_PAGE(state) {
-      state.userInfo = {
-        showComment: true,
-        showFollow: false,
-        showFollowing: false,
-        showLikeMovie: false,
-        showScoreRate: false
-      }
-     
-    },
-    TO_FOLLOW_PAGE(state) {
-      state.userInfo = {
-        showComment: false,
-        showFollow: true,
-        showFollowing: false,
-        showLikeMovie: false,
-        showScoreRate: false
-      }
-    },
-    TO_FOLLOWING_PAGE(state) {
-      state.userInfo = {
-        showComment: false,
-        showFollow: false,
-        showFollowing: true,
-        showLikeMovie: false,
-        showScoreRate: false
-      }
-    },
-    TO_COMMENT_PAGE(state) {
-      state.userInfo = {
-        showComment: false,
-        showFollow: false,
-        showFollowing: false,
-        showLikeMovie: true,
-        showScoreRate: false
-      }
-    },
-    TO_SCORERATE_PAGE (state) {
-      state.userInfo = {
-        showComment: false,
-        showFollow: false,
-        showFollowing: false,
-        showLikeMovie: false,
-        showScoreRate: true
+      GET_MOVIE_LIST(state, currentBroadMovies) {
+        state.currentBroadMovies = currentBroadMovies
       }
     },
 
-  },
+  
   actions: {
     signUp() {
       console.log('signUp완료')
     },
     logIn() {
       console.log('login 완료!')
-    }
+    },
+    getMovieList(context) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/api/v1/`,
+        // headers: {
+        //   Authorization: `Token ${context.state.token}`
+        // }
+      })
+        .then((res) => {
+          console.log('영화 데이터 받기 완료')
+          context.commit('GET_MOVIE_LIST', res.data)
+        })
+        .catch((err) =>{
+          console.log(err)
+        }
+        )
+    },
   },
   modules: {
+  
   }
 })
