@@ -24,7 +24,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('pk', 'username', 'comment_like', 'movie', 'genre_likes', 'followings', 'followers', 'profile_img')
-        read_only_fields = ('followings', 'followers')
 
 class CustomSignupSerializer(RegisterSerializer):
     profile_img = serializers.CharField(min_length=0)

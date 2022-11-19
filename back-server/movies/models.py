@@ -9,7 +9,9 @@ POSTER_BASIC_URL = "https://image.tmdb.org/t/p/w500/"
 
 # 장르 속성 먼저 던져놓기 (무비의 다대다 필드로 쓸 예정)
 class Genre(models.Model):
-    name = models.TextField()
+    name = models.CharField(max_length=50)
+    def __str__(self):
+        return self.name
 
 
 # 영화 모델
