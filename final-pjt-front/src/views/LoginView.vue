@@ -23,9 +23,12 @@ export default {
   },
   methods: {
     logIn() {
+      const username = this.username
+      const password = this.password
+      
       const payload = {
-        username: this.username,
-        password: this.password,
+        username: username,
+        password: password,
       }
       this.$store.dispatch('logIn', payload)
     },
