@@ -71,7 +71,7 @@ export default new Vuex.Store({
         // }
       })
         .then((res) => {
-          console.log('영화 데이터 받기 완료')
+          
           context.commit('GET_MOVIE_LIST', res.data)
         })
         .catch((err) =>{

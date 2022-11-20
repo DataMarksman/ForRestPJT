@@ -7,7 +7,7 @@
     <br>
     <hr>
     <br>
-    <div  class="curent-broad-list">
+    <div class="curent-broad-list">
       <CurrentBroadItem
       v-for="currentBroadMovie in currentBroadMovies"
       :key="currentBroadMovie.id"
