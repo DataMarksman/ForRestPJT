@@ -13,7 +13,8 @@ export default new Vuex.Store({
   ],
   state: {
     token: null,
-    currentBroadMovies: []
+    currentBroadMovies: [],
+    searchResult: [],
     
   },
   getters: {
@@ -22,14 +23,20 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-      GET_MOVIE_LIST(state, currentBroadMovies) {
-        state.currentBroadMovies = currentBroadMovies
-      },
-      SAVE_TOKEN(state, token) {
-        state.token = token
-        router.push({ name: 'ArticleView' })
-      },
+    SAVE_TOKEN(state, token) {
+      state.token = token
+      router.push({ name: 'HomeView' })
     },
+    GET_MOVIE_LIST(state, currentBroadMovies) {
+        state.currentBroadMovies = currentBroadMovies
+    },
+    // GET_MOVIE_SEARCH(state, searchMovieList) {
+    //   state.searchMovieList = searchMovieList
+    // },
+    GET_SEARCH_RESULT(state, searchResult) {
+      state.searchResult = searchResult
+    },
+  },
 
   
   actions: {
@@ -47,6 +54,11 @@ export default new Vuex.Store({
           // console.log(res)
           context.commit('SAVE_TOKEN', res.data.key)
         })
+        .catch((err) => {
+          alert('올바르지 않은 형식입니다.')
+          console.log(err)
+        }
+        )
     },
     logIn(context, payload) {
       axios({
@@ -60,6 +72,10 @@ export default new Vuex.Store({
         .then((res) => {
           console.log(res)
           context.commit('SAVE_TOKEN', res.data.key)
+        })
+        .catch((err)=> {
+          alert('아이디 혹은 비밀번호가 맞지 않습니다.')
+          console.log(err)
         })
     },
     getMovieList(context) {
@@ -79,6 +95,38 @@ export default new Vuex.Store({
         }
         )
     },
+    // getMovieSearch(context) {
+    //   axios({
+    //     method: 'get',
+    //     url: `${API_URL}/api/v1/`,
+    //     // headers: {
+    //     //   Authorization: `Token ${context.state.token}`
+    //     // }
+    //   })
+    //     .then((res) => {
+          
+    //       context.commit('GET_MOVIE_SEARCH', res.data)
+    //     })
+    //     .catch((err) =>{
+    //       console.log(err)
+    //     }
+    //     )
+    // },
+    getSearchResults(context, keyword) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/api/v1/`,
+        params: {
+          keyword: keyword
+        }
+      })
+        .then((res) => {
+          context.commit('GET_SEARCH_RESULT', res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   },
   modules: {
   

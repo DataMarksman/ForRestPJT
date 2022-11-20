@@ -1,6 +1,6 @@
 <template>
   <div class="detail-box" @click="toDetail">
-    <img :src="currentBroadMovie.poster_path" alt="">
+    <img :src="currentBroadMovie.poster_path"  alt="">
     <p>{{currentBroadMovie.title}}</p>
   </div>
 </template>
