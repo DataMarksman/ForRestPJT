@@ -83,6 +83,45 @@ def movie_like(request, movie_pk):
         return Response(serializer.data)
 
 
+# @api_view(['GET'])
+# def movies_search(request):
+#     movies = Movie.objects.all()
+#     serializer = MovieSearchSerializer(movies, many=True)
+#     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def movie_search(request):
+    try:
+        word = request.GET.get('word', '')
+        results=[]
+
+        ko_name = Movie.objects.filter(title = word).exists()
+        en_name = Movie.objects.filter(original_title = word).exists()
+        
+        if ko_name:
+            movies = Movie.objects.filter(title = word)
+            for movie in movies:
+                results.append({
+                    'title' : movie.title,
+                    'tmdb_id' : movie.tmdb_id,
+                    'poster_path': movie.poster_path,
+                })
+
+        if en_name:
+            movies = Movie.objects.filter(original_title = word)
+            for movie in movies:
+                results.append({
+                    'title' : movie.title,
+                    'tmdb_id' : movie.tmdb_id,
+                    'poster_path': movie.poster_path,
+                })
+
+        return Response({'results': results}, status=201)
+    
+    except Exception as error:
+        return Response({'message': error}, status=400)
+
+
 ## 댓글 관련 Views ##
 
 # 댓글 상세페이지. (조회, 삭제, 수정)

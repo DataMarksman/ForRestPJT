@@ -29,6 +29,13 @@ class MovieDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = '__all__'
+        
+# 영화 제목 검색용
+class MovieNameSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Movie
+        fields = ('pk', 'title',)
 
 
 ## 댓글 관련 SR ##
