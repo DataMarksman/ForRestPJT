@@ -29,49 +29,7 @@ import random
 import selenium
 
 
-
-
-# @api_view(['GET'])
-# def comment_list(request):
-#     if request.method == 'GET':
-#         # comments = Comment.objects.all()
-#         comments = get_list_or_404(Comment)
-#         serializer = CommentSerializer(comments, many=True)
-#         return Response(serializer.data)
-
-
-# @api_view(['GET', 'DELETE', 'PUT'])
-# def comment_detail(request, comment_pk):
-#     # comment = Comment.objects.get(pk=comment_pk)
-#     comment = get_object_or_404(Comment, pk=comment_pk)
-
-#     if request.method == 'GET':
-#         serializer = CommentSerializer(comment)
-#         return Response(serializer.data)
-
-#     elif request.method == 'DELETE':
-#         comment.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
-
-#     elif request.method == 'PUT':
-#         serializer = CommentSerializer(comment, data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             serializer.save()
-#             return Response(serializer.data)
-
-    
-
-
-# @api_view(['POST'])
-# def comment_create(request, article_pk):
-#     # article = Article.objects.get(pk=article_pk)
-#     article = get_object_or_404(Article, pk=article_pk)
-#     serializer = CommentSerializer(data=request.data)
-#     if serializer.is_valid(raise_exception=True):
-#         serializer.save(article=article)
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
+## 영화 관련 Views ##
 
 # 영화 리스트 반환용 함수 (Post는 제작 과정에서 필요할 것 같아서 넣었슴다.)
 @api_view(['GET', 'POST'])
@@ -111,6 +69,23 @@ def movie_detail(request, movie_pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+@api_view(['POST'])
+def movie_like(request, movie_pk):
+    user = request.user
+    comment = get_object_or_404(Comment, pk=movie_pk)
+
+    if user.like_comment.filter(pk=movie_pk).exists():
+        user.like_comment.remove(comment)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+    else:
+        user.like_comment.add(comment)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+
+
+## 댓글 관련 Views ##
+
 # 댓글 상세페이지. (조회, 삭제, 수정)
 @api_view(['GET', 'DELETE', 'PUT'])
 def comment_detail(request, comment_pk):
@@ -149,20 +124,29 @@ def comment_list(request):
         return Response(serializer.data)
 
 
-# 댓글 좋아요 만들기/지우기 함수 (comment_like는 유저 데이터에 묶여 있음)
+# 댓글 좋아요 만들기/지우기 함수
 @api_view(['POST'])
 def comment_like(request, comment_pk):
-    user = request.user
     comment = get_object_or_404(Comment, pk=comment_pk)
+    user = request.user
 
-    if user.like_comment.filter(pk=comment_pk).exists():
-        user.like_comment.remove(comment)
-        serializer = UserSerializer(user)
+    if user.user_like_comment.filter(pk=comment_pk).exists():
+        user.user_like_comment.remove(comment)
+        serializer = CommentSerializer(user)
         return Response(serializer.data)
     else:
-        user.like_comment.add(comment)
-        serializer = UserSerializer(user)
+        user.user_like_comment.add(comment)
+        serializer = CommentSerializer(user)
         return Response(serializer.data)
+    
+"""
+# 영화와 댓글에서의 유저 상호 작용 Many to Many 필드
+class Movie(models.Model):
+    movie_like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_like_movies", symmetrical=True)
+
+class Comment(models.Model):
+    comment_like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_like_comment", symmetrical=True)
+"""
 
 
 
