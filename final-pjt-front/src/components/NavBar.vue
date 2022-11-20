@@ -4,8 +4,8 @@
       <div class="logo" @click="toHome">
         <img class="logo-img" src="@/assets/logo.png" alt="">
       </div>
-      <router-link :to="{ name: 'SignupView' }">Signup</router-link>
-      <router-link :to="{ name: 'LoginView' }">Login</router-link>
+      <router-link v-if="!this.$store.state.token" :to="{ name: 'SignupView' }">Signup</router-link>
+      <router-link v-if="!this.$store.state.token" :to="{ name: 'LoginView' }">Login</router-link>
       <SearchBar/>
       <MiniProfile
       class="profile-icon"

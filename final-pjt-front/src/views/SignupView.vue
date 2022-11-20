@@ -5,10 +5,10 @@
       <input type="text" id="user-id" v-model="username">
       
       <label for="user-password1">희망하는 비밀번호를 입력해주세요.</label>
-      <input type="text" id="user-password1">
+      <input type="text" id="user-password1" v-model="password1">
       
       <label for="user-password2">희망하는 비밀번호를 다시 입력해 주세요.</label>
-      <input type="text" id="user-password2">
+      <input type="text" id="user-password2"  v-model="password2">
       
       
       <input type="submit" value="가입하기">

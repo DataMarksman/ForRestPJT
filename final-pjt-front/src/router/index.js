@@ -27,7 +27,7 @@ const routes = [
     component: SignupView
   },
   {
-    path: '/search',
+    path: '/search/:keyword',
     name: 'SearchView',
     component: SearchView
   },
@@ -37,7 +37,7 @@ const routes = [
     component: UserProfileView
   },
   {
-    path: '/detail',
+    path: '/:id',
     name: 'DetailView',
     component: DetailView
   }
