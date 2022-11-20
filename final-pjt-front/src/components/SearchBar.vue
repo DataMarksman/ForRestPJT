@@ -1,5 +1,5 @@
 <template>
-  <div class="right">
+  <div>
     <input
     class="inputbar"
     placeholder="검색어를 입력해주세요."
@@ -28,7 +28,6 @@ export default {
           name: 'SearchView',
           params: {
             keyword: this.keyword,
-            isResultShow: true,
           },
         });
         this.keyword = ''
@@ -42,12 +41,11 @@ export default {
 </script>
 
 <style>
-.right{
-  float:right;
-}
+
 .inputbar{
+  margin-top: 10px;
   width: 300px;
   height: 30px;
-  font-size: 25px;
+  font-size: 15px;
 }
 </style>
