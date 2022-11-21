@@ -12,6 +12,7 @@ export default new Vuex.Store({
     createPersistedState()
   ],
   state: {
+    currentUser: null,
     token: null,
     currentBroadMovies: [],
     searchResult: [],
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    GET_USER_INFO(state, user) {
+      state.currentUser = user
+    },
     SAVE_TOKEN(state, token) {
       state.token = token
       router.push({ name: 'HomeView' })
@@ -36,10 +40,31 @@ export default new Vuex.Store({
     GET_SEARCH_RESULT(state, searchResult) {
       state.searchResult = searchResult
     },
+    LOG_OUT(state) {
+      state.token = null
+      state.currentUser = null
+      router.push({ name: 'HomeView'})
+    }
   },
 
   
   actions: {
+    getUserInfo(context) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/accounts/user/`,
+        headers: {
+          Authorization: `Token ${context.state.token}`
+        }
+      })
+        .then((res) => {
+          console.log(res)
+          context.commit('GET_USER_INFO', res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     signUp(context, payload) {
       axios({
         method: 'post',
@@ -53,6 +78,7 @@ export default new Vuex.Store({
         .then((res) => {
           // console.log(res)
           context.commit('SAVE_TOKEN', res.data.key)
+          context.dispatch('getUserInfo')
         })
         .catch((err) => {
           alert('올바르지 않은 형식입니다.')
@@ -72,6 +98,7 @@ export default new Vuex.Store({
         .then((res) => {
           console.log(res)
           context.commit('SAVE_TOKEN', res.data.key)
+          context.dispatch('getUserInfo')
         })
         .catch((err)=> {
           alert('아이디 혹은 비밀번호가 맞지 않습니다.')
@@ -95,23 +122,6 @@ export default new Vuex.Store({
         }
         )
     },
-    // getMovieSearch(context) {
-    //   axios({
-    //     method: 'get',
-    //     url: `${API_URL}/api/v1/`,
-    //     // headers: {
-    //     //   Authorization: `Token ${context.state.token}`
-    //     // }
-    //   })
-    //     .then((res) => {
-          
-    //       context.commit('GET_MOVIE_SEARCH', res.data)
-    //     })
-    //     .catch((err) =>{
-    //       console.log(err)
-    //     }
-    //     )
-    // },
     getSearchResults(context, keyword) {
       axios({
         method: 'get',
@@ -126,7 +136,35 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err)
         })
+    },
+    changeLike(context, movie_pk) {
+      axios({
+        method: 'post',
+        url: `${API_URL}/${movie_pk}/like/`,
+      })
+        .then((res) => {
+          console.log(res)
+          context.commit('CHANGE_LIKE', res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    logOut(context) {
+      axios({
+        method: 'post',
+        url: `${API_URL}/accounts/logout/`,
+        
+      })
+        .then((res) => {
+          res
+          context.commit('LOG_OUT')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
+    
   },
   modules: {
   

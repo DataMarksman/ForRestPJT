@@ -6,7 +6,7 @@ import SignupView from '@/views/SignupView'
 import SearchView from '@/views/SearchView'
 import UserProfileView from '@/views/UserProfileView'
 import DetailView from '@/views/DetailView'
-
+import ProfileEditView from '@/views/ProfileEditView'
 Vue.use(VueRouter)
 
 
@@ -40,7 +40,12 @@ const routes = [
     path: '/:id',
     name: 'DetailView',
     component: DetailView
-  }
+  },
+  {
+    path: '/profileEdit',
+    name: 'ProfileEditView',
+    component: ProfileEditView
+  },
 ]
 
 const router = new VueRouter({
