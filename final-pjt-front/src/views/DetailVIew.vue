@@ -1,6 +1,9 @@
 <template>
   <div>
     <h1>Detail</h1>
+    <div>
+      <img src="{{}}" alt="">
+    </div>
     <p>제목 : {{ movie?.title }}</p>
   </div>
 </template>
