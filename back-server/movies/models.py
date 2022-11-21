@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
 # Create your models here.
 
@@ -19,12 +20,15 @@ class Movie(models.Model):
     tmdb_id = models.CharField(max_length=20)
     # kmdb_id = models.CharField(max_length=20)
     title = models.CharField(max_length=50)
+    original_title = models.CharField(max_length=100)
     release_date = models.CharField(max_length=50)
     overview = models.TextField(blank=True)
     popularity = models.FloatField(null=True)
+    vote_average = models.FloatField()
+    adult = models.BooleanField()
     # 포스터 디폴트 값은 임시로 그 여자 작사 그 남자 작곡 
     poster_path = models.TextField(default="https://image.tmdb.org/t/p/w500/d9C2H1qoFt9AL4DwRlqEEZK4hVa.jpg")
-    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_movies", symmetrical=True)
+    movie_like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_like_movies", symmetrical=True)
 
 
 # 이 부분 혹시 리뷰 -> 댓글 형식으로 추가하고 싶으시면 말씀 주세욥. 그 부분 소스로 따로 짜놨습니다.
@@ -36,10 +40,5 @@ class Comment(models.Model):
     content = models.TextField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_comment", symmetrical=True)
-
-
-
-
-
+    comment_like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_like_comment", symmetrical=True)
 

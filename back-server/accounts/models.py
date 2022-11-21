@@ -8,7 +8,9 @@ class User(AbstractUser):
     followings = models.ManyToManyField("self", symmetrical=False, related_name = 'followers')
     profile_img = models.ImageField(blank=True, upload_to='images/', null=True)
     genre_like = models.ManyToManyField(Genre, related_name="user_genre")
-    comment_like = models.ManyToManyField(Comment, related_name="user_comment")
+    
+    # 일단 comment like는 comment에 묶여있음
+    # comment_like = models.ManyToManyField(Comment, related_name="user_comment")
     
     # platform_subscribe = models.ManyToManyField()
 
