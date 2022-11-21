@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h1>회원가입</h1>
-    <form @submit.prevent="signUp" enctype="multipart/form-data">
+    <h1>프로필 이미지 삽입</h1>
+    <form @submit.prevent="uploadImge" enctype="multipart/form-data">
       <label for="Image"> 프로필 사진 업로드: </label>
       <input type="file" name="Image" @change="fileChange" />
-      <input type="submit" value="SignUp" />
+      <input type="submit" value="이미지 업로드" />
     </form>
   </div>
 </template>
@@ -13,22 +13,18 @@
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export default {
-  name: "SignupView",
+  name: "ProfileEditView",
   data() {
     return {
       image: null,
     };
   },
   methods: {
-    signUp() {
+    uploadImge() {
       const image = this.image;
-
-      const payload = {
-        image,
-      };
-      this.$store.dispatch("signUp", payload);
+      this.$store.dispatch("uploadImge", image);
     },
-    fileChange: function (e) {
+    fileChange(e) {
       const nowImage = e.target.files[0];
       const date = new Date();
       const imgName = nowImage.name + date.toString();
