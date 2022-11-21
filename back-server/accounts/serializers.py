@@ -48,5 +48,4 @@ class CustomSignupSerializer(RegisterSerializer):
         data = super().get_cleaned_data()
         data['profile_img'] = self.validated_data.get('profile_img', '')
         data['genre_likes'] = self.validated_data.get('genre_likes', '')
-
         return data
