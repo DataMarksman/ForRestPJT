@@ -5,7 +5,7 @@ app_name = 'accounts'
 
 urlpatterns = [
     # 유저 관련 기능: 프로필 열람 및 수정, 팔로잉/언팔
-    path('profile/<username>/', views.profile_or_edit),
-    path('profile/<username>/follow/', views.follow),
+    path('profile/<int:user_id>/', views.profile_or_edit),
+    path('profile/<int:user_id>/follow/', views.follow),
     
 ]

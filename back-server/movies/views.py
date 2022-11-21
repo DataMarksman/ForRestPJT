@@ -71,14 +71,14 @@ def movie_detail(request, movie_pk):
 @api_view(['POST'])
 def movie_like(request, movie_pk):
     user = request.user
-    comment = get_object_or_404(Comment, pk=movie_pk)
+    movie = get_object_or_404(Movie, pk=movie_pk)
 
-    if user.like_comment.filter(pk=movie_pk).exists():
-        user.like_comment.remove(comment)
+    if user.user_like_movie.filter(pk=movie_pk).exists():
+        user.user_like_movie.remove(movie)
         serializer = UserSerializer(user)
         return Response(serializer.data)
     else:
-        user.like_comment.add(comment)
+        user.user_like_movie.add(movie)
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
