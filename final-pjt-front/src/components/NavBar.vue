@@ -9,10 +9,12 @@
       <div @click="logOut">
         <p v-if="this.$store.state.token">Logout</p>
       </div>
-      <SearchBar/>
-      <MiniProfile
-      class="profile-icon"
-      />
+      <div class="d-flex">
+        <SearchBar/>
+        <MiniProfile
+        class="profile-icon"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -52,7 +54,9 @@ export default {
   max-width: 200px;
 }
 .nav-bar{
-  padding: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid black;
+  
 }
 .profile-icon {
   cursor: pointer;
