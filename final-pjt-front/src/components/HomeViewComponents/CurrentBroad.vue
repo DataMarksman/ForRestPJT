@@ -1,8 +1,9 @@
 <template>
-  <div>
+  <div class="board-line">
     <section>
       <div class="content-list">
         <h1>현재 상영중인 영화</h1>
+        <br>
         <swiper
         class="swiper"
         :options="swiperOption">
