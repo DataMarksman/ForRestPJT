@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import createPersistedState from 'vuex-persistedstate'
 import router from '@/router'
+
 Vue.use(Vuex)
 
 const API_URL = 'http://127.0.0.1:8000'
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     currentBroadMovies: [],
     searchResult: [],
     movieCommentList: null,
+    movieComment: null,
   },
   getters: {
     isLogin(state) {
@@ -47,7 +49,11 @@ export default new Vuex.Store({
     },
     GET_COMMENT_LIST(state, comments) {
       state.movieCommentList = comments
+    },
+    GET_COMMENT_DETAIL(state, comment) {
+      state.movieComment = comment
     }
+   
   },
 
   
@@ -192,7 +198,7 @@ export default new Vuex.Store({
         url: `${API_URL}/movies/${movie_id}/comments/`,
       })
         .then((res) => {
-          console.log(res)
+          
           context.commit('GET_COMMENT_LIST', res.data)
         })
     },
@@ -208,6 +214,58 @@ export default new Vuex.Store({
           console.log(res)
         })
         .then((err) => {
+          console.log(err)
+        })
+    },
+    // getCommentDetail(context, payload) {
+    //   axios({
+    //     method: 'get',
+    //     url: `${API_URL}/movies/${payload.movie_id}/comments/${payload.comment_id}/`,
+    //     headers: {
+    //       Authorization: `Token ${context.state.token}`
+    //     },
+    //   })
+    //     .then((res) => {
+    //       context.commit('GET_COMMENT_DETAIL', res.data)
+    //       console.log('단일 댓글까진 옴')
+    //     })
+    //     .catch((err) => {
+    //       console.log(err)
+    //     })
+      
+    // },
+    sendCommentAdjust(context, payload) {
+      axios({
+        method: 'put',
+        url: `${API_URL}/movies/${payload.movie_id}/comments/${payload.comment_id}/`,
+        headers: {
+          Authorization: `Token ${context.state.token}`
+        },
+        data: {
+          content: payload.content,
+        }
+      })
+        .then((res) => {
+          context.dispatch('getCommentList', payload.movie_id)
+          res
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    commentDelete(context, payload) {
+      axios({
+        method: 'delete',
+        url: `${API_URL}/movies/${payload.movie_id}/comments/${payload.comment_id}/`,
+        headers: {
+          Authorization: `Token ${context.state.token}`
+        },
+      })
+        .then((res) => {
+          context.dispatch('getCommentList', payload.movie_id)
+          res
+        })
+        .catch((err) => {
           console.log(err)
         })
     }

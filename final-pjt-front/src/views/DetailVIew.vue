@@ -1,15 +1,47 @@
 <template>
   <div class="detail-page">
     <img class="background-img" src="@/assets/backgroundimage.png" alt="">
-    <h1> {{movie?.title}} ({{movie?.release_date}})</h1>
+    <h1> {{movie?.title}} ({{release_date}})</h1>
     <div class="movie-container">
       
       <div class="d-flex">
-        <div class="img-container">
+        <div class="img-container col-4">
           <img class="detail-img" :src="movie.poster_path" alt="">
         </div>
-        <div class="movie-detail-content">
-          <p>제목 : {{ movie?.title }}</p>
+        <div class="movie-detail-content col-8">
+          <p class="detail-title"><b>{{ movie?.title }}</b></p>
+          <div class="row triple-container">
+            <div class="d-flex">
+              <div class="col-4">
+                <div>
+                  <p>평점</p>
+                </div>
+                <div class="star-container">
+                  <img class="img-star" src="@/assets/star.png" alt="">
+                </div>
+                <div>
+                  <p><b>{{movie.vote_average}}</b></p>
+                </div>
+              </div>
+              <div class="col-4">
+                <div>
+                  <p>장르</p>
+                </div>
+                <div class="star-container">
+                  <img class="img-star" src="@/assets/genres.png" alt="">
+                </div>
+                <div>
+                  <b>{{movie?.genre}}</b>
+                </div>
+              </div>
+            </div>
+            <div class="">
+
+            </div>
+          </div>
+          <div>
+            {{movie?.overview}}
+          </div>
           <MovieLike
           :movieLikeUsers ="movie.movie_like_users"
           :movie_id ="this.$route.params.id"
@@ -72,17 +104,37 @@ export default {
       
     }
   },
+  computed: {
+    release_date() {
+      const release_date = this.movie.release_date.substr(0, 4)
+      return release_date
+    }
+  }
   
 }
 </script>
 
 <style scoped>
+.detail-title{
+  font-size: 30px;
+}
+.triple-container{
+  font-size: 40px;
+}
+.star-container {
+  width: 20%;
+  margin: auto;
+}
+.img-star {
+  width: 100%;
+  height: auto;
+}
 hr {
   color: black;
 }
 div {
   font-family: Arial, Helvetica, sans-serif;
-  color: whitesmoke;
+  color: rgb(226, 226, 226);
   text-shadow: -1px 0px black, 0px 1px black, 1px 0px black, 0px -1px black;
 }
 .detail-page{
@@ -99,15 +151,17 @@ div {
   filter: blur(5px);
 }
 .img-container {
-  width: 400px;
-  height: 600px;
+  /* width: 400px;
+  height: 600px; */
+  width: 20%;
 }
 .detail-img {
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 .movie-detail-content {
-  margin-left: 25px;
+  margin-left: 4%;
+  margin-right: 4%;
   text-align: center;
   
 }
