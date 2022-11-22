@@ -9,7 +9,7 @@ User = get_user_model()
 
 # 유저 시리얼라이저
 class UserSerializer(serializers.ModelSerializer):
-
+    password = serializers.CharField(write_only=True)
     class Meta:
         model = get_user_model()
         fields = '__all__'

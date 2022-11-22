@@ -9,6 +9,8 @@ class User(AbstractUser):
     profile_img = models.ImageField(blank=True, upload_to='images/', null=True)
     genre_like = models.ManyToManyField(Genre, related_name="user_genre")
     
+    # def __str__(self):
+    #     return self.pk
     # 일단 comment like는 comment에 묶여있음
     # comment_like = models.ManyToManyField(Comment, related_name="user_comment")
     
