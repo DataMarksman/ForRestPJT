@@ -1,6 +1,6 @@
 <template>
-  <div class="detail-box" @click="toDetail">
-    <img :src="currentBroadMovie.poster_path"  alt="">
+  <div class="image-box" @click="toDetail">
+    <img class="image-thumbnail" :src="currentBroadMovie.poster_path"  alt="">
     <p>{{currentBroadMovie.title}}</p>
   </div>
 </template>
@@ -21,7 +21,17 @@ export default {
 </script>
 
 <style>
-.detail-box{
+.image-box {
   cursor: pointer;
+  width:200px;
+  height:300px;
+  overflow:hidden;
+  margin:0 auto;
+}
+
+.image-thumbnail {
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 </style>
