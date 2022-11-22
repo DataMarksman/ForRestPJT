@@ -16,7 +16,7 @@ export default new Vuex.Store({
     token: null,
     currentBroadMovies: [],
     searchResult: [],
-    
+    movieCommentList: null,
   },
   getters: {
     isLogin(state) {
@@ -44,6 +44,9 @@ export default new Vuex.Store({
       state.token = null
       state.currentUser = null
       router.push({ name: 'HomeView'})
+    },
+    GET_COMMENT_LIST(state, comments) {
+      state.movieCommentList = comments
     }
   },
 
@@ -108,7 +111,7 @@ export default new Vuex.Store({
     getMovieList(context) {
       axios({
         method: 'get',
-        url: `${API_URL}/api/v1/`,
+        url: `${API_URL}/movies/`,
         // headers: {
         //   Authorization: `Token ${context.state.token}`
         // }
@@ -125,7 +128,7 @@ export default new Vuex.Store({
     getSearchResults(context, keyword) {
       axios({
         method: 'get',
-        url: `${API_URL}/api/v1/`,
+        url: `${API_URL}/movies/`,
         params: {
           keyword: keyword
         }
@@ -143,7 +146,7 @@ export default new Vuex.Store({
         url: `${API_URL}/${movie_pk}/like/`,
       })
         .then((res) => {
-          console.log(res)
+          res
           context.commit('CHANGE_LIKE', res.data)
         })
         .catch((err) => {
@@ -161,6 +164,50 @@ export default new Vuex.Store({
           context.commit('LOG_OUT')
         })
         .catch((err) => {
+          console.log(err)
+        })
+    },
+    addComment(context, payload) {
+      axios({
+        method: 'post',
+        url: `${API_URL}/movies/${payload.movie_id}/comments/create/`,
+        headers: {
+          Authorization: `Token ${context.state.token}`
+        },
+        data: {
+          content: payload.commentContent
+        }
+      })
+        .then((res) => {
+          context.dispatch('getCommentList', payload.movie_id)
+          res
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getCommentList(context, movie_id) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/${movie_id}/comments/`,
+      })
+        .then((res) => {
+          console.log(res)
+          context.commit('GET_COMMENT_LIST', res.data)
+        })
+    },
+    sendLikeInfo(context, payload) {
+      axios({
+        method: 'post',
+        url: `${API_URL}/movies/${payload.movie_id}/like/`,
+        headers: {
+          Authorization: `Token ${context.state.token}`
+        },
+      })
+        .then((res) => {
+          console.log(res)
+        })
+        .then((err) => {
           console.log(err)
         })
     }

@@ -24,4 +24,13 @@ export default {
 
 <style>
 
+.background-img {
+  z-index: -1;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  filter: blur(5px);
+}
 </style>
