@@ -140,6 +140,7 @@ def comment_detail(request, movie_pk, comment_pk):
 
     elif request.method == 'PUT':
         serializer = CommentSerializer(comment, data=request.data)
+        print(serializer)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
