@@ -21,8 +21,7 @@ class Comment(models.Model):
 # 만약 수정을 원하면 PUT으로 수정하도록 함
 @api_view(['GET', 'PUT'])
 def profile_or_edit(request, user_id):
-
-    user = get_object_or_404(get_user_model(), id=user_id)
+    user = User.objects.get(pk=user_id)
     if request.method == 'GET':
         serializer = ProfileSerializer(user)
         return Response(serializer.data)
