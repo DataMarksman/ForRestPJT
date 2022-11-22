@@ -130,7 +130,7 @@ def movie_search(request, word):
 
 # 댓글 상세페이지. (조회, 삭제, 수정)
 @api_view(['GET', 'DELETE', 'PUT'])
-def comment_detail(request, comment_pk):
+def comment_detail(request, movie_pk, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
 
     if request.method == 'GET':
@@ -143,6 +143,7 @@ def comment_detail(request, comment_pk):
 
     elif request.method == 'PUT':
         serializer = CommentSerializer(comment, data=request.data)
+        print(serializer)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
