@@ -75,17 +75,24 @@ def movie_detail(request, movie_pk):
 @api_view(['POST'])
 def movie_like(request, movie_pk):
     user = request.user
-    movie = get_object_or_404(Movie, pk=movie_pk)
+    movie = Movie.objects.get(pk=movie_pk)
 
-    if user.user_like_movie.filter(pk=movie_pk).exists():
-        user.user_like_movie.remove(movie)
+    # if user_id.user_like_movie.filter(pk=movie_pk).exists():
+    #     user_id.user_like_movie.remove(movie)
+    #     serializer = MovieSerializer(movie)
+    #     return Response(serializer.data)
+    # else:
+    #     user_id.user_like_movie.add(movie)
+    #     serializer = MovieSerializer(movie)
+    #     return Response(serializer.data)
+    if movie.movie_like_users.filter(user_id=user['id']).exists():
+        movie.movie_like_users.remove(movie)
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
     else:
-        user.user_like_movie.add(movie)
+        movie.movie_like_users.add(user['id'])
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
-
 
 # @api_view(['GET'])
 # def movies_search(request):
