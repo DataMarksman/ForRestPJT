@@ -34,17 +34,17 @@ def profile_or_edit(request, user_id):
 
 
 # 유저가 같은 테이블의 유저를 참조하여, 팔로잉 팔로우 합니다.
+# 임시 보류. 분명 같은 느낌, 같은 생각을해도 많이 다른 결과가 나오나.
 @api_view(['POST'])
 def follow(request, user_id):
-    partner = get_object_or_404(User, id=user_id)
-    follower = request.user                     
-
-    if follower.followings.filter(id=user_id).exists():
-        follower.followings.remove(partner)   
-        
-    else:
-        follower.followings.add(partner)
-    serializer = UserSerializer(follower)
+    partner = User.objects.get(pk=user_id)
+    if partner != request.user:           
+        if partner.followers.filter(pk=request.user.pk).exists():
+            partner.followers.remove(request.user)   
+            
+        else:
+            partner.followers.add(request.user)
+    serializer = UserSerializer(request.user)
     return Response(serializer.data)
 
 
