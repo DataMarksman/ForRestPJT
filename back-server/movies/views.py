@@ -1,5 +1,4 @@
 # DRF용 임포트
-import json
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -27,6 +26,8 @@ User = get_user_model()
 # 기타 함수 제작용 라이브러리
 import random
 import selenium
+import requests
+import json
 
 
 ## 영화 관련 Views ##
@@ -70,20 +71,6 @@ def movie_detail(request, movie_pk):
         movie.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
-# @api_view(['POST'])
-# def comment_like(request, movie_pk, comment_pk):
-#     comment = get_object_or_404(Comment, pk=comment_pk)
-#     user = request.user
-
-#     if user.user_like_comment.filter(pk=comment_pk).exists():
-#         user.user_like_comment.remove(comment)
-#         serializer = CommentSerializer(comment)
-#         return Response(serializer.data)
-#     else:
-#         user.user_like_comment.add(comment)
-#         serializer = CommentSerializer(comment)
-#         return Response(serializer.data)
 
 @api_view(['POST'])
 def movie_like(request, movie_pk):
@@ -235,5 +222,45 @@ def boxoffice(request):
 
 
 
+TMDB_API_KEY = "f555794485796214438961ced766522e"
+
+BASIC_URL = "https://image.tmdb.org/t/p/w500/"
 
 
+def get_new_movie(request):
+    total_data = []
+
+    for i in range(1, 2):
+        request_url = f"https://api.themoviedb.org/3/movie/now_playing?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
+        movies = requests.get(request_url).json()
+
+        for movie in movies['results']:
+            if movie.get('release_date', ''):
+                detail_url = f"https://api.themoviedb.org/3/movie/{movie['id']}?api_key=f555794485796214438961ced766522e&language=ko-KR"
+                detail = requests.get(detail_url).json()
+                fields = {
+                    'tmdb_id': movie['id'],
+                    'title': movie['title'],
+                    'original_title': movie['original_title'],
+                    'release_date': movie['release_date'],
+                    'vote_average': movie['vote_average'],
+                    'vote_count': movie['vote_count'],
+                    'overview': detail['overview'],
+                    'popularity': movie['popularity'],
+                    'poster_path': BASIC_URL+movie['poster_path'],
+                    'adult': movie['adult'],
+                    'genre': movie['genre_ids'],
+                    'runtime': detail['runtime'],
+                    "homepage": detail["homepage"],
+                }
+                data = {
+                    "pk": movie['id'],
+                    "model": "movies.movie",
+                    "fields": fields
+                }
+
+                total_data.append(data)
+                serializer = MovieSerializer(data=data)
+                serializer.save()
+    
+    return Response(total_data)
