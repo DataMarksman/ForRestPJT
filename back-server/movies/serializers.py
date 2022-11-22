@@ -14,6 +14,7 @@ class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = '__all__'
+        
 
 
 # 영화 리스트를 가져오는 Movie SR
