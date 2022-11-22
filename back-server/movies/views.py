@@ -31,9 +31,12 @@ import selenium
 
 ## 영화 관련 Views ##
 
+
+
 # 영화 리스트 반환용 함수 (Post는 제작 과정에서 필요할 것 같아서 넣었슴다.)
 @api_view(['GET', 'POST'])
 def movie_list(request):
+    print(request.user)
     if request.method == 'GET':
         Movies = get_list_or_404(Movie)
         serializer = MovieListSerializer(Movies, many=True)
@@ -68,6 +71,20 @@ def movie_detail(request, movie_pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# @api_view(['POST'])
+# def comment_like(request, movie_pk, comment_pk):
+#     comment = get_object_or_404(Comment, pk=comment_pk)
+#     user = request.user
+
+#     if user.user_like_comment.filter(pk=comment_pk).exists():
+#         user.user_like_comment.remove(comment)
+#         serializer = CommentSerializer(comment)
+#         return Response(serializer.data)
+#     else:
+#         user.user_like_comment.add(comment)
+#         serializer = CommentSerializer(comment)
+#         return Response(serializer.data)
+
 @api_view(['POST'])
 def movie_like(request, movie_pk):
     user = request.user
@@ -75,11 +92,11 @@ def movie_like(request, movie_pk):
 
     if user.user_like_movie.filter(pk=movie_pk).exists():
         user.user_like_movie.remove(movie)
-        serializer = UserSerializer(user)
+        serializer = MovieSerializer(movie)
         return Response(serializer.data)
     else:
         user.user_like_movie.add(movie)
-        serializer = UserSerializer(user)
+        serializer = MovieSerializer(movie)
         return Response(serializer.data)
 
 
@@ -90,7 +107,7 @@ def movie_like(request, movie_pk):
 #     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def movie_search(request):
+def movie_search(request, word):
     try:
         word = request.GET.get('word', '')
         results=[]
@@ -147,34 +164,37 @@ def comment_detail(request, comment_pk):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def comment_create(request, movie_pk):
+    user = request.user
     movie = get_object_or_404(Movie, pk=movie_pk)
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
-        serializer.save(movie=movie)
+        serializer.save(movie=movie, user=user)
         return Response(status=status.HTTP_201_CREATED)
+
 
 # 댓글 리스트 조회용 함수
 @api_view(['GET'])
-def comment_list(request):
+def comment_list(request, movie_pk):
     if request.method == 'GET':
-        comments = get_list_or_404(Comment)
+        movie = Movie.objects.get(pk=movie_pk)
+        comments = movie.comment_set.all()
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
 
 
 # 댓글 좋아요 만들기/지우기 함수
 @api_view(['POST'])
-def comment_like(request, comment_pk):
+def comment_like(request, movie_pk, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
     user = request.user
 
     if user.user_like_comment.filter(pk=comment_pk).exists():
         user.user_like_comment.remove(comment)
-        serializer = CommentSerializer(user)
+        serializer = CommentSerializer(comment)
         return Response(serializer.data)
     else:
         user.user_like_comment.add(comment)
-        serializer = CommentSerializer(user)
+        serializer = CommentSerializer(comment)
         return Response(serializer.data)
     
 """

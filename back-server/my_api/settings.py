@@ -35,17 +35,13 @@ INSTALLED_APPS = [
     'accounts',
     'movies',
 
-
-    # third party
-    'django_extensions',
     'rest_framework',
-    'rest_framework.authtoken',
-    'rest_auth.registration',
-    'rest_auth',
-    'drf_yasg',
 
     # CORS policy
     "corsheaders",
+
+    # Auth
+    'rest_framework.authtoken',
     'dj_rest_auth',
 
     # registration
@@ -72,13 +68,11 @@ REST_FRAMEWORK = {
     # Authentication
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
     ],
 
     # permission
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.AllowAny',
     ],
 
@@ -167,9 +161,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'ko-KR'
+LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'asia/Seoul'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -189,8 +183,3 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
-
-import datetime
-JWT_AUTH = {
- 'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
-}
