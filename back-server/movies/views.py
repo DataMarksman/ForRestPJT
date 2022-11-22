@@ -74,18 +74,15 @@ def movie_detail(request, movie_pk):
 
 @api_view(['POST'])
 def movie_like(request, movie_pk):
-    user = request.user
-    movie = get_object_or_404(Movie, pk=movie_pk)
-
-    if user.user_like_movie.filter(pk=movie_pk).exists():
-        user.user_like_movie.remove(movie)
+    movie = Movie.objects.get(pk=movie_pk)
+    if movie.movie_like_users.filter(pk=request.user.pk).exists():
+        movie.movie_like_users.remove(request.user)
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
     else:
-        user.user_like_movie.add(movie)
+        movie.movie_like_users.add(request.user)
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
-
 
 # @api_view(['GET'])
 # def movies_search(request):
@@ -170,18 +167,17 @@ def comment_list(request, movie_pk):
         return Response(serializer.data)
 
 
+
 # 댓글 좋아요 만들기/지우기 함수
 @api_view(['POST'])
 def comment_like(request, movie_pk, comment_pk):
-    comment = get_object_or_404(Comment, pk=comment_pk)
-    user = request.user
-
-    if user.user_like_comment.filter(pk=comment_pk).exists():
-        user.user_like_comment.remove(comment)
+    comment = Comment.objects.get(pk=comment_pk)
+    if comment.userl.filter(pk=comment_pk).exists():
+        comment.user_like_comment.remove(request.user)
         serializer = CommentSerializer(comment)
         return Response(serializer.data)
     else:
-        user.user_like_comment.add(comment)
+        comment.user_like_comment.add(request.user)
         serializer = CommentSerializer(comment)
         return Response(serializer.data)
     
