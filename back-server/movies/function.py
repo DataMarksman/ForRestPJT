@@ -38,9 +38,6 @@ import json
 # get_movie_datas()
 
 
-genre_dict = { }
-
-
 TMDB_API_KEY = "f555794485796214438961ced766522e"
 
 BASIC_URL = "https://image.tmdb.org/t/p/w500/"
@@ -48,7 +45,7 @@ BASIC_URL = "https://image.tmdb.org/t/p/w500/"
 def get_movie_datas():
     total_data = []
 
-    for i in range(1, 6):
+    for i in range(1, 11):
         request_url = f"https://api.themoviedb.org/3/movie/popular?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
         movies = requests.get(request_url).json()
 
@@ -70,8 +67,7 @@ def get_movie_datas():
                     'adult': movie['adult'],
                     'genre': movie['genre_ids'],
                     'runtime': detail['runtime'],
-                    "homepage": BASIC_URL+detail["homepage"],
-                },
+                }
                 data = {
                     "pk": movie['id'],
                     "model": "movies.movie",

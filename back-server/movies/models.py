@@ -23,16 +23,15 @@ class Movie(models.Model):
     original_title = models.CharField(max_length=100)
     release_date = models.CharField(max_length=50, null=True)
     runtime = models.TextField(null=True)
-    overview = models.TextField(blank=True)
+    overview = models.TextField(null=True)
     popularity = models.FloatField(null=True)
     vote_average = models.FloatField(null=True)
     vote_count = models.FloatField(null=True)
     adult = models.BooleanField(default=False)
-    genre = models.JSONField(default=dict)
+    genre = models.JSONField(default=dict, null=True)
     
     # 포스터 디폴트 값은 임시로 그 여자 작사 그 남자 작곡 
-    poster_path = models.TextField(default="https://image.tmdb.org/t/p/w500/d9C2H1qoFt9AL4DwRlqEEZK4hVa.jpg")
-    hompage = models.TextField(default="https://www.netflix.com/kr/")
+    poster_path = models.TextField(default="https://image.tmdb.org/t/p/w500/d9C2H1qoFt9AL4DwRlqEEZK4hVa.jpg", null=True)
     movie_like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_like_movies")
 
 # 이 부분 혹시 리뷰 -> 댓글 형식으로 추가하고 싶으시면 말씀 주세욥. 그 부분 소스로 따로 짜놨습니다.
@@ -46,4 +45,3 @@ class Comment(models.Model):
     # comment_like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_like_comment")
     # def __str__(self):
     #     return self.user_id
-
