@@ -31,9 +31,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             model = Movie
             fields = '__all__'
         
-    like_articles = CommentSerializer(many=True, read_only=True)
-    articles = CommentSerializer(many=True, read_only=True)
-    keep_movies = MovieLikeSerializer(many=True, read_only=True)
+    like_comments = CommentSerializer(many=True, read_only=True)
+    like_movies = MovieLikeSerializer(many=True, read_only=True)
     class Meta:
         model = get_user_model()
         fields = ('pk', 'user', 'like_articles', 'comment', 'keep_movies', 'genre_likes', 'followings', 'followers', 'profile_img')

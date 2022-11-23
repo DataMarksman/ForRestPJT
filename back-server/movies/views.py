@@ -273,12 +273,9 @@ def get_new_movie(request):
                 }
 
                 total_data.append(data)
-                if Movie.object.filter(pk=movie['id']).exists():
-                    pass
-                else:
-                    serializer = MovieSerializer(data=data)
-                    if serializer.is_valid():
-                        serializer.save()
+                serializer = MovieSerializer(data=data)
+                if serializer.is_valid():
+                    serializer.save()
     
     return Response(total_data)
 
@@ -287,7 +284,7 @@ def get_new_movie(request):
 def get_genre_movie(request, genre_name):
     genre_code = str_to_int[genre_name]
     total_data = []
-    
+
 
     for i in range(1, 2):
         request_url = f"https://api.themoviedb.org/3/movie/now_playing?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
