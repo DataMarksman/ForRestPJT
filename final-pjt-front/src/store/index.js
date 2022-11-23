@@ -283,6 +283,22 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err)
         })
+    },
+    commentLike(context, payload) {
+      axios({
+        method: 'post',
+        url: `${API_URL}/movies/${payload.movie_id}/comments/${payload.comment_id}/like/`,
+        headers: {
+          Authorization: `Token ${context.state.token}`
+        },
+      })
+        .then((res)=> {
+          context.dispatch('getCommentList', payload.movie_id)
+          res
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
     
   },

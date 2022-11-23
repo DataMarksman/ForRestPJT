@@ -37,6 +37,17 @@
                   :key="index"> {{genre, }} </b>
                 </div>
               </div>
+              <div class="col-4">
+                <div>
+                  <p>사용자 추천수</p>
+                </div>
+                <div class="star-container">
+                  <img class="img-star" src="@/assets/color_like.png" alt="">
+                </div>
+                <div>
+                  <p><b>{{movie?.movie_like_users.length}}</b></p>
+                </div>
+              </div>
             </div>
             <div class="">
 
