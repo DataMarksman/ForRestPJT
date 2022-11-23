@@ -118,10 +118,10 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
-    getMovieList(context) {
+    getCurrentMovieList(context) {
       axios({
         method: 'get',
-        url: `${API_URL}/movies/`,
+        url: `${API_URL}/movies/newmovie/`,
         // headers: {
         //   Authorization: `Token ${context.state.token}`
         // }

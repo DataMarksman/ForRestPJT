@@ -258,6 +258,7 @@ def get_new_movie(request):
 
                 total_data.append(data)
                 serializer = MovieSerializer(data=data)
-                serializer.save()
+                if serializer.is_valid():
+                    serializer.save()
     
     return Response(total_data)
