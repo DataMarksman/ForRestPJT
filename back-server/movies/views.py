@@ -267,23 +267,46 @@ def get_new_movie(request):
                     'title': movie['title'],
                     'original_title': movie['original_title'],
                     'release_date': movie['release_date'],
-                    'vote_average': movie['vote_average'],
-                    'vote_count': movie['vote_count'],
+                    'runtime': detail['runtime'],
                     'overview': detail['overview'],
                     'popularity': movie['popularity'],
+                    'vote_average': movie['vote_average'],
+                    'vote_count': movie['vote_count'],
                     'poster_path': BASIC_URL+movie['poster_path'],
                     'adult': movie['adult'],
                     'genre': genre,
-                    'runtime': detail['runtime'],
                 }
 
+                DBdata = {
+                    "pk": movie['id'],\
+                    "model": "Movie",
+                    "fields": {
+                        'tmdb_id': movie['id'],
+                        'title': movie['title'],
+                        'original_title': movie['original_title'],
+                        'release_date': movie['release_date'],
+                        'runtime': detail['runtime'],
+                        'overview': detail['overview'],
+                        'popularity': movie['popularity'],
+                        'vote_average': movie['vote_average'],
+                        'vote_count': movie['vote_count'],
+                        'poster_path': BASIC_URL+movie['poster_path'],
+                        'adult': movie['adult'],
+                        'genre': genre,
+                        }
+                }
+                
+
                 total_data.append(data)
-                # if Movie.objects.get(pk=movie['id']).exists():
-                #     pass
-                # else:
-                serializer = MovieSerializer(data=data)
-                if serializer.is_valid():
-                    serializer.save()
+                if Movie.objects.filter(pk=movie['id']):
+                    pass
+                else:
+                    serializer = MovieSerializer(data)
+                    print('저장 한다????????!!!')
+                    print(serializer)
+                    if serializer.is_valid(raise_exception=True):
+                        print('저장 할거야!!!')
+                        serializer.save()
 
     return Response(total_data)
 

@@ -1,6 +1,10 @@
 
 from django.contrib.auth import get_user_model
 from .serializers import *
+from .models import *
+
+from movies.serializers import *
+from movies.models import *
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -35,13 +39,16 @@ class Comment(models.Model):
 @api_view(['GET', 'PUT'])
 def profile_or_edit(request, user_id):
     user = User.objects.get(pk=user_id)
-    my_movies = user.user_like_movies.all()
-    my_comments = user.user_like_comments.all()
+    
+    my_movies = Movie.movie_like_users.filter(user_id=user_id)
+    my_comments = Comment.objects.filter(user_id=user_id)
+
     if request.method == 'GET':
         serializer = ProfileSerializer(user)
         return Response(serializer.data)
     
     elif request.user.is_authenticated:
+
         serializer = ProfileSerializer(data=request.data, instance=user)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -50,7 +57,6 @@ def profile_or_edit(request, user_id):
 
 
 # 유저가 같은 테이블의 유저를 참조하여, 팔로잉 팔로우 합니다.
-# 임시 보류. 분명 같은 느낌, 같은 생각을해도 많이 다른 결과가 나오나.
 @api_view(['POST'])
 def follow(request, user_id):
     partner = User.objects.get(pk=user_id)
