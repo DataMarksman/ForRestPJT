@@ -278,13 +278,24 @@ def get_new_movie(request):
                 for genres in detail['genres']:
                     genre.append(genres["name"])
 
-                if movie['poster_path']:
-                    pass
-                else:
+                if not movie['poster_path']:
                     movie['poster_path'] = "/d9C2H1qoFt9AL4DwRlqEEZK4hVa.jpg"
 
+                if not detail['overview']:
+                    detail['overview'] = ""
+                
+                if not detail['runtime']:
+                    detail['runtime'] = 120
+                
+                if not movie['popularity']:
+                    movie['popularity'] = 100
+
+                if not movie['original_title']:
+                    movie['original_title'] = "no_title"
+
+
                 data = {
-                    "pk": movie['id'],
+                    'pk': movie['id'],
                     'tmdb_id': movie['id'],
                     'title': movie['title'],
                     'original_title': movie['original_title'],
@@ -299,37 +310,16 @@ def get_new_movie(request):
                     'genre': genre,
                 }
 
-                DBdata = {
-                    "pk": movie['id'],\
-                    "model": "Movie",
-                    "fields": {
-                        'tmdb_id': movie['id'],
-                        'title': movie['title'],
-                        'original_title': movie['original_title'],
-                        'release_date': movie['release_date'],
-                        'runtime': detail['runtime'],
-                        'overview': detail['overview'],
-                        'popularity': movie['popularity'],
-                        'vote_average': movie['vote_average'],
-                        'vote_count': movie['vote_count'],
-                        'poster_path': BASIC_URL+movie['poster_path'],
-                        'adult': movie['adult'],
-                        'genre': genre,
-                        }
-                }
             
                 total_data.append(data)
 
 
 
-                if Movie.objects.filter(pk=movie['id']):
+                if Movie.objects.filter(tmdb_id=movie['id']):
                     pass
                 else:
-                    serializer = MovieSerializer(data=data.data)
-                    print('저장 한다????????!!!')
-                    print(serializer)
-                    if serializer.is_valid(raise_exception=True):
-                        print('저장 할거야!!!')
+                    serializer = MovieInputSerializer(data=data)
+                    if serializer.is_valid():
                         serializer.save()
 
     return Response(total_data)
