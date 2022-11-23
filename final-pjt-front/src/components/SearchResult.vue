@@ -33,6 +33,9 @@ export default {
 
 <style>
 .img-box {
+  width: 90%;
+  margin-left: 50px;
+  margin-right: 50px;
   display: flex;
   flex-wrap: wrap;
 }

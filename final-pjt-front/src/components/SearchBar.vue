@@ -34,7 +34,7 @@ export default {
           },
         });
         this.keyword = ''
-        
+        this.$store.state.searchResult = null
         this.$store.dispatch('getSearchResults', keyword)
         
       } else {
