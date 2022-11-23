@@ -1,13 +1,12 @@
 <template>
   
-    <div class="col-4">
-      <div class="img-container">
-        <div class="img-content">
-          <img :src="SearchResult.poster_path" alt="">
-        </div>
+    <div @click="toDetailpage" class="col-2 img-card-box">
+      <div class="img-content">
+        <img class="img" :src="SearchResult.poster_path" alt="">
       </div>
+      
       <div>
-      {{ SearchResult.title }}
+        {{ SearchResult.title }}
       </div>
     </div>
   
@@ -18,19 +17,30 @@ export default {
   name: 'SearchResultItem',
   props: {
     SearchResult : Object
+  },
+  methods: {
+    toDetailpage() {
+      const SearchResult = this.SearchResult
+      this.$router.push({name: 'DetailView', params: { id: SearchResult.tmdb_id}})
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.img {
+  width: 80%;
+  height: auto;
+  border: 2px solid rgb(130, 127, 127);
+}
 .img-card-box{
-  width: 90%;
-  margin-left: 15px;
+  position: relative;
+  
 }
 .img-container {
-  width: 100px;
+  
 }
 .img-content {
-  width: 90%
+  cursor: pointer;
 }
 </style>
