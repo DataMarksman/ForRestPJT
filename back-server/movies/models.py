@@ -20,7 +20,7 @@ class Movie(models.Model):
     tmdb_id = models.CharField(max_length=20)
     # kmdb_id = models.CharField(max_length=20)
     title = models.CharField(max_length=50)
-    original_title = models.CharField(max_length=100, null=True)
+    original_title = models.CharField(max_length=100, blank=True)
     release_date = models.CharField(max_length=50, null=True)
     runtime = models.TextField(null=True)
     overview = models.TextField(null=True)
@@ -32,7 +32,7 @@ class Movie(models.Model):
     
     # 포스터 디폴트 값은 임시로 그 여자 작사 그 남자 작곡 
     poster_path = models.TextField(default="https://image.tmdb.org/t/p/w500/d9C2H1qoFt9AL4DwRlqEEZK4hVa.jpg", null=True)
-    movie_like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_like_movies")
+    movie_like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_like_movies", blank=True)
 
 # 이 부분 혹시 리뷰 -> 댓글 형식으로 추가하고 싶으시면 말씀 주세욥. 그 부분 소스로 따로 짜놨습니다.
 # 댓글 모델 (유저, 영화를 외래키로 쓰고 / 제목, 내용을 받아서 )
