@@ -58,6 +58,28 @@ def movie_list(request):
 #     return Response(serializer.data)
 
 
+
+# vote_average를 기준으로 상위 20개 반환
+@api_view(['GET'])
+def top_rated(request):
+    movies = Movie.objects.order_by('-vote_average')[0:20]
+    serializer = MovieListSerializer(movies, many=True)
+    return Response(serializer.data)
+
+
+# popularity를 기준으로 상위 20개 반환
+@api_view(['GET'])
+def popular(request):
+    movies = Movie.objects.order_by('-popularity')[0:20]
+    serializer = MovieListSerializer(movies, many=True)
+    return Response(serializer.data)
+
+
+
+
+
+
+
 # 영화 상세 페이지 함수. 마찬가지로 제작과정에서 쓰시라고 Delete 넣었슴다. 끝나고 기능 삭제하겠슴다.
 @api_view(['GET', 'DELETE'])
 def movie_detail(request, movie_pk):
@@ -295,13 +317,15 @@ def get_new_movie(request):
                         'genre': genre,
                         }
                 }
-                
-
+            
                 total_data.append(data)
+
+
+
                 if Movie.objects.filter(pk=movie['id']):
                     pass
                 else:
-                    serializer = MovieSerializer(data)
+                    serializer = MovieSerializer(data=data.data)
                     print('저장 한다????????!!!')
                     print(serializer)
                     if serializer.is_valid(raise_exception=True):
@@ -400,3 +424,5 @@ def movie_search(request, word):
                 serializer.save()
 
     return Response(total_data)
+
+
