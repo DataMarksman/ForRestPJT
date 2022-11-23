@@ -38,21 +38,26 @@ class Comment(models.Model):
 
 @api_view(['GET', 'PUT'])
 def profile_or_edit(request, user_id):
-    user = User.objects.get(pk=user_id)
-    
-    my_movies = Movie.movie_like_users.filter(user_id=user_id)
-    my_comments = Comment.objects.filter(user_id=user_id)
+    profile_user = User.objects.get(pk=user_id)
 
     if request.method == 'GET':
-        serializer = ProfileSerializer(user)
-        return Response(serializer.data)
+        data = {
+            'my_movies': profile_user.user_like_movies.all(),
+            'my_comments': Comment.objects.filter(user_id=user_id),
+            'followers_cnt': profile_user.followers.all().count(),
+            'followings_cnt': profile_user.followings.all().count(),
+        }
+        serializer = UserSerializer(profile_user)
+        data.update(serializer.data)
+        # serializer = ProfileSerializer(user)
+        return Response(data)
     
-    elif request.user.is_authenticated:
-
-        serializer = ProfileSerializer(data=request.data, instance=user)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data)
+    elif request.method == 'PUT':
+        if request.user.is_authenticated and user_id == request.user.pk:
+            serializer = ProfileSerializer(data=request.data, instance=profile_user)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data)
 
 
 
