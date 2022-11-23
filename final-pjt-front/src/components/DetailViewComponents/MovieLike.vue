@@ -1,8 +1,7 @@
 <template>
-  
   <div class="d-flex img-conatiner">
     <div class="col-4"></div>
-    <div @click="changeLike" class="like-container d-flex col-4">
+    <div @click="sendLikeInfo" class="like-container d-flex col-4">
       <div  class="img-div col-6 ">
         <div class="img-tag">
           <img class="img-content" v-show="isLikeShow === false" src="@/assets/like.png"  alt="">
@@ -22,37 +21,20 @@
 
 export default {
   name:'MovieLike',
-  data() {
-    return {
-      isLikeShow: false
-    }
-  },
   props: {
-    movieLikeUsers: Array,
-    movie_id: String,
+    movie : Object
   },
   methods: {
-    changeLike() {
-      if (this.isLikeShow === true) {
-        this.isLikeShow = false
-      } else {
-        this.isLikeShow = true
-      }
-      this.sendLikeInfo()
-    },
     sendLikeInfo() {
-      const isLikeShow = this.isLikeShow
-      const movie_id = this.$route.params.id
-      const payload = {
-        isLikeShow,
-        movie_id
-      }
-      this.$store.dispatch('sendLikeInfo', payload)
+      const movie_id = this.movie.id
+      this.$store.dispatch('sendLikeInfo', movie_id)
     }
   },
   computed: {
-    NumMovieLikeUsers() {
-      return this.movieLikeUsers.length
+    isLikeShow() {
+      const like_users = this.movie?.movie_like_users
+      const currentUser = this.$store.state.currentUser?.pk
+      return like_users.includes(currentUser)
     }
   }
 }
