@@ -42,6 +42,6 @@ class Comment(models.Model):
     content = models.TextField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # comment_like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_like_comment")
+    comment_like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_like_comment", blank=True)
     # def __str__(self):
     #     return self.user_id

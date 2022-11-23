@@ -142,12 +142,12 @@ def comment_list(request, movie_pk):
 @api_view(['POST'])
 def comment_like(request, movie_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
-    if comment.user_like_comment.filter(pk=comment_pk).exists():
-        comment.user_like_comment.remove(request.user)
+    if comment.comment_like_users.filter(pk=request.user.pk).exists():
+        comment.comment_like_users.remove(request.user)
         serializer = CommentSerializer(comment)
         return Response(serializer.data)
     else:
-        comment.user_like_comment.add(request.user)
+        comment.comment_like_users.add(request.user)
         serializer = CommentSerializer(comment)
         return Response(serializer.data)
     
