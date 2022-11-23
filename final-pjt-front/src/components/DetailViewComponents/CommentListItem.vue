@@ -4,7 +4,7 @@
       <div class="comment-user-id">
         <p>{{comment.user_id}}</p>
       </div>
-      <div v-if="currentUserId === comment.user" class="d-flex">
+      <div v-if="currentUser?.pk === comment.user" class="d-flex">
         <div @click="commentAdjust" class="comment-adjust">
           <p>수정</p>
         </div>
@@ -35,9 +35,9 @@ export default {
   },
   data() {
     return {
-      currentUserId: this.$store.state.currentUser.pk,
       isAdjustShow: false,
       commentContent: this.comment.content,
+      currentUser: this.$store.state.currentUser
     }
   },
   methods: {

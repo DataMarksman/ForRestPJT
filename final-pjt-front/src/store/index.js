@@ -17,6 +17,7 @@ export default new Vuex.Store({
     token: null,
     currentBroadMovies: [],
     searchResult: [],
+    movieDetail: null,
     movieCommentList: null,
     movieComment: null,
   },
@@ -52,6 +53,9 @@ export default new Vuex.Store({
     },
     GET_COMMENT_DETAIL(state, comment) {
       state.movieComment = comment
+    },
+    GET_MOVIE_DETAIL(state, movie) {
+      state.movieDetail = movie
     }
    
   },
@@ -198,23 +202,36 @@ export default new Vuex.Store({
         url: `${API_URL}/movies/${movie_id}/comments/`,
       })
         .then((res) => {
-          
           context.commit('GET_COMMENT_LIST', res.data)
         })
     },
-    sendLikeInfo(context, payload) {
+    sendLikeInfo(context, movie_id) {
       axios({
         method: 'post',
-        url: `${API_URL}/movies/${payload.movie_id}/like/`,
+        url: `${API_URL}/movies/${movie_id}/like/`,
         headers: {
           Authorization: `Token ${context.state.token}`
         },
       })
         .then((res) => {
-          console.log(res)
+          context.dispatch('getMovieDetail', movie_id)
+          res
         })
         .then((err) => {
           console.log(err)
+        })
+    },
+    getMovieDetail(context, movie_id) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/${movie_id}`
+      })
+        .then((res) => {
+          context.commit('GET_MOVIE_DETAIL', res.data)
+          console.log(res.data)
+        })
+        .catch((err) => {
+        console.log(err)
         })
     },
     // getCommentDetail(context, payload) {
