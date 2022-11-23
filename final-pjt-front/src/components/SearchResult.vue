@@ -23,9 +23,9 @@ export default {
       return this.$store.state.searchResult
     }
   },
-  created() {
-    this.$store.dispatch('getSearchResults', this.keyword)
-  }
+  // created() {
+  //   this.$store.dispatch('getSearchResults', this.keyword)
+  // }
 }
 </script>
 

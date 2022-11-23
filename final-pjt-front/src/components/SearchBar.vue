@@ -34,7 +34,9 @@ export default {
           },
         });
         this.keyword = ''
-        console.log('"', keyword, '"'+ '검색')
+        
+        this.$store.dispatch('getSearchResults', keyword)
+        
       } else {
         alert('검색어를 입력해주세요.')
       }
