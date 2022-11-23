@@ -15,9 +15,9 @@
       </div>
     </div>
     
-    <div v-show="isAdjustShow === false" class="comment-content d-flex justify-content-between">
-      <div class="">
-        <p>{{comment.content}}</p>
+    <div  class="comment-content d-flex">
+      <div v-show="isAdjustShow === false" class="">
+        <p >{{comment.content}}</p>
         <hr class="border-line">
         <div @click="commentLike" class="d-flex like-box">
           <div class="img-container ">
@@ -32,12 +32,10 @@
           </div>
         </div>
       </div>
-      <div>
-        
-      </div>
+    
       <div class="d-flex">
         <form v-show="isAdjustShow === true" @submit.prevent="sendCommentAdjust">
-          <label for="comment-content">댓글</label>
+          <label for="comment-content">댓글 수정</label>
           <input class="text-area simple-margin" type="textarea" v-model="commentContent">
           <input class="simple-margin" type="submit" value='작성'>
           <button @click="turnoffAdjust" @submit.prevent v-show="isAdjustShow === true" class="simple-margin">취소</button>
