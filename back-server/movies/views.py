@@ -295,7 +295,7 @@ def get_new_movie(request):
 
 
                 data = {
-                    'pk': movie['id'],
+                    'id': movie['id'],
                     'tmdb_id': movie['id'],
                     'title': movie['title'],
                     'original_title': movie['original_title'],
@@ -315,7 +315,7 @@ def get_new_movie(request):
 
 
 
-                if Movie.objects.filter(tmdb_id=movie['id']):
+                if Movie.objects.filter(id=movie['id']):
                     pass
                 else:
                     serializer = MovieInputSerializer(data=data)
@@ -389,7 +389,7 @@ def movie_search(request, word):
                 movie['poster_path'] = "/eblIShqBgVPmRt86f4e02ouDNhE.jpg"
 
             data = {
-                "pk": movie['id'],
+                "id": movie['id'],
                 'tmdb_id': movie['id'],
                 'title': movie['title'],
                 'original_title': movie['original_title'],
