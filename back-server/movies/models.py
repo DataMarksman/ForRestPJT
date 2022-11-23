@@ -28,7 +28,7 @@ class Movie(models.Model):
     vote_average = models.FloatField(null=True)
     vote_count = models.FloatField(null=True)
     adult = models.BooleanField(default=False)
-    genre = models.JSONField(default=dict, null=True)
+    genre = models.JSONField(null=True)
     
     # 포스터 디폴트 값은 임시로 그 여자 작사 그 남자 작곡 
     poster_path = models.TextField(default="https://image.tmdb.org/t/p/w500/d9C2H1qoFt9AL4DwRlqEEZK4hVa.jpg", null=True)
