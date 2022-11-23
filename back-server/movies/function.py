@@ -46,7 +46,7 @@ BASIC_URL = "https://image.tmdb.org/t/p/w500/"
 def get_movie_datas():
     total_data = []
 
-    for i in range(1, 6):
+    for i in range(1, 51):
         request_url = f"https://api.themoviedb.org/3/movie/popular?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
         movies = requests.get(request_url).json()
 
@@ -59,6 +59,11 @@ def get_movie_datas():
                 genre = []
                 for genres in detail['genres']:
                     genre.append(genres["name"])
+
+                if movie['poster_path']:
+                    pass
+                else:
+                    movie['poster_path'] = "/d9C2H1qoFt9AL4DwRlqEEZK4hVa.jpg"
 
                 fields = {
                     'tmdb_id': movie['id'],

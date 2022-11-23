@@ -14,8 +14,13 @@ class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = '__all__'
-        
 
+class MovieInputSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Movie
+        # fields = ('id', 'tmdb_id', 'title', 'poster_path', 'runtime', 'overview', 'popularity', 'vote_average', 'genre') 
+        fields = '__all__'
 
 # 영화 리스트를 가져오는 Movie SR
 class MovieListSerializer(serializers.ModelSerializer):
