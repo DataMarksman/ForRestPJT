@@ -3,19 +3,22 @@
     <img class="background-img" src="@/assets/backgroundimage.png" alt="">
     <CurrentBroad/>
     <br>
-    <RecommendMovie/>
+    <TopRatedMovie/>
+    <br>
+    <PopularMovies/>
   </div>
 </template>
 
 <script>
-import RecommendMovie from '@/components/HomeViewComponents/RecommendMovie'
+import PopularMovies from '@/components/HomeViewComponents/PopularMovies'
 import CurrentBroad from '@/components/HomeViewComponents/CurrentBroad'
-
+import TopRatedMovie from '@/components/HomeViewComponents/TopRatedMovie'
 export default {
   name: 'HomeView',
   components: {
     CurrentBroad,
-    RecommendMovie,
+    PopularMovies,
+    TopRatedMovie,
   },
 
 }

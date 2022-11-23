@@ -16,9 +16,12 @@ export default new Vuex.Store({
     currentUser: null,
     token: null,
     currentBroadMovies: [],
+    popularMovies: null,
     searchResult: [],
+    movieDetail: null,
     movieCommentList: null,
     movieComment: null,
+    topRatedMovies: null,
   },
   getters: {
     isLogin(state) {
@@ -52,6 +55,15 @@ export default new Vuex.Store({
     },
     GET_COMMENT_DETAIL(state, comment) {
       state.movieComment = comment
+    },
+    GET_MOVIE_DETAIL(state, movie) {
+      state.movieDetail = movie
+    },
+    GET_POPULAR_MOVIES(state, movies) {
+      state.popularMovies = movies
+    },
+    GET_TOP_RATED_MOVIES(state, movies) {
+      state.topRatedMovies = movies
     }
    
   },
@@ -114,10 +126,10 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
-    getMovieList(context) {
+    getCurrentMovieList(context) {
       axios({
         method: 'get',
-        url: `${API_URL}/movies/`,
+        url: `${API_URL}/movies/newmovie/`,
         // headers: {
         //   Authorization: `Token ${context.state.token}`
         // }
@@ -134,13 +146,11 @@ export default new Vuex.Store({
     getSearchResults(context, keyword) {
       axios({
         method: 'get',
-        url: `${API_URL}/movies/`,
-        params: {
-          keyword: keyword
-        }
+        url: `${API_URL}/movies/search/${keyword}`,
       })
         .then((res) => {
           context.commit('GET_SEARCH_RESULT', res.data)
+          
         })
         .catch((err) => {
           console.log(err)
@@ -198,23 +208,36 @@ export default new Vuex.Store({
         url: `${API_URL}/movies/${movie_id}/comments/`,
       })
         .then((res) => {
-          
           context.commit('GET_COMMENT_LIST', res.data)
         })
     },
-    sendLikeInfo(context, payload) {
+    sendLikeInfo(context, movie_id) {
       axios({
         method: 'post',
-        url: `${API_URL}/movies/${payload.movie_id}/like/`,
+        url: `${API_URL}/movies/${movie_id}/like/`,
         headers: {
           Authorization: `Token ${context.state.token}`
         },
       })
         .then((res) => {
-          console.log(res)
+          context.dispatch('getMovieDetail', movie_id)
+          res
         })
         .then((err) => {
           console.log(err)
+        })
+    },
+    getMovieDetail(context, movie_id) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/${movie_id}`
+      })
+        .then((res) => {
+          context.commit('GET_MOVIE_DETAIL', res.data)
+          console.log(res.data)
+        })
+        .catch((err) => {
+        console.log(err)
         })
     },
     // getCommentDetail(context, payload) {
@@ -268,7 +291,48 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err)
         })
+    },
+    commentLike(context, payload) {
+      axios({
+        method: 'post',
+        url: `${API_URL}/movies/${payload.movie_id}/comments/${payload.comment_id}/like/`,
+        headers: {
+          Authorization: `Token ${context.state.token}`
+        },
+      })
+        .then((res)=> {
+          context.dispatch('getCommentList', payload.movie_id)
+          res
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getPopularMovies(context) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/popular`
+      })
+        .then((res) => {
+          context.commit('GET_POPULAR_MOVIES',res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getTopRatedMovies(context) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/toprated/`
+      })
+        .then((res) => {
+          context.commit('GET_TOP_RATED_MOVIES',res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
+
     
   },
   modules: {

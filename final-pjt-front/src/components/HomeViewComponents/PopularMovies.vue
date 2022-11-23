@@ -2,21 +2,16 @@
   <div class="board-line">
     <section>
       <div class="content-list">
-        <h1>현재 상영중인 영화</h1>
+        <h1>현재 인기 있는 영화</h1>
         <br>
         <swiper
         class="swiper"
         :options="swiperOption">
           <swiper-slide 
-            v-for="currentBroadMovie in currentBroadMovies"
-            :key="currentBroadMovie.id">
-            <CurrentBroadItem :currentBroadMovie="currentBroadMovie"/>
+            v-for="popularMovie in popularMovies"
+            :key="popularMovie.id">
+            <PopularMoviesItem :popularMovie="popularMovie"/>
           </swiper-slide>
-          <!-- <div
-          class="swiper-pagination"
-          slot="pagination"
-          >
-          </div> -->
           <div class="swiper-button-prev" slot="button-prev"></div>
           <div class="swiper-button-next" slot="button-next"></div>
         </swiper>
@@ -27,14 +22,14 @@
 </template>
 
 <script>
-import CurrentBroadItem from '@/components/HomeViewComponents/CurrentBroadItem.vue'
+import PopularMoviesItem from '@/components/HomeViewComponents/PopularMoviesItem'
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
 
 export default {
-  name: 'CurrentBroad',
+  name: 'PopularMovies',
   components: {
-    CurrentBroadItem,
+    PopularMoviesItem,
     Swiper,
     SwiperSlide,
   },
@@ -52,11 +47,11 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('getCurrentMovieList')
+    this.$store.dispatch('getPopularMovies')
   },
   computed: {
-    currentBroadMovies() {
-    return this.$store.state.currentBroadMovies
+    popularMovies() {
+    return this.$store.state.popularMovies
     }
   },
   methods: {
@@ -73,11 +68,9 @@ export default {
   }
   
 }
+
 </script>
 
 <style>
-/* .content-list {
-  display: flex;
-} */
 
 </style>

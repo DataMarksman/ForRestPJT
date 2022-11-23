@@ -6,7 +6,7 @@
       
       <div class="d-flex">
         <div class="img-container col-4">
-          <img class="detail-img" :src="movie.poster_path" alt="">
+          <img class="detail-img" :src="movie?.poster_path" alt="">
         </div>
         <div class="movie-detail-content col-8">
           <p class="detail-title"><b>{{ movie?.title }}</b></p>
@@ -20,7 +20,7 @@
                   <img class="img-star" src="@/assets/star.png" alt="">
                 </div>
                 <div>
-                  <p><b>{{movie.vote_average}}</b></p>
+                  <p><b>{{movie?.vote_average}}</b></p>
                 </div>
               </div>
               <div class="col-4">
@@ -31,7 +31,21 @@
                   <img class="img-star" src="@/assets/genres.png" alt="">
                 </div>
                 <div>
-                  <b>{{movie?.genre}}</b>
+                  <b
+                  class="genre-font"
+                  v-for="(genre, index) in movie.genre"
+                  :key="index"> {{genre, }} </b>
+                </div>
+              </div>
+              <div class="col-4">
+                <div>
+                  <p>사용자 추천수</p>
+                </div>
+                <div class="star-container">
+                  <img class="img-star" src="@/assets/color_like.png" alt="">
+                </div>
+                <div>
+                  <p><b>{{movie?.movie_like_users.length}}</b></p>
                 </div>
               </div>
             </div>
@@ -43,8 +57,7 @@
             {{movie?.overview}}
           </div>
           <MovieLike
-          :movieLikeUsers ="movie.movie_like_users"
-          :movie_id ="this.$route.params.id"
+          :movie ="movie"
           />
         </div>
         
@@ -63,12 +76,10 @@
 </template>
 
 <script>
-import axios from 'axios'
 import MovieLike from '@/components/DetailViewComponents/MovieLike'
 import AddComment from '@/components/DetailViewComponents/AddComment'
 import CommentList from '@/components/DetailViewComponents/CommentList'
 
-const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: 'DetailView',
@@ -79,42 +90,31 @@ export default {
   },
   data() {
     return {
-      movie: {},
-      movie_comment: null,
-    }
-  },
-  created() {
-    this.getMovieDetail()
-  },
-  methods: {
-    getMovieDetail() {
-      axios({
-        method: 'get',
-        url: `${API_URL}/movies/${this.$route.params.id}`
-      })
-        .then((res) => {
-          this.movie = res.data
-          
-        })
-        .catch((err) => {
-        console.log(err)
-        })
-    },
-    clickLike() {
+      movie_id: this.$route.params.id,
       
     }
   },
+  methods: {
+  },
+  created() {
+    this.$store.dispatch('getMovieDetail', this.movie_id)
+  },
   computed: {
+    movie() {
+      return this.$store.state.movieDetail
+    },
     release_date() {
-      const release_date = this.movie.release_date.substr(0, 4)
-      return release_date
-    }
+      return this.movie.release_date.substr(0, 4)
+    },
   }
   
 }
 </script>
 
 <style scoped>
+.genre-font{
+  font-size: 25px;
+}
 .detail-title{
   font-size: 30px;
 }

@@ -1,6 +1,10 @@
-from django.shortcuts import render, get_object_or_404, get_list_or_404
+
 from django.contrib.auth import get_user_model
 from .serializers import *
+from .models import *
+
+from movies.serializers import *
+from movies.models import *
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -19,22 +23,45 @@ class Comment(models.Model):
 
 # 프로필 조회하면 한방에 관련 정보 다 주기 위함임.
 # 만약 수정을 원하면 PUT으로 수정하도록 함
+# @api_view(['GET', 'PUT'])
+# def profile_or_edit(request, user_id):
+#     user = User.objects.get(pk=user_id)
+#     if request.method == 'GET':
+#         serializer = ProfileSerializer(user)
+#         return Response(serializer.data)
+    
+#     elif request.user.is_authenticated:
+#         serializer = ProfileSerializer(data=request.data, instance=user)
+#         if serializer.is_valid(raise_exception=True):
+#             serializer.save()
+#             return Response(serializer.data)
+
 @api_view(['GET', 'PUT'])
 def profile_or_edit(request, user_id):
-    user = User.objects.get(pk=user_id)
+    profile_user = User.objects.get(pk=user_id)
+
     if request.method == 'GET':
-        serializer = ProfileSerializer(user)
-        return Response(serializer.data)
+        data = {
+            'my_movies': profile_user.user_like_movies.all(),
+            'my_comments': Comment.objects.filter(user_id=user_id),
+            'followers_cnt': profile_user.followers.all().count(),
+            'followings_cnt': profile_user.followings.all().count(),
+        }
+        serializer = UserSerializer(profile_user)
+        data.update(serializer.data)
+        # serializer = ProfileSerializer(user)
+        return Response(data)
     
-    elif request.user.is_authenticated:
-        serializer = ProfileSerializer(data=request.data, instance=user)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data)
+    elif request.method == 'PUT':
+        if request.user.is_authenticated and user_id == request.user.pk:
+            serializer = ProfileSerializer(data=request.data, instance=profile_user)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data)
+
 
 
 # 유저가 같은 테이블의 유저를 참조하여, 팔로잉 팔로우 합니다.
-# 임시 보류. 분명 같은 느낌, 같은 생각을해도 많이 다른 결과가 나오나.
 @api_view(['POST'])
 def follow(request, user_id):
     partner = User.objects.get(pk=user_id)
