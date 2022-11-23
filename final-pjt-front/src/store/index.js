@@ -16,10 +16,12 @@ export default new Vuex.Store({
     currentUser: null,
     token: null,
     currentBroadMovies: [],
+    popularMovies: null,
     searchResult: [],
     movieDetail: null,
     movieCommentList: null,
     movieComment: null,
+    topRatedMovies: null,
   },
   getters: {
     isLogin(state) {
@@ -56,6 +58,12 @@ export default new Vuex.Store({
     },
     GET_MOVIE_DETAIL(state, movie) {
       state.movieDetail = movie
+    },
+    GET_POPULAR_MOVIES(state, movies) {
+      state.popularMovies = movies
+    },
+    GET_TOP_RATED_MOVIES(state, movies) {
+      state.topRatedMovies = movies
     }
    
   },
@@ -299,7 +307,32 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err)
         })
+    },
+    getPopularMovies(context) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/popular`
+      })
+        .then((res) => {
+          context.commit('GET_POPULAR_MOVIES',res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getTopRatedMovies(context) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/toprated/`
+      })
+        .then((res) => {
+          context.commit('GET_TOP_RATED_MOVIES',res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
+
     
   },
   modules: {
