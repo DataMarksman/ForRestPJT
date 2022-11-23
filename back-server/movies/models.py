@@ -10,7 +10,7 @@ POSTER_BASIC_URL = "https://image.tmdb.org/t/p/w500/"
 
 # 장르 속성 먼저 던져놓기 (무비의 다대다 필드로 쓸 예정)
 class Genre(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, null=True)
     def __str__(self):
         return self.name
 
@@ -20,7 +20,7 @@ class Movie(models.Model):
     tmdb_id = models.CharField(max_length=20)
     # kmdb_id = models.CharField(max_length=20)
     title = models.CharField(max_length=50)
-    original_title = models.CharField(max_length=100)
+    original_title = models.CharField(max_length=100, null=True)
     release_date = models.CharField(max_length=50, null=True)
     runtime = models.TextField(null=True)
     overview = models.TextField(null=True)
