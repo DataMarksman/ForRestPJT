@@ -90,37 +90,7 @@ def movie_like(request, movie_pk):
 #     serializer = MovieSearchSerializer(movies, many=True)
 #     return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view(['GET'])
-def movie_search(request, word):
-    try:
-        word = request.GET.get('word', '')
-        results=[]
 
-        ko_name = Movie.objects.filter(title = word).exists()
-        en_name = Movie.objects.filter(original_title = word).exists()
-        
-        if ko_name:
-            movies = Movie.objects.filter(title = word)
-            for movie in movies:
-                results.append({
-                    'title' : movie.title,
-                    'tmdb_id' : movie.tmdb_id,
-                    'poster_path': movie.poster_path,
-                })
-
-        if en_name:
-            movies = Movie.objects.filter(original_title = word)
-            for movie in movies:
-                results.append({
-                    'title' : movie.title,
-                    'tmdb_id' : movie.tmdb_id,
-                    'poster_path': movie.poster_path,
-                })
-
-        return Response({'results': results}, status=201)
-    
-    except Exception as error:
-        return Response({'message': error}, status=400)
 
 
 ## 댓글 관련 Views ##
@@ -217,6 +187,50 @@ def boxoffice(request):
 
 """
 
+### 이 아래는 API 기반 조회 및 검색 + 자동 DB화 로직입니당~
+
+
+str_to_int = {
+    '액션' : 28,
+    '애니메이션' : 16,
+    '드라마' : 18,
+    '범죄' : 80,
+    '멜로/로맨스' : 10749,
+    '코미디' : 35,
+    '스릴러' : 53,
+    '공포(호러)' : 27,
+    '미스터리' : 9648,
+    'SF' : 878,
+    '어드벤처' : 12,
+    '판타지' : 14,
+    '사극' : 36,
+    '전쟁' : 10752,
+    '가족' : 10751,
+    '다큐멘터리' : 99,
+    '뮤지컬' : 10402,
+    '서부극(웨스턴)' : 37,
+}
+
+int_to_str = {
+    28 : '액션',
+    16 :'애니메이션',
+    18 : '드라마',
+    80 : '범죄',
+    10749 : '멜로/로맨스',
+    35 : '코미디',
+    53 : '스릴러',
+    27 : '공포(호러)',
+    9648 : '미스터리',
+    878 : 'SF',
+    12 : '어드벤처',
+    14 : '판타지',
+    36 : '사극',
+    10752 : '전쟁',
+    10751 : '가족',
+    99 : '다큐멘터리',
+    10402 : '뮤지컬',
+    37 : '서부극(웨스턴)',
+}
 
 
 TMDB_API_KEY = "f555794485796214438961ced766522e"
@@ -224,6 +238,8 @@ TMDB_API_KEY = "f555794485796214438961ced766522e"
 BASIC_URL = "https://image.tmdb.org/t/p/w500/"
 
 
+
+@api_view(['GET'])
 def get_new_movie(request):
     total_data = []
 
@@ -235,7 +251,13 @@ def get_new_movie(request):
             if movie.get('release_date', ''):
                 detail_url = f"https://api.themoviedb.org/3/movie/{movie['id']}?api_key=f555794485796214438961ced766522e&language=ko-KR"
                 detail = requests.get(detail_url).json()
-                fields = {
+                
+                genre = []
+                for genres in detail['genres']:
+                    genre.append(genres["name"])
+
+                data = {
+                    "pk": movie['id'],
                     'tmdb_id': movie['id'],
                     'title': movie['title'],
                     'original_title': movie['original_title'],
@@ -246,18 +268,104 @@ def get_new_movie(request):
                     'popularity': movie['popularity'],
                     'poster_path': BASIC_URL+movie['poster_path'],
                     'adult': movie['adult'],
-                    'genre': movie['genre_ids'],
+                    'genre': genre,
                     'runtime': detail['runtime'],
-                    "homepage": detail["homepage"],
-                }
-                data = {
-                    "pk": movie['id'],
-                    "model": "movies.movie",
-                    "fields": fields
                 }
 
                 total_data.append(data)
-                serializer = MovieSerializer(data=data)
-                serializer.save()
+                if Movie.object.filter(pk=movie['id']).exists():
+                    pass
+                else:
+                    serializer = MovieSerializer(data=data)
+                    if serializer.is_valid():
+                        serializer.save()
     
+    return Response(total_data)
+
+
+@api_view(['GET'])
+def get_genre_movie(request, genre_name):
+    genre_code = str_to_int[genre_name]
+    total_data = []
+    
+
+    for i in range(1, 2):
+        request_url = f"https://api.themoviedb.org/3/movie/now_playing?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
+        movies = requests.get(request_url).json()
+
+        for movie in movies['results']:
+            if movie.get('release_date', ''):
+                detail_url = f"https://api.themoviedb.org/3/movie/{movie['id']}?api_key=f555794485796214438961ced766522e&language=ko-KR"
+                detail = requests.get(detail_url).json()
+                
+                genre = []
+                for genres in detail['genres']:
+                    genre.append(genres["name"])
+
+                data = {
+                    "pk": movie['id'],
+                    'tmdb_id': movie['id'],
+                    'title': movie['title'],
+                    'original_title': movie['original_title'],
+                    'release_date': movie['release_date'],
+                    'vote_average': movie['vote_average'],
+                    'vote_count': movie['vote_count'],
+                    'overview': detail['overview'],
+                    'popularity': movie['popularity'],
+                    'poster_path': BASIC_URL+movie['poster_path'],
+                    'adult': movie['adult'],
+                    'genre': genre,
+                    'runtime': detail['runtime'],
+                }
+
+                total_data.append(data)
+                if Movie.object.filter(pk=movie['id']).exists():
+                    pass
+                else:
+                    serializer = MovieSerializer(data=data)
+                    if serializer.is_valid():
+                        serializer.save()
+
+    return Response(total_data)
+
+
+
+@api_view(['GET'])
+def movie_search(request, word):
+    total_data = []
+    request_url = f"https://api.themoviedb.org/3/search/movie?api_key=f555794485796214438961ced766522e&language=ko-KR&query={word}&page=1&include_adult=true"
+    print(request_url)
+    movies = requests.get(request_url).json()
+
+    for movie in movies['results']:
+        if movie.get('release_date', ''):
+            detail_url = f"https://api.themoviedb.org/3/movie/{movie['id']}?api_key=f555794485796214438961ced766522e&language=ko-KR"
+            detail = requests.get(detail_url).json()
+            
+            genre = []
+            for genres in detail['genres']:
+                genre.append(genres["name"])
+
+            data = {
+                "pk": movie['id'],
+                'tmdb_id': movie['id'],
+                'title': movie['title'],
+                'original_title': movie['original_title'],
+                'release_date': movie['release_date'],
+                'vote_average': movie['vote_average'],
+                'vote_count': movie['vote_count'],
+                'overview': movie['overview'],
+                'popularity': movie['popularity'],
+                'poster_path': BASIC_URL+movie['poster_path'],
+                'adult': movie['adult'],
+                'genre': genre,
+                'runtime': detail['runtime'],
+            }
+
+            total_data.append(data)
+
+            serializer = MovieSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+
     return Response(total_data)
