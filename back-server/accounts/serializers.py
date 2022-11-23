@@ -18,25 +18,26 @@ class UserSerializer(serializers.ModelSerializer):
 # 프로필 시리얼라이저
 class ProfileSerializer(serializers.ModelSerializer):
     
-    class CommentSerializer(serializers.ModelSerializer):
+    class CommentWriteSerializer(serializers.ModelSerializer):
         
         class Meta:
             model = Comment
-            fields = '__all__'
+            fields = ('id', 'movie', 'content',)
 
 
-    class MovieLikeSerializer(serializers.ModelSerializer):
+    class MovieLikesSerializer(serializers.ModelSerializer):
         
         class Meta:
             model = Movie
-            fields = '__all__'
-        
-    like_comments = CommentSerializer(many=True, read_only=True)
-    like_movies = MovieLikeSerializer(many=True, read_only=True)
+            fields = ('id', 'tmdb_id', 'title', 'poster_path',)
+
+    my_movies = MovieLikesSerializer(many=True)
+    my_comments = CommentWriteSerializer(many=True)
+
     class Meta:
-        model = get_user_model()
-        fields = ('pk', 'user', 'like_articles', 'comment', 'keep_movies', 'genre_likes', 'followings', 'followers', 'profile_img')
-        read_only_fields = ('followings', 'followers')
+        model = Profile
+        fields = ('username', 'pk', 'my_movies', 'my_comments', 'followers_cnt', 'followings_cnt', 'nick_name', 'followers', 'followings')
+        read_only_fields = ('followings', 'followers', 'my_movies', 'my_comments')
 
 
 # 기존에 있는 유저 필드에 더해서, 프로필 사진과 선호 장르 추가하여 진행하기 위한 시리얼라이저

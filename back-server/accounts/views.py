@@ -42,15 +42,21 @@ def profile_or_edit(request, user_id):
 
     if request.method == 'GET':
         data = {
+            'user_id': profile_user.pk,
+            'username': profile_user.username,
+            'nick_name': profile_user.nick_name,
             'my_movies': profile_user.user_like_movies.all(),
             'my_comments': Comment.objects.filter(user_id=user_id),
             'followers_cnt': profile_user.followers.all().count(),
             'followings_cnt': profile_user.followings.all().count(),
-        }
-        serializer = UserSerializer(profile_user)
-        data.update(serializer.data)
-        # serializer = ProfileSerializer(user)
-        return Response(data)
+            'followers': profile_user.followers.all(),
+            'followings': profile_user.followings.all(),
+            }
+        print(data)
+        serializer = ProfileSerializer(data=data)
+        print(serializer)
+        if serializer.is_valid():
+            return Response(serializer)
     
     elif request.method == 'PUT':
         if request.user.is_authenticated and user_id == request.user.pk:
@@ -58,6 +64,24 @@ def profile_or_edit(request, user_id):
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(serializer.data)
+
+"""
+
+@api_view(['GET', 'PUT'])
+def profile(request, username):
+    user = get_object_or_404(User, username=username)
+    if request.method == 'GET':
+        serializer = ProfileSerializer(user)
+        return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        serializer = ProfileSerializer(user, request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        return Response(serializer.data)
+
+"""
+
 
 
 

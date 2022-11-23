@@ -17,17 +17,17 @@ class Genre(models.Model):
 
 # 영화 모델
 class Movie(models.Model):
-    tmdb_id = models.CharField(max_length=20)
+    tmdb_id = models.CharField(max_length=20, primary_key=True)
     # kmdb_id = models.CharField(max_length=20)
     title = models.CharField(max_length=50)
-    original_title = models.CharField(max_length=100, blank=True)
+    original_title = models.CharField(max_length=100, null=True)
     release_date = models.CharField(max_length=50, null=True)
     runtime = models.TextField(null=True)
     overview = models.TextField(null=True)
     popularity = models.FloatField(null=True)
     vote_average = models.FloatField(null=True)
     vote_count = models.FloatField(null=True)
-    adult = models.BooleanField(default=False)
+    adult = models.BooleanField(default=False, blank=True)
     genre = models.JSONField(null=True)
     
     # 포스터 디폴트 값은 임시로 그 여자 작사 그 남자 작곡 

@@ -14,7 +14,7 @@ urlpatterns = [
     path('popular/', views.popular, name='popular_movie'), # 인기 좋은 상위 영화 도출
     
     path('genremovie/<str:genre_name>/', views.get_genre_movie, name='genre_movie'), # 장르별 영화를 도출한당
-        
+    
     
     # 영화 객체 데이터 관련 urls
     path('<int:movie_pk>/', views.movie_detail, name='movie_detail'), # 영화 상세 페이지 pk(tmdb_id)를 기반으로 해당 영화의 디테일 페이지 도출
