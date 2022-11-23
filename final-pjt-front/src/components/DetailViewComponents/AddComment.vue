@@ -5,7 +5,7 @@
       <form @submit.prevent="addComment">
         <label for="add-comment"></label>
         <input type="textarea" id="add-comment" v-model="commentContent">
-        <input type="submit" 댓글 달기>
+        <input type="submit">
       </form>
     </div>
     <div v-if="isLogin === false" class="need-login">
