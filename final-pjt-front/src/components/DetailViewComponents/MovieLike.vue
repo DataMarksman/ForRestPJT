@@ -26,8 +26,12 @@ export default {
   },
   methods: {
     sendLikeInfo() {
-      const movie_id = this.movie.id
-      this.$store.dispatch('sendLikeInfo', movie_id)
+      if (this.$store.state.token === null){
+        alert('좋아요 평가를 하시려면 로그인이 필요합니다.')
+      } else {
+        const movie_id = this.movie.id
+        this.$store.dispatch('sendLikeInfo', movie_id)
+      }
     }
   },
   computed: {
@@ -44,6 +48,7 @@ export default {
 .like-container{
   border: 5px solid black;
   background-color: #000080;
+  cursor: pointer;
 }
 
 .img-div {

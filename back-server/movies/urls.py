@@ -13,7 +13,6 @@ urlpatterns = [
     path('newmovie/', views.get_new_movie, name='new_movie'), # 현재 상영중인 영화 목록을 반환한다.
     path('genremovie/<str:genre_name>/', views.get_genre_movie, name='genre_movie'), # 장르별 영화를 도출한당
 
-
     # 댓글 관련 urls
     path('<int:movie_pk>/comments/', views.comment_list),
     path('<int:movie_pk>/comments/create/', views.comment_create),

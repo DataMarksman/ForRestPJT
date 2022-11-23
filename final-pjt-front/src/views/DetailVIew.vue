@@ -1,7 +1,7 @@
 <template>
   <div class="detail-page">
     <img class="background-img" src="@/assets/backgroundimage.png" alt="">
-    <h1> {{movie?.title}} </h1>
+    <h1> {{movie?.title}} ({{release_date}})</h1>
     <div class="movie-container">
       
       <div class="d-flex">
@@ -31,7 +31,10 @@
                   <img class="img-star" src="@/assets/genres.png" alt="">
                 </div>
                 <div>
-                  <b>{{movie?.genre}}</b>
+                  <b
+                  class="genre-font"
+                  v-for="(genre, index) in movie.genre"
+                  :key="index"> {{genre, }} </b>
                 </div>
               </div>
             </div>
@@ -76,8 +79,11 @@ export default {
   },
   data() {
     return {
-      movie_id: this.$route.params.id
+      movie_id: this.$route.params.id,
+      
     }
+  },
+  methods: {
   },
   created() {
     this.$store.dispatch('getMovieDetail', this.movie_id)
@@ -85,14 +91,19 @@ export default {
   computed: {
     movie() {
       return this.$store.state.movieDetail
-    }
-    
+    },
+    release_date() {
+      return this.movie.release_date.substr(0, 4)
+    },
   }
   
 }
 </script>
 
 <style scoped>
+.genre-font{
+  font-size: 25px;
+}
 .detail-title{
   font-size: 30px;
 }

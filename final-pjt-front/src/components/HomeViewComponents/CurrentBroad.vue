@@ -52,7 +52,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('getMovieList')
+    this.$store.dispatch('getCurrentMovieList')
   },
   computed: {
     currentBroadMovies() {

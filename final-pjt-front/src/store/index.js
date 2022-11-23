@@ -118,10 +118,10 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
-    getMovieList(context) {
+    getCurrentMovieList(context) {
       axios({
         method: 'get',
-        url: `${API_URL}/movies/`,
+        url: `${API_URL}/movies/newmovie/`,
         // headers: {
         //   Authorization: `Token ${context.state.token}`
         // }
@@ -138,13 +138,11 @@ export default new Vuex.Store({
     getSearchResults(context, keyword) {
       axios({
         method: 'get',
-        url: `${API_URL}/movies/`,
-        params: {
-          keyword: keyword
-        }
+        url: `${API_URL}/movies/search/${keyword}`,
       })
         .then((res) => {
           context.commit('GET_SEARCH_RESULT', res.data)
+          
         })
         .catch((err) => {
           console.log(err)

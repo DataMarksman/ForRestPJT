@@ -256,6 +256,11 @@ def get_new_movie(request):
                 for genres in detail['genres']:
                     genre.append(genres["name"])
 
+                if movie['poster_path']:
+                    pass
+                else:
+                    movie['poster_path'] = "/d9C2H1qoFt9AL4DwRlqEEZK4hVa.jpg"
+
                 data = {
                     "pk": movie['id'],
                     'tmdb_id': movie['id'],
@@ -340,10 +345,12 @@ def movie_search(request, word):
             genre = []
             for genres in detail['genres']:
                 genre.append(genres["name"])
+
             if movie['poster_path']:
                 pass
             else:
                 movie['poster_path'] = "/eblIShqBgVPmRt86f4e02ouDNhE.jpg"
+
             data = {
                 "pk": movie['id'],
                 'tmdb_id': movie['id'],
