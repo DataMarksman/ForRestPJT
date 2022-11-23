@@ -1,11 +1,13 @@
 <template>
-   <div>
+  
+  <div class="img-box">
     <SearchResultItem
     v-for="SearchResult in getSearchResult"
     :key="SearchResult.id"
     :SearchResult="SearchResult"
     />
   </div>
+ 
 </template>
 
 <script>
@@ -30,5 +32,8 @@ export default {
 </script>
 
 <style>
-
+.img-box {
+  display: flex;
+  flex-wrap: wrap;
+}
 </style>
