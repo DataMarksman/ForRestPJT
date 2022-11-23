@@ -11,7 +11,7 @@ urlpatterns = [
     path('<int:movie_pk>/like/', views.movie_like, name='movie_like'), # 영화에 대한 유저의 좋아요를 반영한다.
     path('search/<str:word>/', views.movie_search, name='movie_search'), # 영화 검색하기
     path('newmovie/', views.get_new_movie, name='new_movie'), # 현재 상영중인 영화 목록을 반환한다.
-    path('genremovie/<str:genre_name>/', views.get_genre_movie, name='genre_movie'), # 현재 상영중인 영화 목록을 반환한다.
+    path('genremovie/<str:genre_name>/', views.get_genre_movie, name='genre_movie'), # 장르별 영화를 도출한당
 
 
     # 댓글 관련 urls
