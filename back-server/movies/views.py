@@ -142,7 +142,7 @@ def comment_list(request, movie_pk):
 @api_view(['POST'])
 def comment_like(request, movie_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
-    if comment.userl.filter(pk=comment_pk).exists():
+    if comment.user_like_comment.filter(pk=comment_pk).exists():
         comment.user_like_comment.remove(request.user)
         serializer = CommentSerializer(comment)
         return Response(serializer.data)
@@ -278,10 +278,13 @@ def get_new_movie(request):
                 }
 
                 total_data.append(data)
+                # if Movie.objects.get(pk=movie['id']).exists():
+                #     pass
+                # else:
                 serializer = MovieSerializer(data=data)
                 if serializer.is_valid():
                     serializer.save()
-    
+
     return Response(total_data)
 
 
@@ -321,12 +324,7 @@ def get_genre_movie(request, genre_name):
                 }
 
                 total_data.append(data)
-                if Movie.object.filter(pk=movie['id']).exists():
-                    pass
-                else:
-                    serializer = MovieSerializer(data=data)
-                    if serializer.is_valid():
-                        serializer.save()
+                
 
     return Response(total_data)
 
@@ -351,8 +349,8 @@ def movie_search(request, word):
             if movie['poster_path']:
                 pass
             else:
-                movie['poster_path'] = "/d9C2H1qoFt9AL4DwRlqEEZK4hVa.jpg"
-                
+                movie['poster_path'] = "/eblIShqBgVPmRt86f4e02ouDNhE.jpg"
+
             data = {
                 "pk": movie['id'],
                 'tmdb_id': movie['id'],
@@ -371,6 +369,9 @@ def movie_search(request, word):
 
             total_data.append(data)
 
+            # if Movie.objects.get(pk=movie['id']).exists():
+            #         pass
+            # else:
             serializer = MovieSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
