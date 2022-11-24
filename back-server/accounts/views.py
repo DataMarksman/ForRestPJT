@@ -90,7 +90,8 @@ def profile(request, username):
 @api_view(['POST'])
 def follow(request, user_id):
     partner = User.objects.get(pk=user_id)
-    if partner != request.user:           
+    if partner != request.user:
+        print(partner)           
         if partner.followers.filter(pk=request.user.pk).exists():
             partner.followers.remove(request.user)   
             
