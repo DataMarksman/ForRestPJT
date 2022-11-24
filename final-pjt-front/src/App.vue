@@ -24,8 +24,6 @@ export default {
 
 <style>
 
-<<<<<<< HEAD
-=======
 .background-img {
   z-index: -1;
   position: absolute;
@@ -44,5 +42,4 @@ export default {
   height: 100%;
   filter: blur(5px);
 }
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
 </style>

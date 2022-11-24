@@ -1,14 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div>
-    <h1></h1>
-    <div class="container">
-      
-      <div class="d-flex">
-        <img :src="movie.poster_path" alt="">
-        <div>
-          <p>제목 : {{ movie?.title }}</p>
-=======
   <div class="detail-page">
     
     
@@ -65,16 +55,12 @@
           <div>
             {{movie?.overview}}
           </div>
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
           <MovieLike
-          :movieLikeUsers ="movie.movie_like_users"
-          :movie_id ="this.$route.params.id"
+          :movie ="movie"
           />
         </div>
         
       </div>
-<<<<<<< HEAD
-=======
       <div>
         <CommentList/>
       </div>
@@ -82,61 +68,48 @@
       <div>
         <AddComment/>
       </div>
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
       
-      <div>
-      </div>
       
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
 import MovieLike from '@/components/DetailViewComponents/MovieLike'
+import AddComment from '@/components/DetailViewComponents/AddComment'
+import CommentList from '@/components/DetailViewComponents/CommentList'
 
-const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: 'DetailView',
   components: {
-    MovieLike
+    MovieLike,
+    AddComment,
+    CommentList,
   },
   data() {
     return {
-      movie: {},
+      movie_id: this.$route.params.id,
       
     }
-  },
-  created() {
-    this.getMovieDetail()
   },
   methods: {
-    getMovieDetail() {
-      axios({
-        method: 'get',
-        url: `${API_URL}/api/v1/${this.$route.params.id}`
-      })
-        .then((res) => {
-          this.movie = res.data
-        })
-        .catch((err) => {
-        console.log(err)
-        })
-    },
-    clickLike() {
-      
-    }
   },
+  created() {
+    this.$store.dispatch('getMovieDetail', this.movie_id)
+  },
+  computed: {
+    movie() {
+      return this.$store.state.movieDetail
+    },
+    release_date() {
+      return this.movie.release_date.substr(0, 4)
+    },
+  }
   
 }
 </script>
 
-<<<<<<< HEAD
-<style>
-
-</style>
-=======
 <style scoped>
 .genre-font{
   font-size: 25px;
@@ -193,4 +166,3 @@ div {
   
 }
 </style>
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b

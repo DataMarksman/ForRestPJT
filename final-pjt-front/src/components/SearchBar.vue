@@ -1,15 +1,18 @@
 <template>
-  <div>
+  <div class="d-flex nav-bar-search-bar">
     <input
-    class="inputbar"
+    class="inputbar hanna"
     placeholder="검색어를 입력해주세요."
     type="text" 
     v-model="keyword"
     @keyup.enter="searchResult(keyword)"
     >
-    <button
+    <div
+    class="search-icon-container"
     @click="searchResult(keyword)"
-    >입력</button>
+    >
+      <img class="search-icon" src="@/assets/search.png" alt="">
+    </div>
   </div>
 </template>
 
@@ -31,7 +34,9 @@ export default {
           },
         });
         this.keyword = ''
-        console.log('"', keyword, '"'+ '검색')
+        this.$store.state.searchResult = null
+        this.$store.dispatch('getSearchResults', keyword)
+        
       } else {
         alert('검색어를 입력해주세요.')
       }
@@ -41,15 +46,17 @@ export default {
 </script>
 
 <style>
+@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
 
+.hanna * {
+ font-family: 'Hanna', fantasy;
+}
 .inputbar{
   margin-top: 10px;
   width: 300px;
   height: 30px;
   font-size: 15px;
 }
-<<<<<<< HEAD
-=======
 .nav-bar-search-bar {
   margin-top: 25px;
 }
@@ -60,5 +67,4 @@ export default {
   margin-top: 11px;
   margin-left: 5px;
 }
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
 </style>

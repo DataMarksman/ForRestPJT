@@ -1,22 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div class="nav-bar">
-    <div class="container">
-      <div class="logo" @click="toHome">
-        <img class="logo-img" src="@/assets/logo.png" alt="">
-      </div>
-      <router-link v-if="!this.$store.state.token" :to="{ name: 'SignupView' }">Signup</router-link>
-      <router-link v-if="!this.$store.state.token" :to="{ name: 'LoginView' }">Login</router-link>
-      <div @click="logOut">
-        <p v-if="this.$store.state.token">Logout</p>
-      </div>
-      <div class="d-flex">
-        <SearchBar/>
-        <MiniProfile
-        class="profile-icon"
-        />
-      </div>
-=======
   <div class="nav-bar-container bg-dark p-1" style="--bs-bg-opacity: .9">
     <div class="nav-bar-left-container col-6">
       <div class="logo" @click="toHome">
@@ -37,7 +19,6 @@
       class="profile-icon"
       />
       
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
     </div>
   </div>
 </template>
@@ -64,10 +45,6 @@ export default {
 }
 </script>
 
-<<<<<<< HEAD
-<style>
-.container {
-=======
 <style scoped>
 .nav-bar-right-container{
   
@@ -80,7 +57,6 @@ div {
 }
 .nav-bar-left-container {
   margin-left: 10px;
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
   display: flex;
   justify-content: space-between;
 }
@@ -93,16 +69,9 @@ div {
 .logo-img {
   width: 90%;
 }
-.nav-bar{
+.nav-bar-container{
   padding-bottom: 10px;
   border-bottom: 1px solid black;
-<<<<<<< HEAD
-  
-}
-.profile-icon {
-  cursor: pointer;
-}
-=======
   display: flex;
   justify-content: space-between;
   box-shadow: 7px 7px black;
@@ -131,5 +100,4 @@ div {
   font-size: 20px;
   color: whitesmoke;
 }
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
 </style>

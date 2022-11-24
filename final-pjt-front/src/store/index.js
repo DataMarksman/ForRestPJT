@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import createPersistedState from 'vuex-persistedstate'
 import router from '@/router'
+
 Vue.use(Vuex)
 
 const API_URL = 'http://127.0.0.1:8000'
@@ -15,10 +16,8 @@ export default new Vuex.Store({
     currentUser: null,
     token: null,
     currentBroadMovies: [],
+    popularMovies: null,
     searchResult: [],
-<<<<<<< HEAD
-    
-=======
     movieDetail: null,
     movieCommentList: null,
     movieComment: null,
@@ -27,7 +26,6 @@ export default new Vuex.Store({
     userProfileInfo: null,
     FollowingUserData: null,
     FollowUserData: null,
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
   },
   getters: {
     isLogin(state) {
@@ -55,9 +53,6 @@ export default new Vuex.Store({
       state.token = null
       state.currentUser = null
       router.push({ name: 'HomeView'})
-<<<<<<< HEAD
-    }
-=======
     },
     GET_COMMENT_LIST(state, comments) {
       state.movieCommentList = comments
@@ -82,7 +77,6 @@ export default new Vuex.Store({
     },
     
    
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
   },
 
   
@@ -146,10 +140,10 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
-    getMovieList(context) {
+    getCurrentMovieList(context) {
       axios({
         method: 'get',
-        url: `${API_URL}/api/v1/`,
+        url: `${API_URL}/movies/newmovie/`,
         // headers: {
         //   Authorization: `Token ${context.state.token}`
         // }
@@ -166,13 +160,11 @@ export default new Vuex.Store({
     getSearchResults(context, keyword) {
       axios({
         method: 'get',
-        url: `${API_URL}/api/v1/`,
-        params: {
-          keyword: keyword
-        }
+        url: `${API_URL}/movies/search/${keyword}`,
       })
         .then((res) => {
           context.commit('GET_SEARCH_RESULT', res.data)
+          
         })
         .catch((err) => {
           console.log(err)
@@ -184,7 +176,7 @@ export default new Vuex.Store({
         url: `${API_URL}/${movie_pk}/like/`,
       })
         .then((res) => {
-          console.log(res)
+          res
           context.commit('CHANGE_LIKE', res.data)
         })
         .catch((err) => {
@@ -204,8 +196,6 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err)
         })
-<<<<<<< HEAD
-=======
     },
     addComment(context, payload) {
       axios({
@@ -383,8 +373,8 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err)
         })
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
     }
+
     
   },
   modules: {

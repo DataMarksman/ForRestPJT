@@ -1,9 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div>
-    <img src="@/assets/like.png" @click="changeLike" alt="">
-    <p>{{NumMovieLikeUsers}}</p>
-=======
   <div class="d-flex img-conatiner">
     <div class="col-4"></div>
     <div @click="sendLikeInfo" class="like-container d-flex col-4">
@@ -18,8 +13,8 @@
       </div>
     </div>
     <div class="col-4"></div>
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
   </div>
+  
 </template>
 
 <script>
@@ -27,14 +22,9 @@
 export default {
   name:'MovieLike',
   props: {
-    movieLikeUsers: Array,
-    movie_id: String,
+    movie : Object
   },
   methods: {
-<<<<<<< HEAD
-    changeLike() {
-      this.$store.dispatch('changeLike', this.movie_id)
-=======
     sendLikeInfo() {
       if (this.$store.state.token === null){
         alert('좋아요 평가를 하시려면 로그인이 필요합니다.')
@@ -42,21 +32,18 @@ export default {
         const movie_id = this.movie.tmdb_id
         this.$store.dispatch('sendLikeInfo', movie_id)
       }
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
     }
   },
   computed: {
-    NumMovieLikeUsers() {
-      return this.movieLikeUsers.length
+    isLikeShow() {
+      const like_users = this.movie?.movie_like_users
+      const currentUser = this.$store.state.currentUser?.pk
+      return like_users.includes(currentUser)
     }
   }
 }
 </script>
 
-<<<<<<< HEAD
-<style>
-
-=======
 <style scoped>
 .like-container{
   border-radius: 10px;
@@ -87,5 +74,4 @@ export default {
 .like-text {
   padding-top: 20px;
 }
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
 </style>

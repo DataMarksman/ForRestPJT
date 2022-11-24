@@ -1,20 +1,20 @@
 <template>
   <div class="image-box" @click="toDetail">
-    <img class="image-thumbnail" :src="currentBroadMovie.poster_path"  alt="">
-    <p>{{currentBroadMovie.title}}</p>
+    <img class="image-thumbnail" :src="popularMovie.poster_path"  alt="">
+    <p>{{popularMovie.title}}</p>
   </div>
 </template>
 
 <script>
 export default {
-  name:'CurrentBroadItem.vue',
+  name:'PopularMoviesItem',
   props: {
-    currentBroadMovie: Object
+    popularMovie: Object
   },
   methods: {
     toDetail() {
-      const currentBroadMovie = this.currentBroadMovie
-      this.$router.push({name: 'DetailView', params: { id: currentBroadMovie.tmdb_id}})
+      const popularMovie = this.popularMovie
+      this.$router.push({name: 'DetailView', params: { id: popularMovie.tmdb_id}})
     }
   }
 }
