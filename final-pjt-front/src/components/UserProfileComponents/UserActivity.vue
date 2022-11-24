@@ -9,7 +9,7 @@
         <div class="element"
         @click="toCommentPage">
           <p>내 댓글</p>
-          <p v-show="showProfile === 'Comment'"> ({{userInformation.user_like_comment.length}})</p>
+          <p v-show="showProfile === 'Comment'"> ({{userInformation.comment_set.length}})</p>
         </div>
         <div class="element"
         @click="toFollowPage">
@@ -36,7 +36,9 @@
       <FollowingUser
       v-show="showProfile === 'Following'"/>
       <LikeMovie
-      v-show="showProfile === 'Like'"/>
+      v-show="showProfile === 'Like'"
+      :userLikeMovies="userInformation.user_like_movies"
+      />
     </div>
   </div>
 </template>
