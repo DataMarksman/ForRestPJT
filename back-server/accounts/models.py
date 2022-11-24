@@ -25,6 +25,6 @@ class Profile(models.Model):
     my_comments = models.JSONField(default=dict, null=True)
     followers_cnt = models.IntegerField(default=0, null=True)
     followings_cnt = models.IntegerField(default=0, null=True)
-    nick_name = models.CharField(max_length=10, blank=True, default="닉네임을 입력해주세요")
+    nick_name = models.CharField(max_length=10, blank=True)
     followers = models.JSONField(null=True)
     followings = models.JSONField(null=True)

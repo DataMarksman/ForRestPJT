@@ -102,6 +102,7 @@ export default new Vuex.Store({
           username: payload.username,
           password1: payload.password1,
           password2: payload.password2,
+          nick_name: payload.nick_name
         }
       })
         .then((res) => {
@@ -355,7 +356,10 @@ export default new Vuex.Store({
     onFollow(context, profileUserId) {
       axios({
         method: 'post',
-        url: `${API_URL}/accounts/profile/${profileUserId}/follow/`
+        url: `${API_URL}/accounts/profile/${profileUserId}/follow/`,
+        headers: {
+          Authorization: `Token ${context.state.token}`
+        }
       })
         .then((res) => {
           context.dispatch('getUserProfile', profileUserId)

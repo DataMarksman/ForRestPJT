@@ -9,18 +9,22 @@
         <div class="element"
         @click="toCommentPage">
           <p>내 댓글</p>
+          <p v-show="showProfile === 'Comment'"> ({{userInformation.comment_set.length}})</p>
         </div>
         <div class="element"
         @click="toFollowPage">
           <p>팔로우</p>
+          <p v-show="showProfile === 'Follow'"> ({{userInformation.followers.length}})</p>
         </div>
         <div class="element"
         @click="toFollowingPage">
           <p>팔로잉</p>
+          <p v-show="showProfile === 'Following'"> ({{userInformation.followings.length}})</p>
         </div>
         <div class="element"
         @click="toLikePage">
           <p>좋아요</p>
+          <p v-show="showProfile === 'Like'"> ({{userInformation.user_like_movies.length}})</p>
         </div>
       </div>
     </div>
@@ -32,7 +36,9 @@
       <FollowingUser
       v-show="showProfile === 'Following'"/>
       <LikeMovie
-      v-show="showProfile === 'Like'"/>
+      v-show="showProfile === 'Like'"
+      :userLikeMovies="userInformation.user_like_movies"
+      />
     </div>
   </div>
 </template>
@@ -89,5 +95,6 @@ export default {
 .element{
   margin-right: 10px;
   cursor: pointer;
+  display: flex;
 }
 </style>
