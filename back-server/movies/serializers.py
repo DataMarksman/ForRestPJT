@@ -47,13 +47,24 @@ class MovieNameSerializer(serializers.ModelSerializer):
 ## 댓글 관련 SR ##
 # 댓글의 모든 데이터를 가져오는 Movie SR
 class CommentSerializer(serializers.ModelSerializer):
-    user_id = serializers.CharField(source='user', read_only=True)
-    movie_id = serializers.CharField(source='movie', read_only=True)
+    # user_id = serializers.CharField(source='user', read_only=True)
+    # movie_id = serializers.CharField(source='movie', read_only=True)
     
     class Meta:
         model = Comment
         fields = '__all__'
         read_only_fields = ('movie', 'user', 'username')
+
+class CommentViewerSerializer(serializers.ModelSerializer):
+    movie = MovieSerializer(read_only=True)
+    # user_id = serializers.CharField(source='user', read_only=True)
+    # movie_id = serializers.CharField(source='movie', read_only=True)
+    
+    class Meta:
+        model = Comment
+        fields = '__all__'
+        read_only_fields = ('movie', 'user', 'username')
+
 
 
 class CommentListSerializer(serializers.ModelSerializer):
