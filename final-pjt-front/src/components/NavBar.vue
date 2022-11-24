@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-bar-container bg-dark p-2" style="--bs-bg-opacity: .9">
+  <div class="nav-bar-container bg-dark p-1" style="--bs-bg-opacity: .9">
     <div class="nav-bar-left-container col-6">
       <div class="logo" @click="toHome">
         <img class="logo-img" src="@/assets/logo.png" alt="">
@@ -47,12 +47,16 @@ export default {
 </script>
 
 <style scoped>
+.nav-bar-right-container{
+  margin-right: 10px;
+}
 div {
   font-family: Arial, Helvetica, sans-serif;
   color: whitesmoke;
   text-shadow: -1px 0px black, 0px 1px black, 1px 0px black, 0px -1px black;
 }
 .nav-bar-left-container {
+  margin-left: 10px;
   display: flex;
   justify-content: space-between;
 }

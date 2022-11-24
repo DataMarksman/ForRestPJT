@@ -9,7 +9,8 @@ export default {
   name: 'MiniProfile',
   methods: {
     toProfile() {
-      this.$router.push({name: 'UserProfileView'})
+      const id = this.$store.state.currentUser.pk
+      this.$router.push({name: 'UserProfileView', params: {id:id }})
     },
   }
 }

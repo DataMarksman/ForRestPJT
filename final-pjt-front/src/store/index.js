@@ -22,6 +22,8 @@ export default new Vuex.Store({
     movieCommentList: null,
     movieComment: null,
     topRatedMovies: null,
+    showProfileInfo: 'Comment',
+    userProfileInfo: null,
   },
   getters: {
     isLogin(state) {
@@ -64,6 +66,12 @@ export default new Vuex.Store({
     },
     GET_TOP_RATED_MOVIES(state, movies) {
       state.topRatedMovies = movies
+    },
+    SHOW_PROFILE_INFO(state, info) {
+      state.showProfileInfo = info
+    },
+    GET_USER_PROFILE(state, data) {
+      state.userProfileInfo = data
     }
    
   },
@@ -327,6 +335,31 @@ export default new Vuex.Store({
       })
         .then((res) => {
           context.commit('GET_TOP_RATED_MOVIES',res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getUserProfile(context, profileUserId) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/accounts/profile/${profileUserId}`
+      })
+        .then((res) => {
+          context.commit('GET_USER_PROFILE', res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    onFollow(context, profileUserId) {
+      axios({
+        method: 'post',
+        url: `${API_URL}/accounts/profile/${profileUserId}/follow/`
+      })
+        .then((res) => {
+          context.dispatch('getUserProfile', profileUserId)
+          console.log(res)
         })
         .catch((err) => {
           console.log(err)
