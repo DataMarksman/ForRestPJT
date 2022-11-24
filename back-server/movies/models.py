@@ -29,7 +29,6 @@ class Movie(models.Model):
     vote_count = models.FloatField(null=True)
     adult = models.BooleanField(default=False, blank=True)
     genre = models.JSONField(null=True)
-    
     # 포스터 디폴트 값은 임시로 그 여자 작사 그 남자 작곡 
     poster_path = models.TextField(default="https://image.tmdb.org/t/p/w500/d9C2H1qoFt9AL4DwRlqEEZK4hVa.jpg", null=True)
     movie_like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_like_movies", blank=True)

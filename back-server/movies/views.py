@@ -123,7 +123,7 @@ def comment_detail(request, movie_pk, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
 
     if request.method == 'GET':
-        serializer = CommentSerializer(comment)
+        serializer = CommentViewerSerializer(comment)
         return Response(serializer.data)
 
     elif request.method == 'DELETE':

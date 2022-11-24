@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import *
 from movies.models import *
+from movies.serializers import *
 from django.contrib.auth import get_user_model
 from dj_rest_auth.registration.serializers import RegisterSerializer
 
@@ -18,8 +19,16 @@ class UserSerializer(serializers.ModelSerializer):
 # 프로필 시리얼라이저
 class ProfileSerializer(serializers.ModelSerializer):
     
-    class CommentWriteSerializer(serializers.ModelSerializer):
+    class UserCommentSerializer(serializers.ModelSerializer):
         
+        class UserMovieSerializer(serializers.ModelSerializer):
+            
+            class Meta:
+                model = Movie
+                fields = ('tmdb_id', 'title', 'poster_path')
+
+        movie = UserMovieSerializer(read_only=True)
+
         class Meta:
             model = Comment
             fields = ('id', 'movie', 'content',)
@@ -31,13 +40,12 @@ class ProfileSerializer(serializers.ModelSerializer):
             model = Movie
             fields = ('tmdb_id', 'title', 'poster_path',)
 
-    user_like_movies = MovieLikesSerializer(many=True)
-    user_like_comment = CommentWriteSerializer(many=True)
-    
+    user_like_movies = MovieLikesSerializer(many=True, read_only=True)
+    comment_set = UserCommentSerializer(many=True, read_only=True)
+
     class Meta:
         model = get_user_model()
-        fields = ('username', 'pk', 'user_like_movies', 'user_like_comment', 'nick_name', 'followers', 'followings')
-        read_only_fields = ('followings', 'followers', 'user_like_movies', 'user_like_comment')
+        fields = ('pk', 'username', 'nick_name', 'user_like_movies', 'comment_set', 'followers', 'followings')
 
 
 # 기존에 있는 유저 필드에 더해서, 프로필 사진과 선호 장르 추가하여 진행하기 위한 시리얼라이저

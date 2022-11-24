@@ -5,10 +5,11 @@ from movies.models import Genre, Comment
 
 # 유저 모델 제작 (기본은 깔고 들어가고, 팔로잉 기능과 프로필 이미지, 선호 장르를 넣었다.)
 class User(AbstractUser):
+    username = models.TextField(unique=True, max_length=20, null=False)
     followings = models.ManyToManyField("self", symmetrical=False, related_name='followers')
     profile_img = models.ImageField(blank=True, upload_to='images/', null=True)
     genre_like = models.ManyToManyField(Genre, related_name="user_genre")
-    nick_name = models.CharField(max_length=10, blank=True, default="나무지기")
+    nick_name = models.CharField(max_length=10, blank=True, default=username)
     # def __str__(self):
     #     return self.pk
     # 일단 comment like는 comment에 묶여있음
@@ -24,6 +25,6 @@ class Profile(models.Model):
     my_comments = models.JSONField(default=dict, null=True)
     followers_cnt = models.IntegerField(default=0, null=True)
     followings_cnt = models.IntegerField(default=0, null=True)
-    nick_name = models.CharField(max_length=10, blank=True, default="나무지기")
+    nick_name = models.CharField(max_length=10, blank=True, default=username)
     followers = models.JSONField(null=True)
     followings = models.JSONField(null=True)
