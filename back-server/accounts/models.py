@@ -9,7 +9,7 @@ class User(AbstractUser):
     followings = models.ManyToManyField("self", symmetrical=False, related_name='followers')
     profile_img = models.ImageField(blank=True, upload_to='images/', null=True)
     genre_like = models.ManyToManyField(Genre, related_name="user_genre")
-    nick_name = models.CharField(max_length=10, blank=True, default=username)
+    nick_name = models.CharField(max_length=10, blank=True)
     # def __str__(self):
     #     return self.pk
     # 일단 comment like는 comment에 묶여있음
@@ -25,6 +25,6 @@ class Profile(models.Model):
     my_comments = models.JSONField(default=dict, null=True)
     followers_cnt = models.IntegerField(default=0, null=True)
     followings_cnt = models.IntegerField(default=0, null=True)
-    nick_name = models.CharField(max_length=10, blank=True, default=username)
+    nick_name = models.CharField(max_length=10, blank=True, default="닉네임을 입력해주세요")
     followers = models.JSONField(null=True)
     followings = models.JSONField(null=True)
