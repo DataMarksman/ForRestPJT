@@ -333,7 +333,7 @@ def movie_search(request, word):
     movies = requests.get(request_url).json()
 
     for movie in movies['results']:
-        if movie.get('vote_count') >= 50:
+        if movie.get('poster_path'):
             detail_url = f"https://api.themoviedb.org/3/movie/{movie['id']}?api_key=f555794485796214438961ced766522e&language=ko-KR"
             detail = requests.get(detail_url).json()
             

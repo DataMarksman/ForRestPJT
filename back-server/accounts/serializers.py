@@ -47,7 +47,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
             class Meta:
                 model = get_user_model()
-                fields = ('id', 'username', 'followers', 'followings', 'nick_name')
+                fields = ('id', 'username',)
         
         followers = DeepUserSerializer(many=True, read_only=True)
         followings = DeepUserSerializer(many=True, read_only=True)
