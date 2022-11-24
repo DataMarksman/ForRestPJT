@@ -29,15 +29,15 @@ class ProfileSerializer(serializers.ModelSerializer):
         
         class Meta:
             model = Movie
-            fields = ('id', 'tmdb_id', 'title', 'poster_path',)
+            fields = ('tmdb_id', 'title', 'poster_path',)
 
-    my_movies = MovieLikesSerializer(many=True)
-    my_comments = CommentWriteSerializer(many=True)
+    user_like_movies = MovieLikesSerializer(many=True)
+    user_like_comment = CommentWriteSerializer(many=True)
 
     class Meta:
-        model = Profile
-        fields = ('username', 'pk', 'my_movies', 'my_comments', 'followers_cnt', 'followings_cnt', 'nick_name', 'followers', 'followings')
-        read_only_fields = ('followings', 'followers', 'my_movies', 'my_comments')
+        model = get_user_model()
+        fields = ('username', 'pk', 'user_like_movies', 'user_like_comment', 'nick_name', 'followers', 'followings')
+        read_only_fields = ('followings', 'followers', 'user_like_movies', 'user_like_comment')
 
 
 # 기존에 있는 유저 필드에 더해서, 프로필 사진과 선호 장르 추가하여 진행하기 위한 시리얼라이저
@@ -49,3 +49,4 @@ class CustomSignupSerializer(RegisterSerializer):
         data['profile_img'] = self.validated_data.get('profile_img', '')
         data['genre_likes'] = self.validated_data.get('genre_likes', '')
         return data
+
