@@ -6,6 +6,7 @@
     :key="SearchResult.id"
     :SearchResult="SearchResult"
     />
+    <p v-if="getSearchResult === null"> 검색 중 입니다.</p>
   </div>
  
 </template>
