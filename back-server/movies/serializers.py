@@ -26,7 +26,7 @@ class MovieInputSerializer(serializers.ModelSerializer):
 class MovieListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ('id', 'tmdb_id', 'title', 'poster_path')
+        fields = ('tmdb_id', 'title', 'poster_path')
 
 
 # 영화별 상세 페이지 가져오는 Movie SR
