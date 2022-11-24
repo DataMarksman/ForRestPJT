@@ -9,7 +9,6 @@
       <UserActivity
       :userInformation="userInformation"/>
     </div>
-    
   </div>
   
 </template>

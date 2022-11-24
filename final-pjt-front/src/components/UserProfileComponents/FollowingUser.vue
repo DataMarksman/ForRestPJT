@@ -1,6 +1,10 @@
 <template>
   <div>
-    <FollowingUserItem/>
+    <FollowingUserItem
+    v-for="(userFollow, index) in userFollows"
+    :key="index"
+    :userFollow="userFollow"
+    />
   </div>
 </template>
 
@@ -11,6 +15,9 @@ export default {
   components: {
     FollowingUserItem,
   },
+  props: {
+    userFollows:Array
+  }
 }
 </script>
 

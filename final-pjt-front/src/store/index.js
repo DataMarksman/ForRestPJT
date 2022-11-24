@@ -24,6 +24,8 @@ export default new Vuex.Store({
     topRatedMovies: null,
     showProfileInfo: 'Comment',
     userProfileInfo: null,
+    FollowingUserData: null,
+    FollowUserData: null,
   },
   getters: {
     isLogin(state) {
@@ -72,7 +74,8 @@ export default new Vuex.Store({
     },
     GET_USER_PROFILE(state, data) {
       state.userProfileInfo = data
-    }
+    },
+    
    
   },
 

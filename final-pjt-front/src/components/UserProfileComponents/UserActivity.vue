@@ -32,9 +32,13 @@
       <UserComment
       v-show="showProfile === 'Comment'"/>
       <FollowUser
-      v-show="showProfile === 'Follow'"/>
+      v-show="showProfile === 'Follow'"
+      
+      />
       <FollowingUser
-      v-show="showProfile === 'Following'"/>
+      v-show="showProfile === 'Following'"
+      :userFollows="userInformation.followings"
+      />
       <LikeMovie
       v-show="showProfile === 'Like'"
       :userLikeMovies="userInformation.user_like_movies"

@@ -1,6 +1,7 @@
 <template>
   <div class="home-view">
     <img class="background-img" src="@/assets/backgroundimage.png" alt="">
+    <img class="background-img2" src="@/assets/backgroundimage.png" alt="">
     <CurrentBroad/>
     <br>
     <TopRatedMovie/>

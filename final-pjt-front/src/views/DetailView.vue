@@ -1,6 +1,7 @@
 <template>
   <div class="detail-page">
-    <img class="background-img" src="@/assets/backgroundimage.png" alt="">
+    
+    
     <h1> {{movie?.title}} ({{release_date}})</h1>
     <div class="movie-container">
       
@@ -138,7 +139,7 @@ div {
 .detail-page{
   padding-left: 10%;
   padding-right: 10%;
-  
+  background-color: rgba(16 19 34) ;
 }
 .background-img {
   z-index: -1;
