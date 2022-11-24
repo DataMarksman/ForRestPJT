@@ -11,6 +11,7 @@ User = get_user_model()
 # 유저 시리얼라이저
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    
     class Meta:
         model = get_user_model()
         fields = '__all__'
@@ -28,7 +29,7 @@ class ProfileSerializer(serializers.ModelSerializer):
                 fields = ('tmdb_id', 'title', 'poster_path')
 
         movie = UserMovieSerializer(read_only=True)
-
+        
         class Meta:
             model = Comment
             fields = ('id', 'movie', 'content',)
@@ -40,12 +41,31 @@ class ProfileSerializer(serializers.ModelSerializer):
             model = Movie
             fields = ('tmdb_id', 'title', 'poster_path',)
 
+    class ProfileUserSerializer(serializers.ModelSerializer):
+        
+        class DeepUserSerializer(serializers.ModelSerializer):
+
+            class Meta:
+                model = get_user_model()
+                fields = ('id', 'username', 'followers', 'followings', 'nick_name')
+        
+        followers = DeepUserSerializer(many=True, read_only=True)
+        followings = DeepUserSerializer(many=True, read_only=True)
+        class Meta:
+            model = get_user_model()
+            fields = ('id', 'username', 'followers', 'followings', 'nick_name')
+
     user_like_movies = MovieLikesSerializer(many=True, read_only=True)
     comment_set = UserCommentSerializer(many=True, read_only=True)
+    followers = ProfileUserSerializer(many=True, read_only=True)
+    followings = ProfileUserSerializer(many=True, read_only=True)
 
     class Meta:
         model = get_user_model()
         fields = ('pk', 'username', 'nick_name', 'user_like_movies', 'comment_set', 'followers', 'followings')
+
+
+
 
 
 # 기존에 있는 유저 필드에 더해서, 프로필 사진과 선호 장르 추가하여 진행하기 위한 시리얼라이저
