@@ -74,7 +74,7 @@ python manage.py runserver
         - → 시간이 허용하면, K-means 기반 영화 추천 알고리즘 직접 작성 예정
 3. 기획 ERD
     
-<img src="README_assets/Untitled 1.png">
+<img src="./README_assets/Untitled 1.png">
     
 
 ## 3. 개발 결과
@@ -86,7 +86,7 @@ python manage.py runserver
 - 기본의 ERD를 수정하여, 쓰지 않은 파트를 날렸다.
     - 수정된 ERD
         
-<img src="README_assets/Untitled.png">
+<img src="./README_assets/Untitled.png">
         
 
 ### < 기능 부문 >
