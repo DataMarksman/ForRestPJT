@@ -41,27 +41,14 @@ def profile_or_edit(request, user_id):
     profile_user = User.objects.get(pk=user_id)
 
     if request.method == 'GET':
-        # data = {
-        #     'user_id': profile_user.pk,
-        #     'username': profile_user.username,
-        #     'nick_name': profile_user.nick_name,
-        #     'my_movies': profile_user.user_like_movies.all(),
-        #     'my_comments': Comment.objects.filter(user_id=user_id),
-        #     'followers_cnt': profile_user.followers.all().count(),
-        #     'followings_cnt': profile_user.followings.all().count(),
-        #     'followers': profile_user.followers.all(),
-        #     'followings': profile_user.followings.all(),
-        #     }
-        # print(data)
         serializer = ProfileSerializer(profile_user)
-        print(serializer)
-        # print(serializer)
-        # if serializer.is_valid(raise_exception=True):
+
         return Response(serializer.data)
     
     elif request.method == 'PUT':
         if request.user.is_authenticated and user_id == request.user.pk:
-            serializer = ProfileSerializer(data=request.data, instance=profile_user)
+            profile_user.nick_name = request.nick_name
+            serializer = UserSerializer(data=profile_user)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(serializer.data)
