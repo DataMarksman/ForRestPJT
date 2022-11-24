@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="user-activity-container">
     <div>
       <div>
         <p>내 활동</p>
@@ -30,7 +30,9 @@
     </div>
     <div>
       <UserComment
-      v-show="showProfile === 'Comment'"/>
+      v-show="showProfile === 'Comment'"
+      :userComments="userInformation.comment_set"
+      />
       <FollowUser
       v-show="showProfile === 'Follow'"
       
@@ -93,6 +95,9 @@ export default {
 </script>
 
 <style>
+.user-activity-container{
+  font-weight: bold;
+}
 .flex-bar{
   display: flex;
 }

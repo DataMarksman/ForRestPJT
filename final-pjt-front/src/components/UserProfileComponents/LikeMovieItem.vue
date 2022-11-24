@@ -32,6 +32,7 @@ export default {
   display: flex;
   margin: 10px;
   cursor: pointer;
+  
 }
 .img-container {
   width: 150px;
@@ -39,5 +40,6 @@ export default {
 }
 .img-poster{
   width: 100%;
+  box-shadow: 4px 4px 4px black;
 }
 </style>

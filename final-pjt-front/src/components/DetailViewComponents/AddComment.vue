@@ -48,6 +48,7 @@ export default {
 .comment-list {
   margin-left: 10%;
   margin-right: 10%;
+  padding-bottom: 7%;
 }
 .comment-input-bar{
   background-color: rgba(38, 48, 74);

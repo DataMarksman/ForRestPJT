@@ -8,7 +8,7 @@
 export default {
   name:'FollowingItem',
   props: {
-    userFollow: String
+    userFollow: Object
   },
   methods: {
     getFollowUsersInFo() {

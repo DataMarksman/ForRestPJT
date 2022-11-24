@@ -1,9 +1,9 @@
 <template>
   <div class="like-movies">
     <UserCommentItem
-    v-for="(userLikeMovie, index) in userLikeMovies"
+    v-for="(userComment, index) in userComments"
     :key="index"
-    :userLikeMovie="userLikeMovie"
+    :userComment="userComment"
     />
   </div>
 </template>
@@ -14,7 +14,10 @@ export default {
   name:'UserComment',
   components: {
     UserCommentItem
-    }
+    },
+  props: {
+    userComments: Array
+  },
 }
 </script>
 

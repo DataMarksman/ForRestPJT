@@ -2,8 +2,8 @@
   <div class="user-profile">
     <div>
       <UserInfo
-      :userInformation="userInformation"/>
-      <p>hi</p>
+      />
+      
     </div>
     <div class="user-activity">
       <UserActivity
@@ -39,13 +39,15 @@ export default {
 </script>
 
 <style>
+
 .user-profile{
   padding-top: 30px;
   padding-left: 15%;
   padding-right: 15%;
-  background-color: whitesmoke;
+  background-color: rgba(38, 48, 74);
   display: flex;
   text-align: center;
+  padding-bottom: 20%;
 }
 .user-activity{
   text-align: left;

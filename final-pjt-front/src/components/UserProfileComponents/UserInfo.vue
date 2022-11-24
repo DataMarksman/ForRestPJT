@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <div class="">
     <div>
       <img class="profile-img" src="@/assets/user.png" alt="">
     </div>
     <br>
     <div class="nickname container">
       <div>
-        <h3>{{userInformation.username}}</h3>
+        <h3>{{userProfileInfo.username}}</h3>
       </div>
-      <div v-if="userInformation.pk !== currentUser.pk" @click="onFollow" class="follow-img-container">
+      <div v-if="userProfileInfo.pk !== currentUser.pk" @click="onFollow" class="follow-img-container">
         <img v-show="isFollow === false" class="follow-img" src="@/assets/follow.png" alt="">
         <img v-show="isFollow === true" class="follow-img" src="@/assets/currentfollow.png" alt="">
       </div>
@@ -20,28 +20,22 @@
       @click="toLikePage"
       >
         <p>찜 영화</p>
-        <p>{{userInformation.user_like_movies.length}}</p>
+        <p>{{userProfileInfo.user_like_movies.length}}</p>
       </div>
       <div 
       @click="toFollowPage"
       class="element-pointer">
         <p>팔로우</p>
-        <p>{{userInformation.followers.length}}</p>
+        <p>{{userProfileInfo.followers.length}}</p>
       </div>
       <div @click="toFollowingPage"
       class="element-pointer">
         <p>팔로잉</p>
-        <p>{{userInformation.followings.length}}</p>
+        <p>{{userProfileInfo.followings.length}}</p>
       </div>
     </div>
     <br>
-    <div>
-      <button 
-      class="comment-link-box element-pointer"
-      @click="toCommentPage"
-      >댓글 단 글</button>
-    </div>
-    <br>
+  
     
   </div>
 </template>
@@ -49,17 +43,26 @@
 <script>
 export default {
   name:'UserInfo',
-  props: {
-    userInformation: Object
-  },
+  
   computed:{
+    userProfileInfo() {
+      return this.$store.state.userProfileInfo
+    },
     currentUser() {
       return this.$store.state.currentUser
     },
     isFollow() {
-      const following_users = this.userInformation.followers
-      const currentUser = this.$store.state.currentUser?.pk
-      return following_users.includes(currentUser)
+      let following_users = this.userProfileInfo.followers
+      const currentUser = this.currentUser.pk
+      let Follow = following_users.some((user) => {
+        console.log(user)
+        console.log(currentUser)
+        user.id == currentUser  
+      })
+      console.log(following_users)
+      console.log(currentUser)
+      console.log(Follow)
+      return Follow
     }
   },
   methods: {
@@ -68,7 +71,7 @@ export default {
       this.$store.commit('SHOW_PROFILE_INFO', Comment)
     },
     onFollow() {
-      this.$store.dispatch('onFollow', this.userInformation.pk)
+      this.$store.dispatch('onFollow', this.userProfileInfo.pk)
     },
     toFollowPage() {
       const Follow = 'Follow'
@@ -101,6 +104,7 @@ export default {
 }
 .LFF {
   display: flex;
+  width: 180px;
 }
 .comment-link-box{
   background-color: white;
@@ -113,5 +117,6 @@ export default {
 }
 .element-pointer{
   cursor: pointer;
+  margin-right:10px;
 }
 </style>
