@@ -29,7 +29,7 @@ export default {
       if (this.$store.state.token === null){
         alert('좋아요 평가를 하시려면 로그인이 필요합니다.')
       } else {
-        const movie_id = this.movie.id
+        const movie_id = this.movie.tmdb_id
         this.$store.dispatch('sendLikeInfo', movie_id)
       }
     }
