@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="comment-list">
+    <hr>
     <div v-if="isLogin === true">
       <h5> 리뷰에 대한 댓글 남기기 </h5>
       <form @submit.prevent="addComment">
@@ -44,5 +45,8 @@ export default {
 .need-login {
   text-align: center;
 }
-
+.comment-list {
+  margin-left: 10%;
+  margin-right: 10%;
+}
 </style>

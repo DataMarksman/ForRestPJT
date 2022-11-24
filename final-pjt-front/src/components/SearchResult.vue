@@ -6,7 +6,11 @@
     :key="SearchResult.id"
     :SearchResult="SearchResult"
     />
-    <p v-if="getSearchResult === null"> 검색 중 입니다.</p>
+    <div class="loading-img" v-if="getSearchResult === null">
+      <img  src="@/assets/loading_cute_img.gif" alt="">
+      <p>검색 중입니다.</p>
+    </div>
+    
   </div>
  
 </template>
@@ -31,7 +35,6 @@ export default {
   // }
 }
 </script>
-
 <style>
 .img-box {
   width: 90%;
@@ -39,5 +42,11 @@ export default {
   margin-right: 50px;
   display: flex;
   flex-wrap: wrap;
+}
+.loading-img{
+  position: absolute;
+  top: 35%;
+  left: 40%;
+  text-align: center;
 }
 </style>

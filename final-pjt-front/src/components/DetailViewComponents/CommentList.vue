@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="comment-list">
     <CommentListItem
     v-for="comment in getCommentList"
     :key="comment.id"
@@ -28,5 +28,9 @@ export default {
 </script>
 
 <style>
-
+.comment-list {
+  margin-left: 10%;
+  margin-right: 10%;
+  
+}
 </style>
