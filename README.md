@@ -74,7 +74,7 @@ python manage.py runserver
         - → 시간이 허용하면, K-means 기반 영화 추천 알고리즘 직접 작성 예정
 3. 기획 ERD
     
-<img src="README_assets/Untitled 1.png">
+<img src="./README_assets/ERD초안.png">
     
 
 ## 3. 개발 결과
@@ -86,7 +86,7 @@ python manage.py runserver
 - 기본의 ERD를 수정하여, 쓰지 않은 파트를 날렸다.
     - 수정된 ERD
         
-<img src="README_assets/Untitled.png">
+<img src="./README_assets/ERD최종.png">
         
 
 ### < 기능 부문 >
@@ -97,7 +97,7 @@ python manage.py runserver
 - 하지만, 이러한 데이터들을 때와 경우에 맞게 가져오는 것이 핵심 기술이라고 할 수 있다.
 - 사용자의 검색과 매 순간의 박스 오피스를 기반으로 영화 데이터가 쌓이고, 추천 받는다.
     
-<img src="README_assets/ezgif-5-7c94d67f3a.gif>
+<img src="./README_assets/DB자동저장.gif>
     
 - 기본 JSON 파일로 999개의 파일은 제공
 
@@ -106,13 +106,13 @@ python manage.py runserver
 - **for rest** 에서는 사용자의 검색에 따라 DB가 조정됩니다.
 - 먼저 For rest 접속 시, 현재 상영 중인 영화의 데이터를 DB로 받아옵니다.
     
-<img src="README_assets/Untitled 2.png">
+<img src="./README_assets/검색결과.png">
     
 - 이에 더하여 특정 검색어를 통해 데이터를 받으면, 해당 데이터를 DB에 넣습니다.
 - 이렇게 쌓인 DB에서, 인기도 및 평점을 기반으로 상위의 영화들을 추천 목록으로 제작,
 이를 시작화면에 노출 시킵니다.
     
-<img src="README_assets/Untitled 3.png">
+<img src="./README_assets/추천알고.png">
     
 
 ### iii. API
@@ -146,16 +146,16 @@ python manage.py runserver
     - 상호 팔로우/팔로잉
         - 상대의 페이지로 들어가서, 상대방의 취향과 작성 글을 조회 가능
             
-<img src="README_assets/Untitled 4.png">
+<img src="README_assets/프로필.png">
             
 2. 사용자 → 영화 페이지
     
-<img src="README_assets/Untitled 5.png">
+<img src="README_assets/상세페이지.png">
     
     - 영화 좋아요 기능
         - 같은 영화에 여러 유저의 추천 여부를 반영 가능
         
-<img src="README_assets/Untitled 6.png">
+<img src="README_assets/영화좋아요.png">
         
 3. 사용자 ←→ 영화 페이지 ←→ 사용자
     - 영화 댓글 & 영화 댓글에 대한 좋아요
