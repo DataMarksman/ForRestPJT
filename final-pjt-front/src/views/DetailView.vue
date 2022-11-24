@@ -49,9 +49,7 @@
                 </div>
               </div>
             </div>
-            <div class="">
-
-            </div>
+            
           </div>
           <div>
             {{movie?.overview}}
@@ -65,7 +63,7 @@
       <div>
         <CommentList/>
       </div>
-      <hr>
+      
       <div>
         <AddComment/>
       </div>
@@ -138,7 +136,8 @@ div {
   text-shadow: -1px 0px black, 0px 1px black, 1px 0px black, 0px -1px black;
 }
 .detail-page{
-  padding: 30px;
+  padding-left: 10%;
+  padding-right: 10%;
   
 }
 .background-img {
@@ -156,7 +155,7 @@ div {
   width: 20%;
 }
 .detail-img {
-  width: 100%;
+  width: 90%;
   height: auto;
 }
 .movie-detail-content {

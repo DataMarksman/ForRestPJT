@@ -2,7 +2,7 @@
   <div class="background">
     <div class="d-flex justify-content-between">
       <div class="comment-user-id">
-        <p>{{comment.user_id}}</p>
+        <p class="cursor-pointer" @click="toProfile">{{comment.user_id}}</p>
         <hr class="border-line">
       </div>
       <div v-if="currentUser?.pk === comment.user" class="d-flex">
@@ -60,6 +60,9 @@ export default {
     }
   },
   methods: {
+    toProfile() {
+      this.$router.push({name: 'UserProfileView', params: {id: this.comment.user }})
+    },
     commentAdjust() {
       this.isAdjustShow = true
     },
@@ -113,7 +116,10 @@ export default {
 
 </script>
 
-<style>
+<style >
+.cursor-pointer{
+  cursor:pointer;
+}
 .like-box {
   cursor: pointer;
 }
@@ -138,6 +144,7 @@ export default {
 .background {
   background-color: whitesmoke;
   margin-bottom: 10px;
+  box-shadow: 5px 5px 5px rgb(228, 226, 226);
 }
 .comment-adjust{
   margin-left: 10px;

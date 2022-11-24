@@ -4,8 +4,14 @@
       <img class="profile-img" src="@/assets/user.png" alt="">
     </div>
     <br>
-    <div>
-      <h3>UserName</h3>
+    <div class="nickname container">
+      <div>
+        <h3>{{userInformation.nick_name}}</h3>
+      </div>
+      <div v-if="userInformation.pk !== currentUser.pk" @click="onFollow" class="follow-img-container">
+        <img class="follow-img" src="@/assets/follow.png" alt="">
+        <img class="follow-img" src="@/assets/currentfollow.png" alt="">
+      </div>
     </div>
     <br>
     <div class="LFF">
@@ -13,19 +19,19 @@
       class="element-pointer"
       @click="toLikePage"
       >
-        <p>좋아요</p>
-        <p>(좋아요개수)</p>
+        <p>찜 영화</p>
+        <p>{{userInformation.user_like_movies.length}}</p>
       </div>
       <div 
       @click="toFollowPage"
       class="element-pointer">
         <p>팔로우</p>
-        <p>(팔로우개수)</p>
+        <p>{{userInformation.followers.length}}</p>
       </div>
       <div @click="toFollowingPage"
       class="element-pointer">
         <p>팔로잉</p>
-        <p>(팔로잉개수)</p>
+        <p>{{userInformation.followings.length}}</p>
       </div>
     </div>
     <br>
@@ -33,40 +39,61 @@
       <button 
       class="comment-link-box element-pointer"
       @click="toCommentPage"
-    >댓글 단 글</button>
+      >댓글 단 글</button>
     </div>
     <br>
-    <div >
-      <button class="rank-rate-movie-link element-pointer"
-      @click="toUserScoreRatePage">평가한 영화 목록</button>
-    </div>
+    
   </div>
 </template>
 
 <script>
 export default {
   name:'UserInfo',
+  props: {
+    userInformation: Object
+  },
+  computed:{
+    currentUser() {
+      return this.$store.state.currentUser
+    }
+  },
   methods: {
-    toLikePage() {
-      this.$store.commit('TO_LIKE_PAGE')
+    
+    toCommentPage() {
+      const Comment = 'Comment'
+      this.$store.commit('SHOW_PROFILE_INFO', Comment)
+    },
+    onFollow() {
+      this.$store.dispatch('onFollow', this.userInformation.pk)
     },
     toFollowPage() {
-      this.$store.commit('TO_FOLLOW_PAGE')
+      const Follow = 'Follow'
+      this.$store.commit('SHOW_PROFILE_INFO', Follow)
     },
     toFollowingPage() {
-      this.$store.commit('TO_FOLLOWING_PAGE')
+      const Following = 'Following'
+      this.$store.commit('SHOW_PROFILE_INFO', Following)
     },
-    toCommentPage() {
-      this.$store.commit('TO_COMMENT_PAGE')
-    },
-    toUserScoreRatePage() {
-      this.$store.commit('TO_SCORERATE_PAGE')
+    toLikePage() {
+      const Like = 'Like'
+      this.$store.commit('SHOW_PROFILE_INFO', Like)
     },
   },
 }
 </script>
 
 <style>
+.follow-img-container{
+  padding: 10px;
+  width: 100px;
+  height: auto;
+  border-radius: 15px;
+  border: 1px solid black;
+}
+.follow-img {
+  width: 80%;
+  
+}
 .LFF {
   display: flex;
 }
@@ -83,56 +110,3 @@ export default {
   cursor: pointer;
 }
 </style>
-
-<!-- 
-
-프로필 사진을 웹 공유를 활용해 구현하기 위한 템플릿 코드
-
-<template>
-  <div>
-    <h1>회원가입</h1>
-    <form @submit.prevent="signUp" enctype="multipart/form-data">
-      <label for="Image"> 프로필 사진 업로드: </label>
-      <input type="file" name="Image" @change="fileChange" />
-      <input type="submit" value="SignUp" />
-    </form>
-  </div>
-</template>
-
-<script>
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
-export default {
-  name: "SignupView",
-  data() {
-    return {
-      image: null,
-    };
-  },
-  methods: {
-    signUp() {
-      const image = this.image;
-
-      const payload = {
-        image,
-      };
-      this.$store.dispatch("signUp", payload);
-    },
-    fileChange: function (e) {
-      const nowImage = e.target.files[0];
-      const date = new Date();
-      const imgName = nowImage.name + date.toString();
-      const storage = getStorage();
-      const storageRef = ref(storage, imgName);
-      uploadBytes(storageRef, nowImage).then(() => {
-        getDownloadURL(ref(storage, imgName)).then((url) => {
-          console.log(url);
-          this.image = url;
-        });
-      });
-    },
-  },
-};
-</script>
-
-<style></style> -->

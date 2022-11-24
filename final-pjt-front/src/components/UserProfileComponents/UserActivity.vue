@@ -7,38 +7,32 @@
       <div 
       class="flex-bar">
         <div class="element"
-        @click="onShowComment">
+        @click="toCommentPage">
           <p>내 댓글</p>
         </div>
         <div class="element"
-        @click="onShowFollow">
+        @click="toFollowPage">
           <p>팔로우</p>
         </div>
         <div class="element"
-        @click="onShowFollwing">
+        @click="toFollowingPage">
           <p>팔로잉</p>
         </div>
         <div class="element"
-        @click="onShowLikeMovie">
+        @click="toLikePage">
           <p>좋아요</p>
-        </div>
-        <div class="element"
-        @click="onShowScoreRate">
-          <p>평점</p>
         </div>
       </div>
     </div>
     <div>
       <UserComment
-      v-show="userInfo.showComment === true"/>
+      v-show="showProfile === 'Comment'"/>
       <FollowUser
-      v-show="userInfo.showFollow === true"/>
+      v-show="showProfile === 'Follow'"/>
       <FollowingUser
-      v-show="userInfo.showFollowing === true"/>
+      v-show="showProfile === 'Following'"/>
       <LikeMovie
-      v-show="userInfo.showLikeMovie === true"/>
-      <UserScoreRate
-      v-show="userInfo.showScoreRate === true"/>
+      v-show="showProfile === 'Like'"/>
     </div>
   </div>
 </template>
@@ -48,7 +42,6 @@ import UserComment from '@/components/UserProfileComponents/UserComment.vue'
 import FollowUser from '@/components/UserProfileComponents/FollowUser.vue'
 import FollowingUser from '@/components/UserProfileComponents/FollowingUser.vue'
 import LikeMovie from '@/components/UserProfileComponents/LikeMovie.vue'
-import UserScoreRate from '@/components/UserProfileComponents/UserScoreRate.vue'
 
 export default {
   name: 'UserActivity',
@@ -57,61 +50,34 @@ export default {
     FollowUser,
     FollowingUser,
     LikeMovie,
-    UserScoreRate,
   },
-  data() {
-    return {
-      userInfo: {
-      showComment: true,
-      showFollow: false,
-      showFollowing: false,
-      showLikeMovie: false,
-      showScoreRate: false,
-      },
-    }
+  props: {
+    userInformation: Object
   },
   methods: {
-    onShowComment() {
-      this.userInfo.showComment = true
-      this.userInfo.showFollow = false
-      this.userInfo.showFollowing = false
-      this.userInfo.showLikeMovie = false
-      this.userInfo.showScoreRate = false
+    toCommentPage() {
+      const Comment = 'Comment'
+      this.$store.commit('SHOW_PROFILE_INFO', Comment)
     },
-    onShowFollow() {
-      this.userInfo.showComment = false
-      this.userInfo.showFollow = true
-      this.userInfo.showFollowing = false
-      this.userInfo.showLikeMovie = false
-      this.userInfo.showScoreRate = false
+    
+    toFollowPage() {
+      const Follow = 'Follow'
+      this.$store.commit('SHOW_PROFILE_INFO', Follow)
     },
-    onShowFollwing() {
-      this.userInfo.showComment = false
-      this.userInfo.showFollow = false
-      this.userInfo.showFollowing = true
-      this.userInfo.showLikeMovie = false
-      this.userInfo.showScoreRate = false
+    toFollowingPage() {
+      const Following = 'Following'
+      this.$store.commit('SHOW_PROFILE_INFO', Following)
     },
-    onShowLikeMovie() {
-      this.userInfo.showComment = false
-      this.userInfo.showFollow = false
-      this.userInfo.showFollowing = false
-      this.userInfo.showLikeMovie = true
-      this.userInfo.showScoreRate = false
+    toLikePage() {
+      const Like = 'Like'
+      this.$store.commit('SHOW_PROFILE_INFO', Like)
     },
-    onShowScoreRate() {
-      this.userInfo.showComment = false
-      this.userInfo.showFollow = false
-      this.userInfo.showFollowing = false
-      this.userInfo.showLikeMovie = false
-      this.userInfo.showScoreRate = true
-    },
-    computed: {
-      userInfo() {
-        this.userInfo = this.$store.state.userInfo
-        return this.userInfo
-      }
-    },
+    
+  },
+  computed: {
+    showProfile() {
+      return this.$store.state.showProfileInfo
+    }
   }
 }
 </script>
