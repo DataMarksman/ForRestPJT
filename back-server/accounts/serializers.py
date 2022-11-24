@@ -33,7 +33,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     user_like_movies = MovieLikesSerializer(many=True)
     user_like_comment = CommentWriteSerializer(many=True)
-
+    
     class Meta:
         model = get_user_model()
         fields = ('username', 'pk', 'user_like_movies', 'user_like_comment', 'nick_name', 'followers', 'followings')
