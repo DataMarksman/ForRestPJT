@@ -47,7 +47,7 @@ export default {
   background-color: rgba(38, 48, 74);
   display: flex;
   text-align: center;
-  padding-bottom: 20%;
+  padding-bottom: 500px;
 }
 .user-activity{
   text-align: left;

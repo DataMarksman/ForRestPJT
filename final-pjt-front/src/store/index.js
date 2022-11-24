@@ -368,7 +368,7 @@ export default new Vuex.Store({
       })
         .then((res) => {
           context.dispatch('getUserProfile', profileUserId)
-          console.log(res)
+          res
         })
         .catch((err) => {
           console.log(err)

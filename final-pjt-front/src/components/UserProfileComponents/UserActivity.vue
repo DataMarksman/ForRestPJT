@@ -35,11 +35,11 @@
       />
       <FollowUser
       v-show="showProfile === 'Follow'"
-      
+      :userFollows="userInformation.followers"
       />
       <FollowingUser
       v-show="showProfile === 'Following'"
-      :userFollows="userInformation.followings"
+      :userFollowings="userInformation.followings"
       />
       <LikeMovie
       v-show="showProfile === 'Like'"

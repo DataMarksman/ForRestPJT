@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="following-user">
     <FollowingUserItem
-    v-for="(userFollow, index) in userFollows"
+    v-for="(userFollowing, index) in userFollowings"
     :key="index"
-    :userFollow="userFollow"
+    :userFollowing="userFollowing"
     />
   </div>
 </template>
@@ -16,11 +16,14 @@ export default {
     FollowingUserItem,
   },
   props: {
-    userFollows:Array
+    userFollowings : Array
   }
 }
 </script>
 
 <style>
-
+.following-user{
+  display: flex;
+  flex-wrap: wrap;
+}
 </style>
