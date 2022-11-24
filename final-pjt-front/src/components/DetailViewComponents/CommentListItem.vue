@@ -95,7 +95,7 @@ export default {
     commentLike() {
       if (this.$store.state.token === null) {
         alert('좋아요를 누르려면 로그인이 필요합니다.')
-      } else{const movie_id = this.comment.movie
+      } else{const movie_id = this.comment.movie.tmdb_id
       const comment_id = this.comment.id
       const payload = {
         movie_id,
