@@ -88,4 +88,15 @@ def follow(request, user_id):
     return Response(serializer.data)
 
 
-
+# @api_view(['POST'])
+# def signup(request):
+#     print(request)
+#     user = User.objects.get(pk=request.user.pk)
+#     user.update()
+#     # print(data)   
+    
+#     serializer = UserSerializer(data=data)
+#     print(serializer)
+#     if serializer.is_valid(raise_exception=True):
+#         serializer.save()
+#         return Response(serializer.data, status=status.HTTP_201_CREATED)

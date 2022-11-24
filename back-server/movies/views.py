@@ -54,7 +54,7 @@ def movie_list(request):
 # @api_view(['GET'])
 # def movie_list(request):
 #     Movies = get_list_or_404(Movie)
-#     serializer = MovieListSerializer(Movies, many=True)
+#     serializer = MovieListSerializer(Movies, many=True)p
 #     return Response(serializer.data)
 
 
@@ -123,7 +123,7 @@ def comment_detail(request, movie_pk, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
 
     if request.method == 'GET':
-        serializer = CommentViewerSerializer(comment)
+        serializer = CommentSerializer(comment)
         return Response(serializer.data)
 
     elif request.method == 'DELETE':
@@ -155,7 +155,7 @@ def comment_list(request, movie_pk):
     if request.method == 'GET':
         movie = Movie.objects.get(pk=movie_pk)
         comments = movie.comment_set.all()
-        serializer = CommentSerializer(comments, many=True)
+        serializer = CommentViewerSerializer(comments, many=True)
         return Response(serializer.data)
 
 
@@ -333,7 +333,7 @@ def movie_search(request, word):
     movies = requests.get(request_url).json()
 
     for movie in movies['results']:
-        if movie.get('release_date', ''):
+        if movie.get('vote_count') >= 50:
             detail_url = f"https://api.themoviedb.org/3/movie/{movie['id']}?api_key=f555794485796214438961ced766522e&language=ko-KR"
             detail = requests.get(detail_url).json()
             
@@ -376,15 +376,17 @@ def movie_search(request, word):
                 'genre': genre,
             }
 
-            total_data.append(data)
+            
 
             if Movie.objects.filter(tmdb_id=movie['id']):
+                total_data.append(data)
                 pass
             else:
                 serializer = MovieInputSerializer(data=data)
                 if serializer.is_valid():
+                    total_data.append(data)
                     serializer.save()
-                    
+                
     return Response(total_data)
 
 
@@ -414,5 +416,7 @@ def get_genre_movie(request, genre_name):
         total_data.append(data)
                 
 
-    return Response(total_data)
+#     return Response(total_data)
+
+
 
