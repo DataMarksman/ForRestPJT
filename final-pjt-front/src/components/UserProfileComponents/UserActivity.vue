@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="user-activity-container">
     <div>
       <div>
         <p>내 활동</p>
@@ -30,14 +30,16 @@
     </div>
     <div>
       <UserComment
-      v-show="showProfile === 'Comment'"/>
+      v-show="showProfile === 'Comment'"
+      :userComments="userInformation.comment_set"
+      />
       <FollowUser
       v-show="showProfile === 'Follow'"
-      
+      :userFollows="userInformation.followers"
       />
       <FollowingUser
       v-show="showProfile === 'Following'"
-      :userFollows="userInformation.followings"
+      :userFollowings="userInformation.followings"
       />
       <LikeMovie
       v-show="showProfile === 'Like'"
@@ -93,6 +95,9 @@ export default {
 </script>
 
 <style>
+.user-activity-container{
+  font-weight: bold;
+}
 .flex-bar{
   display: flex;
 }

@@ -7,19 +7,18 @@
       <div class="link-set">
         <router-link v-if="!this.$store.state.token" class="signup-link" :to="{ name: 'SignupView' }">Signup</router-link>
         <router-link v-if="!this.$store.state.token" class="login-link" :to="{ name: 'LoginView' }">Login</router-link>
-      
         <div class="logout-link" @click="logOut">
           <p v-if="this.$store.state.token">Logout</p>
         </div>
       </div>
     </div>
-    <div class="nav-bar-right-container col-6"> 
-      <div class="d-flex justify-content-between">
-        <SearchBar/>
-        <MiniProfile
-        class="profile-icon"
-        />
-      </div>
+    <div class="nav-bar-right-container d-flex justify-content-between col-6"> 
+      
+      <SearchBar/>
+      <MiniProfile
+      class="profile-icon"
+      />
+      
     </div>
   </div>
 </template>
@@ -48,7 +47,8 @@ export default {
 
 <style scoped>
 .nav-bar-right-container{
-  margin-right: 10px;
+  
+  
 }
 div {
   font-family: Arial, Helvetica, sans-serif;
@@ -61,20 +61,20 @@ div {
   justify-content: space-between;
 }
 .logo {
-  width: 150px;
+  margin-top: 20px;
+  width: 170px;
+  height: auto;
   cursor: pointer;
 }
 .logo-img {
-  max-width: 200px;
+  width: 90%;
 }
 .nav-bar-container{
   padding-bottom: 10px;
   border-bottom: 1px solid black;
   display: flex;
-  justify-content: space-between
-}
-.profile-icon {
-  cursor: pointer;
+  justify-content: space-between;
+  box-shadow: 7px 7px black;
 }
 .link-set {
   padding: 20px;
@@ -96,7 +96,7 @@ div {
   font-size: 20px;
 }
 .logout-link {
-  margin-right: 10px;
+  
   font-size: 20px;
   color: whitesmoke;
 }
