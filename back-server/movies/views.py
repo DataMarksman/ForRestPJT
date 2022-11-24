@@ -391,40 +391,27 @@ def movie_search(request, word):
 
 @api_view(['GET'])
 def get_genre_movie(request, genre_name):
-    genre_code = str_to_int[genre_name]
+    movies = Movie.objects.filter(genre_name in genre)
     total_data = []
 
+    for movie in movies['results']:
+        data = {
+            "pk": movie['id'],
+            'tmdb_id': movie['id'],
+            'title': movie['title'],
+            'original_title': movie['original_title'],
+            'release_date': movie['release_date'],
+            'vote_average': movie['vote_average'],
+            'vote_count': movie['vote_count'],
+            'overview': movie['overview'],
+            'popularity': movie['popularity'],
+            'poster_path': movie['poster_path'],
+            'adult': movie['adult'],
+            'genre': genre,
+            'runtime': movie['runtime'],
+        }
 
-    for i in range(1, 2):
-        request_url = f"https://api.themoviedb.org/3/movie/now_playing?api_key={TMDB_API_KEY}&language=ko-KR&page={i}"
-        movies = requests.get(request_url).json()
-
-        for movie in movies['results']:
-            if movie.get('release_date', ''):
-                detail_url = f"https://api.themoviedb.org/3/movie/{movie['id']}?api_key=f555794485796214438961ced766522e&language=ko-KR"
-                detail = requests.get(detail_url).json()
-                
-                genre = []
-                for genres in detail['genres']:
-                    genre.append(genres["name"])
-
-                data = {
-                    "pk": movie['id'],
-                    'tmdb_id': movie['id'],
-                    'title': movie['title'],
-                    'original_title': movie['original_title'],
-                    'release_date': movie['release_date'],
-                    'vote_average': movie['vote_average'],
-                    'vote_count': movie['vote_count'],
-                    'overview': detail['overview'],
-                    'popularity': movie['popularity'],
-                    'poster_path': BASIC_URL+movie['poster_path'],
-                    'adult': movie['adult'],
-                    'genre': genre,
-                    'runtime': detail['runtime'],
-                }
-
-                total_data.append(data)
+        total_data.append(data)
                 
 
     return Response(total_data)
