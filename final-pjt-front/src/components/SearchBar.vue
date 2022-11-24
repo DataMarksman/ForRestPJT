@@ -58,7 +58,7 @@ export default {
   font-size: 15px;
 }
 .nav-bar-search-bar {
-  margin-top: 15px;
+  margin-top: 25px;
 }
 .search-icon {
   width: 33px;

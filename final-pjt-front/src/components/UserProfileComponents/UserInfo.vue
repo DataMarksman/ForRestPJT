@@ -1,7 +1,7 @@
 <template>
-  <div class="">
+  <div class="profile-info-container">
     <div>
-      <img class="profile-img" src="@/assets/user.png" alt="">
+      <img class="profile-img" src="@/assets/personal_profile.png" alt="">
     </div>
     <br>
     <div class="nickname container">
@@ -34,9 +34,6 @@
         <p>{{userProfileInfo.followings.length}}</p>
       </div>
     </div>
-    <br>
-  
-    
   </div>
 </template>
 
@@ -52,16 +49,9 @@ export default {
       return this.$store.state.currentUser
     },
     isFollow() {
-      let following_users = this.userProfileInfo.followers
-      const currentUser = this.currentUser.pk
-      let Follow = following_users.some((user) => {
-        console.log(user)
-        console.log(currentUser)
-        user.id == currentUser  
+      const Follow = this.userProfileInfo.followers.some((follower) => {
+        return (follower.id === this.currentUser.pk) ? true: false;
       })
-      console.log(following_users)
-      console.log(currentUser)
-      console.log(Follow)
       return Follow
     }
   },
@@ -90,6 +80,11 @@ export default {
 </script>
 
 <style>
+.profile-info-container{
+  margin-top: 40px;
+  margin-right: 20px;
+  box-shadow: 3px 3px 3px black;
+}
 .follow-img-container{
   padding: 10px;
   width: 100px;
@@ -97,6 +92,7 @@ export default {
   border-radius: 15px;
   border: 1px solid black;
   cursor: pointer;
+  margin: auto;
 }
 .follow-img {
   width: 80%;
@@ -114,6 +110,7 @@ export default {
 }
 .profile-img {
   max-width: 70px;
+  margin: auto;
 }
 .element-pointer{
   cursor: pointer;
