@@ -16,7 +16,18 @@ export default new Vuex.Store({
     token: null,
     currentBroadMovies: [],
     searchResult: [],
+<<<<<<< HEAD
     
+=======
+    movieDetail: null,
+    movieCommentList: null,
+    movieComment: null,
+    topRatedMovies: null,
+    showProfileInfo: 'Comment',
+    userProfileInfo: null,
+    FollowingUserData: null,
+    FollowUserData: null,
+>>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
   },
   getters: {
     isLogin(state) {
@@ -44,7 +55,34 @@ export default new Vuex.Store({
       state.token = null
       state.currentUser = null
       router.push({ name: 'HomeView'})
+<<<<<<< HEAD
     }
+=======
+    },
+    GET_COMMENT_LIST(state, comments) {
+      state.movieCommentList = comments
+    },
+    GET_COMMENT_DETAIL(state, comment) {
+      state.movieComment = comment
+    },
+    GET_MOVIE_DETAIL(state, movie) {
+      state.movieDetail = movie
+    },
+    GET_POPULAR_MOVIES(state, movies) {
+      state.popularMovies = movies
+    },
+    GET_TOP_RATED_MOVIES(state, movies) {
+      state.topRatedMovies = movies
+    },
+    SHOW_PROFILE_INFO(state, info) {
+      state.showProfileInfo = info
+    },
+    GET_USER_PROFILE(state, data) {
+      state.userProfileInfo = data
+    },
+    
+   
+>>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
   },
 
   
@@ -66,6 +104,7 @@ export default new Vuex.Store({
         })
     },
     signUp(context, payload) {
+      console.log(payload.nick_name)
       axios({
         method: 'post',
         url: `${API_URL}/accounts/signup/`,
@@ -73,10 +112,12 @@ export default new Vuex.Store({
           username: payload.username,
           password1: payload.password1,
           password2: payload.password2,
-        }
+          nick_name: payload.username
+        },
       })
         .then((res) => {
           // console.log(res)
+          console.log(res.data)
           context.commit('SAVE_TOKEN', res.data.key)
           context.dispatch('getUserInfo')
         })
@@ -163,6 +204,186 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err)
         })
+<<<<<<< HEAD
+=======
+    },
+    addComment(context, payload) {
+      axios({
+        method: 'post',
+        url: `${API_URL}/movies/${payload.movie_id}/comments/create/`,
+        headers: {
+          Authorization: `Token ${context.state.token}`
+        },
+        data: {
+          content: payload.commentContent
+        }
+      })
+        .then((res) => {
+          context.dispatch('getCommentList', payload.movie_id)
+          res
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getCommentList(context, movie_id) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/${movie_id}/comments/`,
+      })
+        .then((res) => {
+          context.commit('GET_COMMENT_LIST', res.data)
+        })
+    },
+    sendLikeInfo(context, movie_id) {
+      axios({
+        method: 'post',
+        url: `${API_URL}/movies/${movie_id}/like/`,
+        headers: {
+          Authorization: `Token ${context.state.token}`
+        },
+      })
+        .then((res) => {
+          context.dispatch('getMovieDetail', movie_id)
+          res
+        })
+        .then((err) => {
+          console.log(err)
+        })
+    },
+    getMovieDetail(context, movie_id) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/${movie_id}`
+      })
+        .then((res) => {
+          context.commit('GET_MOVIE_DETAIL', res.data)
+          console.log(res.data)
+        })
+        .catch((err) => {
+        console.log(err)
+        })
+    },
+    // getCommentDetail(context, payload) {
+    //   axios({
+    //     method: 'get',
+    //     url: `${API_URL}/movies/${payload.movie_id}/comments/${payload.comment_id}/`,
+    //     headers: {
+    //       Authorization: `Token ${context.state.token}`
+    //     },
+    //   })
+    //     .then((res) => {
+    //       context.commit('GET_COMMENT_DETAIL', res.data)
+    //       console.log('단일 댓글까진 옴')
+    //     })
+    //     .catch((err) => {
+    //       console.log(err)
+    //     })
+      
+    // },
+    sendCommentAdjust(context, payload) {
+      axios({
+        method: 'put',
+        url: `${API_URL}/movies/${payload.movie_id}/comments/${payload.comment_id}/`,
+        headers: {
+          Authorization: `Token ${context.state.token}`
+        },
+        data: {
+          content: payload.content,
+        }
+      })
+        .then((res) => {
+          context.dispatch('getCommentList', payload.movie_id)
+          res
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    commentDelete(context, payload) {
+      axios({
+        method: 'delete',
+        url: `${API_URL}/movies/${payload.movie_id}/comments/${payload.comment_id}/`,
+        headers: {
+          Authorization: `Token ${context.state.token}`
+        },
+      })
+        .then((res) => {
+          context.dispatch('getCommentList', payload.movie_id)
+          res
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    commentLike(context, payload) {
+      axios({
+        method: 'post',
+        url: `${API_URL}/movies/${payload.movie_id}/comments/${payload.comment_id}/like/`,
+        headers: {
+          Authorization: `Token ${context.state.token}`
+        },
+      })
+        .then((res)=> {
+          context.dispatch('getCommentList', payload.movie_id)
+          res
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getPopularMovies(context) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/popular`
+      })
+        .then((res) => {
+          context.commit('GET_POPULAR_MOVIES',res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getTopRatedMovies(context) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/toprated/`
+      })
+        .then((res) => {
+          context.commit('GET_TOP_RATED_MOVIES',res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getUserProfile(context, profileUserId) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/accounts/profile/${profileUserId}`
+      })
+        .then((res) => {
+          context.commit('GET_USER_PROFILE', res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    onFollow(context, profileUserId) {
+      axios({
+        method: 'post',
+        url: `${API_URL}/accounts/profile/${profileUserId}/follow/`,
+        headers: {
+          Authorization: `Token ${context.state.token}`
+        }
+      })
+        .then((res) => {
+          context.dispatch('getUserProfile', profileUserId)
+          res
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+>>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
     }
     
   },

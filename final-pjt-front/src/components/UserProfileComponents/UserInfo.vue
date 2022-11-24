@@ -1,11 +1,17 @@
 <template>
-  <div>
+  <div class="profile-info-container">
     <div>
-      <img class="profile-img" src="@/assets/user.png" alt="">
+      <img class="profile-img" src="@/assets/personal_profile.png" alt="">
     </div>
     <br>
-    <div>
-      <h3>UserName</h3>
+    <div class="nickname container">
+      <div>
+        <h3>{{userProfileInfo.username}}</h3>
+      </div>
+      <div v-if="userProfileInfo.pk !== currentUser.pk" @click="onFollow" class="follow-img-container">
+        <img v-show="isFollow === false" class="follow-img" src="@/assets/follow.png" alt="">
+        <img v-show="isFollow === true" class="follow-img" src="@/assets/currentfollow.png" alt="">
+      </div>
     </div>
     <br>
     <div class="LFF">
@@ -13,32 +19,20 @@
       class="element-pointer"
       @click="toLikePage"
       >
-        <p>좋아요</p>
-        <p>(좋아요개수)</p>
+        <p>찜 영화</p>
+        <p>{{userProfileInfo.user_like_movies.length}}</p>
       </div>
       <div 
       @click="toFollowPage"
       class="element-pointer">
         <p>팔로우</p>
-        <p>(팔로우개수)</p>
+        <p>{{userProfileInfo.followers.length}}</p>
       </div>
       <div @click="toFollowingPage"
       class="element-pointer">
         <p>팔로잉</p>
-        <p>(팔로잉개수)</p>
+        <p>{{userProfileInfo.followings.length}}</p>
       </div>
-    </div>
-    <br>
-    <div>
-      <button 
-      class="comment-link-box element-pointer"
-      @click="toCommentPage"
-    >댓글 단 글</button>
-    </div>
-    <br>
-    <div >
-      <button class="rank-rate-movie-link element-pointer"
-      @click="toUserScoreRatePage">평가한 영화 목록</button>
     </div>
   </div>
 </template>
@@ -46,29 +40,67 @@
 <script>
 export default {
   name:'UserInfo',
+  
+  computed:{
+    userProfileInfo() {
+      return this.$store.state.userProfileInfo
+    },
+    currentUser() {
+      return this.$store.state.currentUser
+    },
+    isFollow() {
+      const Follow = this.userProfileInfo.followers.some((follower) => {
+        return (follower.id === this.currentUser.pk) ? true: false;
+      })
+      return Follow
+    }
+  },
   methods: {
-    toLikePage() {
-      this.$store.commit('TO_LIKE_PAGE')
+    toCommentPage() {
+      const Comment = 'Comment'
+      this.$store.commit('SHOW_PROFILE_INFO', Comment)
+    },
+    onFollow() {
+      this.$store.dispatch('onFollow', this.userProfileInfo.pk)
     },
     toFollowPage() {
-      this.$store.commit('TO_FOLLOW_PAGE')
+      const Follow = 'Follow'
+      this.$store.commit('SHOW_PROFILE_INFO', Follow)
     },
     toFollowingPage() {
-      this.$store.commit('TO_FOLLOWING_PAGE')
+      const Following = 'Following'
+      this.$store.commit('SHOW_PROFILE_INFO', Following)
     },
-    toCommentPage() {
-      this.$store.commit('TO_COMMENT_PAGE')
-    },
-    toUserScoreRatePage() {
-      this.$store.commit('TO_SCORERATE_PAGE')
+    toLikePage() {
+      const Like = 'Like'
+      this.$store.commit('SHOW_PROFILE_INFO', Like)
     },
   },
 }
 </script>
 
 <style>
+.profile-info-container{
+  margin-top: 40px;
+  margin-right: 20px;
+  box-shadow: 3px 3px 3px black;
+}
+.follow-img-container{
+  padding: 10px;
+  width: 100px;
+  height: auto;
+  border-radius: 15px;
+  border: 1px solid black;
+  cursor: pointer;
+  margin: auto;
+}
+.follow-img {
+  width: 80%;
+  
+}
 .LFF {
   display: flex;
+  width: 180px;
 }
 .comment-link-box{
   background-color: white;
@@ -78,61 +110,10 @@ export default {
 }
 .profile-img {
   max-width: 70px;
+  margin: auto;
 }
 .element-pointer{
   cursor: pointer;
+  margin-right:10px;
 }
 </style>
-
-<!-- 
-
-프로필 사진을 웹 공유를 활용해 구현하기 위한 템플릿 코드
-
-<template>
-  <div>
-    <h1>회원가입</h1>
-    <form @submit.prevent="signUp" enctype="multipart/form-data">
-      <label for="Image"> 프로필 사진 업로드: </label>
-      <input type="file" name="Image" @change="fileChange" />
-      <input type="submit" value="SignUp" />
-    </form>
-  </div>
-</template>
-
-<script>
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
-export default {
-  name: "SignupView",
-  data() {
-    return {
-      image: null,
-    };
-  },
-  methods: {
-    signUp() {
-      const image = this.image;
-
-      const payload = {
-        image,
-      };
-      this.$store.dispatch("signUp", payload);
-    },
-    fileChange: function (e) {
-      const nowImage = e.target.files[0];
-      const date = new Date();
-      const imgName = nowImage.name + date.toString();
-      const storage = getStorage();
-      const storageRef = ref(storage, imgName);
-      uploadBytes(storageRef, nowImage).then(() => {
-        getDownloadURL(ref(storage, imgName)).then((url) => {
-          console.log(url);
-          this.image = url;
-        });
-      });
-    },
-  },
-};
-</script>
-
-<style></style> -->

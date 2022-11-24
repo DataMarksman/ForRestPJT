@@ -24,4 +24,25 @@ export default {
 
 <style>
 
+<<<<<<< HEAD
+=======
+.background-img {
+  z-index: -1;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  filter: blur(5px);
+}
+.background-img2 {
+  z-index: -1;
+  position: absolute;
+  top: 100%;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  filter: blur(5px);
+}
+>>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
 </style>

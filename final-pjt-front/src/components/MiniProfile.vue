@@ -1,6 +1,8 @@
 <template>
-  <div @click="toProfile">
-    <img class="profile-icon" src="@/assets/user.png" alt="">
+  <div>
+    <div class="profile-icon-container" @click="toProfile">
+      <img class="profile-icon" src="@/assets/personal_profile.png" alt="">
+    </div>
   </div>
 </template>
 
@@ -9,19 +11,23 @@ export default {
   name: 'MiniProfile',
   methods: {
     toProfile() {
-      this.$router.push({name: 'UserProfileView'})
+      const id = this.$store.state.currentUser.pk
+      this.$router.push({name: 'UserProfileView', params: {id:id }})
     },
   }
 }
 </script>
 
 <style>
-.profile-icon{
+.profile-icon-container {
   width: 60px;
-  height: 60px;
-  margin-left: 20px;
-  margin-right: 20px;
-  
+  height: auto;
+  cursor: pointer;
+  margin-left: 50px;
+  margin-top: 20px;
+}
+.profile-icon{
+  width: 100%;
 }
 
 </style>

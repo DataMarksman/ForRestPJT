@@ -103,6 +103,7 @@ export default {
 body{
     font-family: 'Poppins', sans-serif;
     overflow: hidden;
+    
 }
 
 .wave{

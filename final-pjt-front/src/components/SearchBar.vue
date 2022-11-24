@@ -48,4 +48,17 @@ export default {
   height: 30px;
   font-size: 15px;
 }
+<<<<<<< HEAD
+=======
+.nav-bar-search-bar {
+  margin-top: 25px;
+}
+.search-icon {
+  width: 33px;
+}
+.search-icon-container {
+  margin-top: 11px;
+  margin-left: 5px;
+}
+>>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b
 </style>

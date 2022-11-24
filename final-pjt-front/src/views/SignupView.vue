@@ -78,12 +78,15 @@ export default {
       const username = this.username
       const password1 = this.password1
       const password2 = this.password2
+      const nick_name = this.username
 
       const payload = {
         username: username,
         password1: password1,
         password2: password2,
+        nick_name: nick_name
       }
+      console.log(nick_name)
       this.$store.dispatch('signUp', payload)
     }
   },
