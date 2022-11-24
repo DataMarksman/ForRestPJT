@@ -23,8 +23,8 @@ export default {
 <style>
 .image-box {
   cursor: pointer;
-  width:200px;
-  height:300px;
+  width:300px;
+  height:450px;
   overflow:hidden;
   margin:0 auto;
 }

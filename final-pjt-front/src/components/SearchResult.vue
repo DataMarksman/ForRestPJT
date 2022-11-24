@@ -1,13 +1,11 @@
 <template>
-  
-  <div class="img-box">
+   <div>
     <SearchResultItem
     v-for="SearchResult in getSearchResult"
     :key="SearchResult.id"
     :SearchResult="SearchResult"
     />
   </div>
- 
 </template>
 
 <script>
@@ -25,18 +23,12 @@ export default {
       return this.$store.state.searchResult
     }
   },
-  // created() {
-  //   this.$store.dispatch('getSearchResults', this.keyword)
-  // }
+  created() {
+    this.$store.dispatch('getSearchResults', this.keyword)
+  }
 }
 </script>
 
 <style>
-.img-box {
-  width: 90%;
-  margin-left: 50px;
-  margin-right: 50px;
-  display: flex;
-  flex-wrap: wrap;
-}
+
 </style>

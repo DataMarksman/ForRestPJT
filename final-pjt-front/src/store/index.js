@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import createPersistedState from 'vuex-persistedstate'
 import router from '@/router'
-
 Vue.use(Vuex)
 
 const API_URL = 'http://127.0.0.1:8000'
@@ -16,12 +15,8 @@ export default new Vuex.Store({
     currentUser: null,
     token: null,
     currentBroadMovies: [],
-    popularMovies: null,
     searchResult: [],
-    movieDetail: null,
-    movieCommentList: null,
-    movieComment: null,
-    topRatedMovies: null,
+    
   },
   getters: {
     isLogin(state) {
@@ -49,23 +44,7 @@ export default new Vuex.Store({
       state.token = null
       state.currentUser = null
       router.push({ name: 'HomeView'})
-    },
-    GET_COMMENT_LIST(state, comments) {
-      state.movieCommentList = comments
-    },
-    GET_COMMENT_DETAIL(state, comment) {
-      state.movieComment = comment
-    },
-    GET_MOVIE_DETAIL(state, movie) {
-      state.movieDetail = movie
-    },
-    GET_POPULAR_MOVIES(state, movies) {
-      state.popularMovies = movies
-    },
-    GET_TOP_RATED_MOVIES(state, movies) {
-      state.topRatedMovies = movies
     }
-   
   },
 
   
@@ -126,10 +105,10 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
-    getCurrentMovieList(context) {
+    getMovieList(context) {
       axios({
         method: 'get',
-        url: `${API_URL}/movies/newmovie/`,
+        url: `${API_URL}/api/v1/`,
         // headers: {
         //   Authorization: `Token ${context.state.token}`
         // }
@@ -146,11 +125,13 @@ export default new Vuex.Store({
     getSearchResults(context, keyword) {
       axios({
         method: 'get',
-        url: `${API_URL}/movies/search/${keyword}`,
+        url: `${API_URL}/api/v1/`,
+        params: {
+          keyword: keyword
+        }
       })
         .then((res) => {
           context.commit('GET_SEARCH_RESULT', res.data)
-          
         })
         .catch((err) => {
           console.log(err)
@@ -162,7 +143,7 @@ export default new Vuex.Store({
         url: `${API_URL}/${movie_pk}/like/`,
       })
         .then((res) => {
-          res
+          console.log(res)
           context.commit('CHANGE_LIKE', res.data)
         })
         .catch((err) => {
@@ -182,157 +163,7 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err)
         })
-    },
-    addComment(context, payload) {
-      axios({
-        method: 'post',
-        url: `${API_URL}/movies/${payload.movie_id}/comments/create/`,
-        headers: {
-          Authorization: `Token ${context.state.token}`
-        },
-        data: {
-          content: payload.commentContent
-        }
-      })
-        .then((res) => {
-          context.dispatch('getCommentList', payload.movie_id)
-          res
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    getCommentList(context, movie_id) {
-      axios({
-        method: 'get',
-        url: `${API_URL}/movies/${movie_id}/comments/`,
-      })
-        .then((res) => {
-          context.commit('GET_COMMENT_LIST', res.data)
-        })
-    },
-    sendLikeInfo(context, movie_id) {
-      axios({
-        method: 'post',
-        url: `${API_URL}/movies/${movie_id}/like/`,
-        headers: {
-          Authorization: `Token ${context.state.token}`
-        },
-      })
-        .then((res) => {
-          context.dispatch('getMovieDetail', movie_id)
-          res
-        })
-        .then((err) => {
-          console.log(err)
-        })
-    },
-    getMovieDetail(context, movie_id) {
-      axios({
-        method: 'get',
-        url: `${API_URL}/movies/${movie_id}`
-      })
-        .then((res) => {
-          context.commit('GET_MOVIE_DETAIL', res.data)
-          console.log(res.data)
-        })
-        .catch((err) => {
-        console.log(err)
-        })
-    },
-    // getCommentDetail(context, payload) {
-    //   axios({
-    //     method: 'get',
-    //     url: `${API_URL}/movies/${payload.movie_id}/comments/${payload.comment_id}/`,
-    //     headers: {
-    //       Authorization: `Token ${context.state.token}`
-    //     },
-    //   })
-    //     .then((res) => {
-    //       context.commit('GET_COMMENT_DETAIL', res.data)
-    //       console.log('단일 댓글까진 옴')
-    //     })
-    //     .catch((err) => {
-    //       console.log(err)
-    //     })
-      
-    // },
-    sendCommentAdjust(context, payload) {
-      axios({
-        method: 'put',
-        url: `${API_URL}/movies/${payload.movie_id}/comments/${payload.comment_id}/`,
-        headers: {
-          Authorization: `Token ${context.state.token}`
-        },
-        data: {
-          content: payload.content,
-        }
-      })
-        .then((res) => {
-          context.dispatch('getCommentList', payload.movie_id)
-          res
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    commentDelete(context, payload) {
-      axios({
-        method: 'delete',
-        url: `${API_URL}/movies/${payload.movie_id}/comments/${payload.comment_id}/`,
-        headers: {
-          Authorization: `Token ${context.state.token}`
-        },
-      })
-        .then((res) => {
-          context.dispatch('getCommentList', payload.movie_id)
-          res
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    commentLike(context, payload) {
-      axios({
-        method: 'post',
-        url: `${API_URL}/movies/${payload.movie_id}/comments/${payload.comment_id}/like/`,
-        headers: {
-          Authorization: `Token ${context.state.token}`
-        },
-      })
-        .then((res)=> {
-          context.dispatch('getCommentList', payload.movie_id)
-          res
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    getPopularMovies(context) {
-      axios({
-        method: 'get',
-        url: `${API_URL}/movies/popular`
-      })
-        .then((res) => {
-          context.commit('GET_POPULAR_MOVIES',res.data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    getTopRatedMovies(context) {
-      axios({
-        method: 'get',
-        url: `${API_URL}/movies/toprated/`
-      })
-        .then((res) => {
-          context.commit('GET_TOP_RATED_MOVIES',res.data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
     }
-
     
   },
   modules: {

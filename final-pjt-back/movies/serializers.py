@@ -15,12 +15,6 @@ class MovieSerializer(serializers.ModelSerializer):
         model = Movie
         fields = '__all__'
 
-class MovieInputSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = Movie
-        # fields = ('id', 'tmdb_id', 'title', 'poster_path', 'runtime', 'overview', 'popularity', 'vote_average', 'genre') 
-        fields = '__all__'
 
 # 영화 리스트를 가져오는 Movie SR
 class MovieListSerializer(serializers.ModelSerializer):
@@ -47,19 +41,18 @@ class MovieNameSerializer(serializers.ModelSerializer):
 ## 댓글 관련 SR ##
 # 댓글의 모든 데이터를 가져오는 Movie SR
 class CommentSerializer(serializers.ModelSerializer):
-    user_id = serializers.CharField(source='user', read_only=True)
-    movie_id = serializers.CharField(source='movie', read_only=True)
+    user = serializers.CharField(source='user', read_only=True)
+    movie = serializers.CharField(source='movie', read_only=True)
     
     class Meta:
         model = Comment
         fields = '__all__'
-        read_only_fields = ('movie', 'user', 'username')
+        read_only_fields = ('user', 'movie')
 
 
 class CommentListSerializer(serializers.ModelSerializer):
-    user_id = serializers.CharField(source='user', read_only=True)
-    movie_id = serializers.CharField(source='movie', read_only=True)
-    
+    user = serializers.CharField(source='user', read_only=True)
+    movie = serializers.CharField(source='movie', read_only=True)
     class Meta:
         model = Comment
         fields = '__all__'

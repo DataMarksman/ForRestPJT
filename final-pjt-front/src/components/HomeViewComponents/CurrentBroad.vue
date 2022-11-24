@@ -1,9 +1,8 @@
 <template>
-  <div class="board-line">
+  <div>
     <section>
       <div class="content-list">
         <h1>현재 상영중인 영화</h1>
-        <br>
         <swiper
         class="swiper"
         :options="swiperOption">
@@ -52,7 +51,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('getCurrentMovieList')
+    this.$store.dispatch('getMovieList')
   },
   computed: {
     currentBroadMovies() {

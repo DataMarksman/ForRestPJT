@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p class='back' @click="toHome">Back</p>
     <img class="wave" src="https://raw.githubusercontent.com/sefyudem/Responsive-Login-Form/master/img/wave.png">
     <div class="login-container">
       <div class="img">
@@ -11,7 +10,7 @@
       <form class="login-form" @submit.prevent="logIn">
         <img src="https://raw.githubusercontent.com/sefyudem/Responsive-Login-Form/master/img/avatar.svg">
         <h2 class="login-title">Welcome</h2>
-            <div class="input-div focus one">
+            <div class="input-div one">
                 <div class="i">
                   <i class="fas fa-user"></i>
                 </div>
@@ -22,7 +21,7 @@
                   v-model="username">
                 </div>
             </div>
-            <div class="input-div focus pass">
+            <div class="input-div pass">
                 <div class="i"> 
                   <i class="fas fa-lock"></i>
                 </div>
@@ -37,7 +36,7 @@
             <div class="div">
               <h5>아직 회원이 아니신가요?</h5>
               <router-link :to="{ name: 'SignupView' }">
-                <input type="button" class="login-btn" value="SIGNUP">
+                <input type="submit" class="login-btn" value="SIGNUP">
               </router-link>
             </div>
           </form>
@@ -45,6 +44,15 @@
         
       </div>
   </div>
+   <!-- <form @submit.prevent="logIn">
+      <label for="user-id">ID</label>
+      <input type="text" id="user-id" v-model="username">
+      <label for="user-password">PASSWORD</label>
+      <input type="text" id="user-password" v-model="password">
+      <div>
+        <input type="submit" value="로그인">
+      </div>
+    </form> -->
 </template>
 
 <script>
@@ -68,9 +76,6 @@ export default {
       }
       this.$store.dispatch('logIn', payload)
     },
-    toHome() {
-      this.$router.push({name: 'HomeView'})
-    }
   },
 }
 // const inputs = document.querySelectorAll(".input");
@@ -94,19 +99,10 @@ export default {
 // });
 </script>
 
-<style scoped>
+<style>
 body{
     font-family: 'Poppins', sans-serif;
     overflow: hidden;
-}
-
-.back {
-  font-size: 25px;
-  font-weight: 600;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  cursor: pointer;
 }
 
 .wave{
@@ -196,8 +192,8 @@ body{
 }
 
 .input-div.focus > div > h5{
-  top: -20px;
-  font-size: 20px;
+  top: -5px;
+  font-size: 15px;
 }
 
 .input-div.focus > .i > i{
@@ -259,7 +255,7 @@ body{
   }
 
   .img img{
-    width: 300px;
+    width: 400px;
   }
 }
 @media screen and (max-width: 900px){
