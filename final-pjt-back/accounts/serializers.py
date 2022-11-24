@@ -13,17 +13,13 @@ class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     
     class Meta:
-        model = User
+        model = get_user_model()
         fields = '__all__'
-
-
+        
 
 # 프로필 시리얼라이저
 class ProfileSerializer(serializers.ModelSerializer):
     
-<<<<<<< HEAD:final-pjt-back/accounts/serializers.py
-    class CommentSerializer(serializers.ModelSerializer):
-=======
     class UserCommentSerializer(serializers.ModelSerializer):
         
         class UserMovieSerializer(serializers.ModelSerializer):
@@ -33,28 +29,16 @@ class ProfileSerializer(serializers.ModelSerializer):
                 fields = ('tmdb_id', 'title', 'poster_path')
 
         movie = UserMovieSerializer(read_only=True)
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b:back-server/accounts/serializers.py
         
         class Meta:
             model = Comment
-            fields = '__all__'
+            fields = ('id', 'movie', 'content',)
 
 
-    class MovieLikeSerializer(serializers.ModelSerializer):
+    class MovieLikesSerializer(serializers.ModelSerializer):
         
         class Meta:
             model = Movie
-<<<<<<< HEAD:final-pjt-back/accounts/serializers.py
-            fields = '__all__'
-        
-    like_articles = CommentSerializer(many=True, read_only=True)
-    articles = CommentSerializer(many=True, read_only=True)
-    keep_movies = MovieLikeSerializer(many=True, read_only=True)
-    class Meta:
-        model = get_user_model()
-        fields = ('pk', 'username', 'like_articles', 'comment', 'keep_movies', 'genre_likes', 'followings', 'followers', 'profile_img')
-        read_only_fields = ('followings', 'followers')
-=======
             fields = ('tmdb_id', 'title', 'poster_path',)
 
     class ProfileUserSerializer(serializers.ModelSerializer):
@@ -63,7 +47,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
             class Meta:
                 model = get_user_model()
-                fields = ('id', 'username',)
+                fields = ('id', 'username', 'followers', 'followings', 'nick_name')
         
         followers = DeepUserSerializer(many=True, read_only=True)
         followings = DeepUserSerializer(many=True, read_only=True)
@@ -82,7 +66,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 
->>>>>>> 7db050a02491d7e8409747b92a8d304e626f1f3b:back-server/accounts/serializers.py
 
 
 # 기존에 있는 유저 필드에 더해서, 프로필 사진과 선호 장르 추가하여 진행하기 위한 시리얼라이저

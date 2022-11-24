@@ -1,12 +1,10 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login as auth_login
-from django.contrib.auth import logout as auth_logout
+
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST, require_http_methods
-from .forms import CustomUserCreationForm
 from .serializers import *
+from .models import *
+
+from movies.serializers import *
+from movies.models import *
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -23,12 +21,11 @@ class Comment(models.Model):
     comment_like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_like_comment", symmetrical=True)
 """
 
-# # 프로필 조회하면 한방에 관련 정보 다 주기 위함임.
-# # 만약 수정을 원하면 PUT으로 수정하도록 함
+# 프로필 조회하면 한방에 관련 정보 다 주기 위함임.
+# 만약 수정을 원하면 PUT으로 수정하도록 함
 # @api_view(['GET', 'PUT'])
-# def profile(request, user_id):
-
-#     user = get_object_or_404(get_user_model(), id=user_id)
+# def profile_or_edit(request, user_id):
+#     user = User.objects.get(pk=user_id)
 #     if request.method == 'GET':
 #         serializer = ProfileSerializer(user)
 #         return Response(serializer.data)
@@ -39,47 +36,67 @@ class Comment(models.Model):
 #             serializer.save()
 #             return Response(serializer.data)
 
+@api_view(['GET', 'PUT'])
+def profile_or_edit(request, user_id):
+    profile_user = User.objects.get(pk=user_id)
 
-# # 유저가 같은 테이블의 유저를 참조하여, 팔로잉 팔로우 합니다.
-# @api_view(['POST'])
-# def follow(request, user_id):
-#     partner = get_object_or_404(User, id=user_id)
-#     follower = request.user                     
+    if request.method == 'GET':
+        serializer = ProfileSerializer(profile_user)
 
-#     if follower.followings.filter(id=user_id).exists():
-#         follower.followings.remove(partner)   
-        
-#     else:
-#         follower.followings.add(partner)
-#     serializer = UserSerializer(follower)
-#     return Response(serializer.data)
+        return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        if request.user.is_authenticated and user_id == request.user.pk:
+            profile_user.nick_name = request.nick_name
+            serializer = UserSerializer(data=profile_user)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data)
 
+"""
 
-
-
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
 def profile(request, username):
-    user = User.objects.filter(username=username)    
-    serializer = UserListSerializer(user,many=True)
+    user = get_object_or_404(User, username=username)
+    if request.method == 'GET':
+        serializer = ProfileSerializer(user)
+        return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        serializer = ProfileSerializer(user, request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        return Response(serializer.data)
+
+"""
+
+
+
+
+# 유저가 같은 테이블의 유저를 참조하여, 팔로잉 팔로우 합니다.
+@api_view(['POST'])
+def follow(request, user_id):
+    partner = User.objects.get(pk=user_id)
+    if partner != request.user:
+        print(partner)           
+        if partner.followers.filter(pk=request.user.pk).exists():
+            partner.followers.remove(request.user)   
+            
+        else:
+            partner.followers.add(request.user)
+    serializer = UserSerializer(request.user)
     return Response(serializer.data)
 
 
-@api_view(['POST'])
-def follow(request):
-    you = get_object_or_404(get_user_model(), username = request.data.get('profileName'))
-    me = request.user
-    if you != me :
-        # print(you.followers.filter(pk=me.pk))  
-        if you.followers.filter(pk=request.user.pk).exists(): 
-            you.followers.remove(me)
-            following = False
-        else : 
-            you.followers.add(me)
-            following = True
-        context = {
-            'following' : following,
-            'follower_count' : you.followers.count(),
-            'following_count' : you.followings.count()
-        }
-        return Response(context,status=status.HTTP_201_CREATED)
-
+# @api_view(['POST'])
+# def signup(request):
+#     print(request)
+#     user = User.objects.get(pk=request.user.pk)
+#     user.update()
+#     # print(data)   
+    
+#     serializer = UserSerializer(data=data)
+#     print(serializer)
+#     if serializer.is_valid(raise_exception=True):
+#         serializer.save()
+#         return Response(serializer.data, status=status.HTTP_201_CREATED)
