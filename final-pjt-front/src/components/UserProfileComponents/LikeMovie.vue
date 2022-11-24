@@ -1,6 +1,9 @@
 <template>
   <div>
-    <LikeMovieItem/>
+    <LikeMovieItem
+    v-for="(userLikeMovie, index) in userLikeMovies"
+    :key="index"
+    :userLikeMovie="userLikeMovie"/>
   </div>
 </template>
 
@@ -10,7 +13,10 @@ export default {
   name:'LikeMovie',
   components: {
     LikeMovieItem,
-  }
+  },
+  props: {
+    userLikeMovies: Array
+  },
 }
 </script>
 

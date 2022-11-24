@@ -6,7 +6,11 @@
 
 <script>
 export default {
-  name: 'LikeMovieItem'
+  name: 'LikeMovieItem',
+  props: {
+    userLikeMovie: Object
+  }
+  
 }
 </script>
 
