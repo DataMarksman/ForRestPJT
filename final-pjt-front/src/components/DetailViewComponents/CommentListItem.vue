@@ -2,10 +2,10 @@
   <div class="background">
     <div class="d-flex justify-content-between">
       <div class="comment-user-id">
-        <p class="cursor-pointer" @click="toProfile">{{comment.user}}</p>
+        <p class="cursor-pointer" @click="toProfile">{{comment.user_id}}</p>
         <hr class="border-line">
       </div>
-      <div v-if="currentUser?.pk === comment.user" class="d-flex">
+      <div v-if="currentUser?.pk === comment.user" class="adjust-delete d-flex">
         <div @click="commentAdjust" class="comment-adjust">
           <p>수정</p>
         </div>
@@ -117,6 +117,9 @@ export default {
 </script>
 
 <style >
+.adjust-delete{
+  margin-top: 10px;
+}
 .cursor-pointer{
   cursor:pointer;
 }
@@ -140,6 +143,7 @@ export default {
 }
 .comment-user-id{
   margin-left: 10px;
+  margin-top: 10px;
 }
 .background {
   background-color: rgba(37, 48, 74);

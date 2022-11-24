@@ -49,6 +49,7 @@ export default {
 <style scoped>
 .nav-bar-right-container{
   margin-right: 10px;
+  box-shadow: 4px 4px 4px black;
 }
 div {
   font-family: Arial, Helvetica, sans-serif;

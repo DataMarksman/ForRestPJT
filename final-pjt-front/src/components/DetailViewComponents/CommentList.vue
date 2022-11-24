@@ -31,6 +31,7 @@ export default {
 .comment-list {
   margin-left: 10%;
   margin-right: 10%;
+  margin-top: 20px;
   
 }
 </style>
