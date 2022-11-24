@@ -2,7 +2,7 @@
   <div class="background">
     <div class="d-flex justify-content-between">
       <div class="comment-user-id">
-        <p class="cursor-pointer" @click="toProfile">{{comment.user_id}}</p>
+        <p class="cursor-pointer" @click="toProfile">{{comment.user}}</p>
         <hr class="border-line">
       </div>
       <div v-if="currentUser?.pk === comment.user" class="d-flex">
@@ -142,9 +142,10 @@ export default {
   margin-left: 10px;
 }
 .background {
-  background-color: whitesmoke;
+  background-color: rgba(37, 48, 74);
   margin-bottom: 10px;
-  box-shadow: 5px 5px 5px rgb(228, 226, 226);
+  border-radius: 15px;
+  box-shadow: 5px 5px 5px black;
 }
 .comment-adjust{
   margin-left: 10px;
@@ -168,5 +169,7 @@ export default {
 .text-area {
   width: 300px;
   height: 30px;
+  color: rgba(37, 48, 74);
 }
+
 </style>

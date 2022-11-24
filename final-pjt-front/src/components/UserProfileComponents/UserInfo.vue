@@ -6,7 +6,7 @@
     <br>
     <div class="nickname container">
       <div>
-        <h3>{{userInformation.nick_name}}</h3>
+        <h3>{{userInformation.username}}</h3>
       </div>
       <div v-if="userInformation.pk !== currentUser.pk" @click="onFollow" class="follow-img-container">
         <img v-show="isFollow === false" class="follow-img" src="@/assets/follow.png" alt="">
@@ -93,6 +93,7 @@ export default {
   height: auto;
   border-radius: 15px;
   border: 1px solid black;
+  cursor: pointer;
 }
 .follow-img {
   width: 80%;

@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="like-text col-6">
-        <p> 이 영화 좋아요!</p>
+        <p> 좋아요!</p>
       </div>
     </div>
     <div class="col-4"></div>
@@ -46,16 +46,18 @@ export default {
 
 <style scoped>
 .like-container{
-  border: 5px solid black;
-  background-color: #000080;
+  border-radius: 10px;
+  background-color: rgba(37, 48, 74);
   cursor: pointer;
+  box-shadow: 5px 5px 5px black;
 }
 
 .img-div {
   font-size: 20px;
-  border: black;
+  
 }
 .img-conatiner {
+  margin-top: 40px;
   text-align: center;
   width: auto;
 }

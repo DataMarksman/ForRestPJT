@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div class="like-movies">
     <LikeMovieItem
     v-for="(userLikeMovie, index) in userLikeMovies"
     :key="index"
-    :userLikeMovie="userLikeMovie"/>
+    :userLikeMovie="userLikeMovie"
+    />
   </div>
 </template>
 
@@ -21,5 +22,9 @@ export default {
 </script>
 
 <style>
+.like-movies{
+  display: flex;
+  flex-wrap: wrap;
+}
 
 </style>
