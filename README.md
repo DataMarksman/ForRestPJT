@@ -150,12 +150,12 @@ python manage.py runserver
             
 2. 사용자 → 영화 페이지
     
-<img src="README_assets/상세페이지.png">
+<img src="README_asset/상세페이지.png">
     
     - 영화 좋아요 기능
         - 같은 영화에 여러 유저의 추천 여부를 반영 가능
         
-<img src="README_assets/영화좋아요.png">
+<img src="README_asset/영화좋아요.png">
         
 3. 사용자 ←→ 영화 페이지 ←→ 사용자
     - 영화 댓글 & 영화 댓글에 대한 좋아요
