@@ -98,6 +98,7 @@ export default new Vuex.Store({
         })
     },
     signUp(context, payload) {
+      console.log(payload.nick_name)
       axios({
         method: 'post',
         url: `${API_URL}/accounts/signup/`,
@@ -105,11 +106,12 @@ export default new Vuex.Store({
           username: payload.username,
           password1: payload.password1,
           password2: payload.password2,
-          nick_name: payload.nick_name
-        }
+          nick_name: payload.username
+        },
       })
         .then((res) => {
           // console.log(res)
+          console.log(res.data)
           context.commit('SAVE_TOKEN', res.data.key)
           context.dispatch('getUserInfo')
         })
