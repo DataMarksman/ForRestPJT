@@ -106,7 +106,7 @@ python manage.py runserver
 - **for rest** 에서는 사용자의 검색에 따라 DB가 조정됩니다.
 - 먼저 For rest 접속 시, 현재 상영 중인 영화의 데이터를 DB로 받아옵니다.
     
-<img src="./README_assets/검색결과.png">
+<img src="README_asset/검색결과.png">
     
 - 이에 더하여 특정 검색어를 통해 데이터를 받으면, 해당 데이터를 DB에 넣습니다.
 - 이렇게 쌓인 DB에서, 인기도 및 평점을 기반으로 상위의 영화들을 추천 목록으로 제작,
