@@ -79,7 +79,7 @@ export default {
       this.isAdjustShow = false
     },
     sendCommentAdjust() {
-      const movie_id = this.comment.movie
+      const movie_id = this.comment.movie.tmdb_id
       const comment_id = this.comment.id
       const user_id = this.$store.state.pk
       const content = this.commentContent
