@@ -97,7 +97,7 @@ python manage.py runserver
 - 하지만, 이러한 데이터들을 때와 경우에 맞게 가져오는 것이 핵심 기술이라고 할 수 있다.
 - 사용자의 검색과 매 순간의 박스 오피스를 기반으로 영화 데이터가 쌓이고, 추천 받는다.
     
-<img src="README_asset/상영중인영화.png>
+<img src="README_asset/DB자동저장.gif">
     
 - 기본 JSON 파일로 999개의 파일은 제공
 
@@ -105,8 +105,7 @@ python manage.py runserver
 
 - **for rest** 에서는 사용자의 검색에 따라 DB가 조정됩니다.
 
-<img src="README_asset/DB자동저장.gif>
-
+<img src="README_asset/상영중인영화.png">
 - 먼저 For rest 접속 시, 현재 상영 중인 영화의 데이터를 DB로 받아옵니다.
     
 <img src="README_asset/검색결과.png">
